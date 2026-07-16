@@ -1,0 +1,17 @@
+<Project Sdk="Cosmos.Sdk/3.0.68">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <!-- Core kernel packages -->
+  <ItemGroup>
+    <PackageReference Include="Cosmos.Kernel" Version="3.0.68" />
+    <PackageReference Include="Cosmos.Kernel.System" Version="3.0.68" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tinos3.Shell\Tinos3.Shell.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Tinos3.Shell/Tinos3.Shell.csproj" />
+  <Project Path="Tinos3/Tinos3.csproj" />
+</Solution>
