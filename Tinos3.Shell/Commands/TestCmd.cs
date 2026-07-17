@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Tinos3.Shell.Core;
 
-namespace Tinos3.Shell.Legacy
+namespace Tinos3.Shell.Commands
 {
     public class TestCmd : Command
     {

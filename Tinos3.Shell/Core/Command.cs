@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tinos3.Shell.Legacy
+namespace Tinos3.Shell.Core
 {
     public class Command
     {

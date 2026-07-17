@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
+using Tinos3.Shell.Commands;
 
-namespace Tinos3.Shell.Legacy
+namespace Tinos3.Shell.Core
 {
     public class CommandManager
     {
@@ -13,6 +14,9 @@ namespace Tinos3.Shell.Legacy
         public CommandManager()
         {
             this.commands = new List<Command>(15);
+            this.commands.Add(new TestCmd("test"));
+            this.commands.Add(new HelpCmd("help"));
+            this.commands.Add(new VerCmd("ver"));
 
         }
 
