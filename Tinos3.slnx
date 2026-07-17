@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="Tinos3.FileSystem/Tinos3.FileSystem.csproj" Id="934f5ef9-e7b5-4df7-9106-ba78489ff671" />
   <Project Path="Tinos3.Shell/Tinos3.Shell.csproj" />
   <Project Path="Tinos3/Tinos3.csproj" />
 </Solution>
