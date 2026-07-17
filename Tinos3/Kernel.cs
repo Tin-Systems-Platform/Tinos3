@@ -1,7 +1,5 @@
 using System;
-using Tinos3.Shell.Legacy;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using Shell = Tinos3.Shell.Core.CommandLineShell;
+using Tinos3.Shell.Core;
 using Sys = Cosmos.Kernel.System;
 
 namespace Tinos3
