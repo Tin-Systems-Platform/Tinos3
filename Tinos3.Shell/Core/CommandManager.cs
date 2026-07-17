@@ -15,6 +15,8 @@ namespace Tinos3.Shell.Core
         {
             this.commands = new List<Command>(15);
             this.commands.Add(new TestCmd("test"));
+            this.commands.Add(new HelpCmd("help"));
+            this.commands.Add(new VerCmd("ver"));
 
         }
 
