@@ -12,7 +12,7 @@
 		<PackageReference Include="Cosmos.Kernel.System" Version="3.0.68" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Commands\" />
+	  <ProjectReference Include="..\Tinos3.Abstractions\Tinos3.Abstractions.csproj" />
 	</ItemGroup>
 
 </Project>

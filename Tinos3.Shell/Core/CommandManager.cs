@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using Tinos3.Shell.Commands;
+using Tinos3.Abstractions.Commands;
+using Tinos3.FileSystem.Commands;
 
 namespace Tinos3.Shell.Core
 {
@@ -14,10 +16,11 @@ namespace Tinos3.Shell.Core
         public CommandManager()
         {
             this.commands = new List<Command>(15);
-            this.commands.Add(new TestCmd("test"));
             this.commands.Add(new HelpCmd("help"));
             this.commands.Add(new VerCmd("ver"));
-
+            this.commands.Add(new DirCmd("ls"));
+            this.commands.Add(new DirCmd("dir"));
+            this.commands.Add(new FormatCmd("format"));
         }
 
         public string ProcessInput(string input)

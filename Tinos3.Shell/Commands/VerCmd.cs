@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Tinos3.Shell.Core;
+using Tinos3.Abstractions.Commands;
 
 namespace Tinos3.Shell.Commands
 {
