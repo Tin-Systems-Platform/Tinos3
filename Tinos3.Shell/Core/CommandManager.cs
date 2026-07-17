@@ -42,6 +42,9 @@ namespace Tinos3.Shell.Core
 
             foreach (Command cmd in this.commands)
             {
+                if (string.IsNullOrEmpty(input))
+                    return "";
+
                 if (cmd.name == label)
                 {
                     return cmd.Execute(args.ToArray());
