@@ -13,6 +13,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Tinos3.Abstractions\Tinos3.Abstractions.csproj" />
+	  <ProjectReference Include="..\Tinos3.Applications\Tinos3.Applications.csproj" />
 	</ItemGroup>
 
 </Project>
