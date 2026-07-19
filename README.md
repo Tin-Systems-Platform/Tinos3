@@ -25,6 +25,14 @@ cd Tinos3/ #This is required or you would need to modify the dotnet command
 dotnet publish Tinos3.csproj -c Debug -r linux-x64 -p:CosmosArch=x64
 ```
 
+## Development
+Relisticly you can use any code editor, but these are what WE recommend.
+
+### Windows
+We use and recommend using Microsoft Visual Studio 2026
+
+### Linux or MacOS
+Because Visual studio doesn't support Linux and Microsoft killed the Visual Studio for mac, we recommend to use vscode.
 
 ## History of Tinos
 Tinos started as a OS meant for me to experiment around. Don't ask how it ended. 

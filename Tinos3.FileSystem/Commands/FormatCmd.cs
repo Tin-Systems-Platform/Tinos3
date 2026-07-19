@@ -30,7 +30,7 @@ namespace Tinos3.FileSystem.Commands
             FatFormatOptions options = new()
             {
                 Type = FatType.Fat32,
-                VolumeLabel = "TINOS3     ",
+                VolumeLabel = "TINOS     ",
             };
 
             if (!VfsManager.TryFormat("fat", "0", options))
