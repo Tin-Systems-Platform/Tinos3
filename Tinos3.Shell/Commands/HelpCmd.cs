@@ -19,6 +19,7 @@ namespace Tinos3.Shell.Commands
             Console.WriteLine("dir    - Show the files and directories of /mnt");
             Console.WriteLine("ls     - Same as the dir command");
             Console.WriteLine("format - Format the partion");
+            Console.WriteLine("touch  - Create a file to a path");
             return "";
         }
     }

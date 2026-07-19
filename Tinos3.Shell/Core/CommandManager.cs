@@ -21,6 +21,7 @@ namespace Tinos3.Shell.Core
             this.commands.Add(new DirCmd("ls"));
             this.commands.Add(new DirCmd("dir"));
             this.commands.Add(new FormatCmd("format"));
+            this.commands.Add(new TouchCmd("touch"));
         }
 
         public string ProcessInput(string input)
