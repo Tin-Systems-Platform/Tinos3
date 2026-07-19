@@ -14,13 +14,61 @@ namespace Tinos3.Shell.Commands
 
         public override string Execute(string[] args)
         {
-            Console.WriteLine("help   - Show this help message");
-            Console.WriteLine("ver    - Show the version of the OS");
-            Console.WriteLine("dir    - Show the files and directories of /mnt");
-            Console.WriteLine("ls     - Same as the dir command");
-            Console.WriteLine("format - Format the partion");
-            Console.WriteLine("touch  - Create a file to a path");
+            Console.Write("Page (0, 1, q): ");
+            var input = Console.ReadLine();
+
+            while (true)
+            {
+                switch (input)
+                {
+                    case "0":
+                        showHelp(0);
+                        break;
+
+                    case "1":
+                        showHelp(1);
+                        break;
+
+                    case "q":
+                    case "quit":
+                    case "exit":
+                        return "";
+
+                    default:
+                        Console.WriteLine("Unknown page.");
+                        break;
+                }
+            }
+            
             return "";
+        }
+
+        private void showHelp(int page) 
+        {
+            if (page == 0)
+            {
+                Console.WriteLine("General Commands. Page: " + page);
+
+                Console.WriteLine("help   - Show this help message");
+                Console.WriteLine("ver    - Show the version of the OS");
+            } else if (page == 1)
+            {
+                Console.WriteLine("Filesystem related Commands. Page: " + page);
+
+
+                Console.WriteLine("dir    - Show the files and directories of /mnt");
+                Console.WriteLine("ls     - Same as the dir command");
+                Console.WriteLine("format - Format the partion");
+                Console.WriteLine("touch  - Create a file to a path");
+                Console.WriteLine("nano   - Editor for editing files. a custom clone of GNU Nano");
+
+            }
+            else
+            {
+                Console.WriteLine("Invalid Page: " + page);
+                return;
+            }
+
         }
     }
 }

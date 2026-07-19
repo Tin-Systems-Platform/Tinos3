@@ -121,7 +121,7 @@ namespace Tinos3.Applications.Utilities.Editor
         {
             try
             {
-                string path = @"0/mnt" + filename;
+                string path = @"/mnt" + filename;
                 string fileContent = string.Join("\n", buffer);
 
                 if (!File.Exists(path))
