@@ -12,7 +12,7 @@ namespace Tinos3.FileSystem.Commands
         }
         public override string Execute(string[] args)
         {
-            string path = "/mnt" + args[0];
+            string path = "/mnt" + args[1];
 
             
 
