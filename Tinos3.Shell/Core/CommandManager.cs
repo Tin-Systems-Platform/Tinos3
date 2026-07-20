@@ -5,6 +5,7 @@ using System.Text;
 using Tinos3.Shell.Commands;
 using Tinos3.Abstractions.Commands;
 using Tinos3.FileSystem.Commands;
+using Tinos3.Shell.Commands.Power;
 
 namespace Tinos3.Shell.Core
 {
@@ -23,6 +24,8 @@ namespace Tinos3.Shell.Core
             this.commands.Add(new FormatCmd("format"));
             this.commands.Add(new TouchCmd("touch"));
             this.commands.Add(new Nano("nano"));
+            this.commands.Add(new PowerOff("poweroff"));
+            this.commands.Add(new Reboot("reboot"));
         }
 
         public string ProcessInput(string input)

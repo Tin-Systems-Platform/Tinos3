@@ -6,6 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Cosmos.Kernel" Version="3.0.73" />
+		<PackageReference Include="Cosmos.Kernel.System" Version="3.0.73" />
+	</ItemGroup>
+	
   <ItemGroup>
     <ProjectReference Include="..\Tinos3.Abstractions\Tinos3.Abstractions.csproj" />
     <ProjectReference Include="..\Tinos3.FileSystem\Tinos3.FileSystem.csproj" />

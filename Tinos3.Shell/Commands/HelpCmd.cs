@@ -32,15 +32,16 @@ namespace Tinos3.Shell.Commands
                     case "q":
                     case "quit":
                     case "exit":
-                        return "";
+                        break;
 
                     default:
                         Console.WriteLine("Unknown page.");
                         break;
                 }
+                return "";
             }
             
-            return "";
+            
         }
 
         private void showHelp(int page) 
@@ -49,8 +50,10 @@ namespace Tinos3.Shell.Commands
             {
                 Console.WriteLine("General Commands. Page: " + page);
 
-                Console.WriteLine("help   - Show this help message");
-                Console.WriteLine("ver    - Show the version of the OS");
+                Console.WriteLine("help     - Show this help message");
+                Console.WriteLine("ver      - Show the version of the OS");
+                Console.WriteLine("poweroff - Shutdown the system, fallsback to halt");
+                Console.WriteLine("reboot   - Restart the system, fallsback to halt");
             } else if (page == 1)
             {
                 Console.WriteLine("Filesystem related Commands. Page: " + page);
