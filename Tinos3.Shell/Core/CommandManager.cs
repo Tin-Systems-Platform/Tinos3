@@ -29,6 +29,10 @@ namespace Tinos3.Shell.Core
             this.commands.Add(new CatCmd("cat"));
             this.commands.Add(new Mkdir("mkdir"));
             this.commands.Add(new ClearCmd("clear"));
+            this.commands.Add(new CopyCmd("copy"));
+            this.commands.Add(new Del("del"));
+            this.commands.Add(new RmCmd("rm"));
+            this.commands.Add(new MvCmd("mv"));
         }
 
         public string ProcessInput(string input)

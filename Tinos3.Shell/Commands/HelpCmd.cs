@@ -67,7 +67,10 @@ namespace Tinos3.Shell.Commands
                 Console.WriteLine("nano   - Editor for editing files. a custom clone of GNU Nano");
                 Console.WriteLine("mkdir  - Create directories/folders");
                 Console.WriteLine("cat    - Read files from the disk");
-
+                Console.WriteLine("copy   - copy files");
+                Console.WriteLine("rm     - Delete folders");
+                Console.WriteLine("del    - Delete files");
+                Console.WriteLine("mv     - move files");
             }
             else
             {
