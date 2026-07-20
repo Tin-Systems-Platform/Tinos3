@@ -54,6 +54,7 @@ namespace Tinos3.Shell.Commands
                 Console.WriteLine("ver      - Show the version of the OS");
                 Console.WriteLine("poweroff - Shutdown the system, fallsback to halt");
                 Console.WriteLine("reboot   - Restart the system, fallsback to halt");
+                Console.WriteLine("clear    - Clear the screen");
             } else if (page == 1)
             {
                 Console.WriteLine("Filesystem related Commands. Page: " + page);
@@ -64,6 +65,8 @@ namespace Tinos3.Shell.Commands
                 Console.WriteLine("format - Format the partion");
                 Console.WriteLine("touch  - Create a file to a path");
                 Console.WriteLine("nano   - Editor for editing files. a custom clone of GNU Nano");
+                Console.WriteLine("mkdir  - Create directories/folders");
+                Console.WriteLine("cat    - Read files from the disk");
 
             }
             else

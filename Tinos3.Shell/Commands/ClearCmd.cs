@@ -5,16 +5,15 @@ using Tinos3.Abstractions.Commands;
 
 namespace Tinos3.Shell.Commands
 {
-    public class VerCmd : Command
+    public class ClearCmd : Command
     {
-        public VerCmd(string name) : base(name)
+        public ClearCmd(string name) : base(name)
         {
         }
 
         public override string Execute(string[] args)
         {
-            Console.WriteLine("Tinos 3 Version: 0.1.0 Beta 1");
-            Console.WriteLine("Powered by Cosmos OS gen 3.");
+            Console.Clear();
             return "";
         }
     }

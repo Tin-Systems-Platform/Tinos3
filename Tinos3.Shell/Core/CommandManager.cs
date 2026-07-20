@@ -16,7 +16,7 @@ namespace Tinos3.Shell.Core
 
         public CommandManager()
         {
-            this.commands = new List<Command>(15);
+            this.commands = new List<Command>(30);
             this.commands.Add(new HelpCmd("help"));
             this.commands.Add(new VerCmd("ver"));
             this.commands.Add(new DirCmd("ls"));
@@ -26,6 +26,9 @@ namespace Tinos3.Shell.Core
             this.commands.Add(new Nano("nano"));
             this.commands.Add(new PowerOff("poweroff"));
             this.commands.Add(new Reboot("reboot"));
+            this.commands.Add(new CatCmd("cat"));
+            this.commands.Add(new Mkdir("mkdir"));
+            this.commands.Add(new ClearCmd("clear"));
         }
 
         public string ProcessInput(string input)
