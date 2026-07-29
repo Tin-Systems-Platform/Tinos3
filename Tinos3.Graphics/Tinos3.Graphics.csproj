@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cosmos.Kernel" Version="3.0.77" />
-    <PackageReference Include="Cosmos.Kernel.System" Version="3.0.77" />
+    <PackageReference Include="Cosmos.Kernel" Version="3.0.78" />
+    <PackageReference Include="Cosmos.Kernel.System" Version="3.0.78" />
   </ItemGroup>
 
 </Project>
