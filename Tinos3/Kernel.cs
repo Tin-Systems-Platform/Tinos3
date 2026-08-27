@@ -2,6 +2,7 @@ using System;
 using Tinos3.Shell.Core;
 using Tinos3.FileSystem;
 using Sys = Cosmos.Kernel.System;
+using Tinos3.Graphics;
 
 namespace Tinos3
 {
@@ -22,6 +23,10 @@ namespace Tinos3
             Console.WriteLine("KERNEL: Loading system modules");
 
             FSMain.initFS();
+
+            GraphicsInit graphicsInit = new GraphicsInit();
+
+            graphicsInit.initGraphics();
 
             Console.WriteLine("KERNEL: Loaded system modules");
 
