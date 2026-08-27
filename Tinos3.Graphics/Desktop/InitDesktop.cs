@@ -10,8 +10,15 @@ namespace Tinos3.Graphics.Desktop
     {
         internal void DesktopInit(Boolean dontClear, Boolean dontLog)
         {
+            Bitmap StartButton = new Bitmap(3, 1, new byte[]
+        {
+            0,0,0, 255
+        }, ColorDepth.ColorDepth32);
+
             if (dontClear && dontLog) {
                 Canvas canvas = Canvas.GetFullScreen();
+
+                canvas.DrawImage(StartButton, 0, 0);
 
                 canvas.Display();
             } else
@@ -19,8 +26,12 @@ namespace Tinos3.Graphics.Desktop
                 Console.WriteLine("GRAPHICS: Desktop initializing");
 
                 Canvas canvas = Canvas.GetFullScreen();
+                DesktopBitmaps desktopBitmaps = new DesktopBitmaps();
+
 
                 canvas.Clear(Color.DarkBlue);
+
+                canvas.DrawImage(StartButton, 0, 0);
 
                 canvas.Display(); 
             }
