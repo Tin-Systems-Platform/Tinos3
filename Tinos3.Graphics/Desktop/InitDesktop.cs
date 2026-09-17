@@ -14,12 +14,7 @@ namespace Tinos3.Graphics.Desktop
     {
         internal void DesktopInit(Boolean dontClear, Boolean dontLog)
         {
-            Bitmap StartButton = new Bitmap(3, 1, new byte[]
-        {
-               0, 0, 0, 255,
-               0, 0, 0, 255,
-               0, 0, 0, 255
-        }, ColorDepth.ColorDepth32);
+            Png startButton = new Png("/mnt/gui/StartButton.png");
 
             if (dontClear && dontLog) {
                 Canvas canvas = Canvas.GetFullScreen();
@@ -27,14 +22,16 @@ namespace Tinos3.Graphics.Desktop
 
                 KeyEvent key = KeyboardManager.ReadKey();
 
-                int x = (canvas.Width - 60) / 2;
-                int y = (canvas.Height - 60) / 2;
+                int startButtonPadding = 5;
+
+                int StartButtonX = 0 + startButtonPadding;
+                int StartButtonY = canvas.Height - startButton.Height - startButtonPadding;
 
                 /* Clamp the pointer to the actual screen */
                 MouseManager.SetScreenSize(canvas.Width, canvas.Height);
 
 
-                canvas.DrawImage(StartButton, x, y);
+                canvas.DrawImage(startButton, StartButtonX, StartButtonY);
 
                 canvas.Display();
             } else
@@ -47,7 +44,7 @@ namespace Tinos3.Graphics.Desktop
 
                 canvas.Clear(Color.DarkBlue);
 
-                canvas.DrawImage(StartButton, 0, 0);
+                canvas.DrawImage(startButton, 0, 0);
 
                 canvas.Display(); 
             }
