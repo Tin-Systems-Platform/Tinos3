@@ -61,6 +61,9 @@ namespace Tinos3.Graphics.Desktop
                 while (true)
                 {
 
+
+                    DesktopInit(true, true);
+
                     KeyEvent key = KeyboardManager.ReadKey();
 
                     if (key.Key == ConsoleKeyEx.Escape)
@@ -69,7 +72,6 @@ namespace Tinos3.Graphics.Desktop
                         Console.WriteLine("Exiting Desktop");
                         break;
                     }
-                    DesktopInit(true, true);
                 }
             } else
             {

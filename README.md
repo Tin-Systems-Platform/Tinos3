@@ -6,7 +6,7 @@ Tinos3 is an Operating System made in C#, powered by the Cosmos OS gen3.
 Here's a list of requirements for compiling.
 
 - [.NET](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
-- [Cosmos OS gen3](https://github.com/valentinbreiz/nativeaot-patcher)
+- [Cosmos OS gen3](https://github.com/cosmosos/cosmos)
 
 ### Build
 #### Windows
