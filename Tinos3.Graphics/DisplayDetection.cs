@@ -16,7 +16,7 @@ namespace Tinos3.Graphics
 
             Console.WriteLine("Display stats detected: ");
 
-            Console.WriteLine("Canvas:     " + canvas.Name());
+            Console.WriteLine("Canvas:     " + canvas.Name);
             Console.WriteLine("Resolution: " + canvas.Width + "x" + canvas.Height);
             Console.WriteLine("Refresh:    " + canvas.RefreshRate + " Hz");
         }
