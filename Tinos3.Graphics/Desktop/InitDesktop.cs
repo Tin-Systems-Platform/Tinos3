@@ -12,77 +12,86 @@ namespace Tinos3.Graphics.Desktop
 {
     public class InitDesktop
     {
-        internal void DesktopInit(Boolean dontClear, Boolean dontLog)
+        private Png _startButton;
+        private Png _taskBar;
+        private Canvas _canvas;
+
+        private void LoadAssets()
         {
-            Png startButton = new Png("/mnt/gui/StartButton.png");
-            Png taskBar = new Png("/mnt/gui/Taskbar.png");
 
-            if (dontClear && dontLog) {
-                Canvas canvas = Canvas.GetFullScreen();
+            _startButton = new Png("/mnt/gui/StartButton.png");
+            _taskBar = new Png("/mnt/gui/Taskbar.png");
 
+            _canvas = Canvas.GetFullScreen();
 
-                KeyEvent key = KeyboardManager.ReadKey();
+            MouseManager.SetScreenSize(_canvas.Width, _canvas.Height);
+        }
 
+        internal void RenderDesktop(Boolean dontClear, Boolean dontLog)
+        {
+            if (dontClear && dontLog)
+            {
                 int startButtonPadding = 5;
                 int taskbarPadding = 0;
 
-                int StartButtonX = 0 + startButtonPadding;
-                int StartButtonY = canvas.Height - startButton.Height - startButtonPadding;
+                int startButtonX = 0 + startButtonPadding;
+                int startButtonY = (int)_canvas.Height - (int)_startButton.Height - startButtonPadding;
+
                 int taskbarX = 0 + taskbarPadding;
-                int taskbarY = canvas.Height - taskBar.Height - taskbarPadding;
+                int taskbarY = (int)_canvas.Height - (int)_taskBar.Height - taskbarPadding;
 
-                /* Clamp the pointer to the actual screen */
-                MouseManager.SetScreenSize(canvas.Width, canvas.Height);
+               
+                _canvas.DrawImage(_taskBar, taskbarX, taskbarY);
+                _canvas.DrawImage(_startButton, startButtonX, startButtonY);
 
-                canvas.DrawImage(taskBar, taskbarX, taskbarY);
-                canvas.DrawImage(startButton, StartButtonX, StartButtonY);
-
-                canvas.Display();
-            } else
+                _canvas.Display();
+            }
+            else
             {
                 Console.WriteLine("GRAPHICS: Desktop initializing");
+                _canvas.Clear(Color.DarkBlue);
 
-                Canvas canvas = Canvas.GetFullScreen();
-                DesktopBitmaps desktopBitmaps = new DesktopBitmaps();
-
-
-                canvas.Clear(Color.DarkBlue);
-
-                canvas.DrawImage(startButton, 0, 0);
-
-                canvas.Display(); 
+                _canvas.DrawImage(_startButton, 0, 0);
+                _canvas.Display();
             }
         }
 
-        public void ShowDesktop(Boolean indefinetly)
-        {
-            Canvas canvas = Canvas.GetFullScreen();
-            
-            canvas.Clear(Color.DarkBlue);
 
-            if (indefinetly)
+
+
+        public void ShowDesktop(Boolean indefinitely)
+        {
+
+            LoadAssets();
+
+            _canvas.Clear(Color.DarkBlue);
+
+            if (indefinitely)
             {
+                Console.WriteLine("Tinos3 Desktop loop started. Press ESC to exit.");
+
                 while (true)
                 {
 
+                    RenderDesktop(true, true);
 
-                    DesktopInit(true, true);
-
-                    KeyEvent key = KeyboardManager.ReadKey();
-
-                    if (key.Key == ConsoleKeyEx.Escape)
+                    if (KeyboardManager.KeyAvailable)
                     {
-                        Console.Clear();
-                        Console.WriteLine("Exiting Desktop");
-                        break;
+                        KeyEvent key = KeyboardManager.ReadKey();
+                        if (key.Key == ConsoleKeyEx.Escape)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Exiting Desktop");
+                            break;
+                        }
                     }
                 }
-            } else
-            {
-                Console.WriteLine("Not showing desktop indefinetly");
-                DesktopInit(true, true);
             }
-
+            else
+            {
+                Console.WriteLine("Not showing desktop indefinitely");
+                RenderDesktop(true, true);
+            }
         }
     }
 }
