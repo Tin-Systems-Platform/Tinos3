@@ -68,7 +68,6 @@ namespace Tinos3.Graphics.Desktop
 
             if (indefinitely)
             {
-                Console.WriteLine("Tinos3 Desktop loop started. Press ESC to exit.");
 
                 while (true)
                 {
