@@ -9,7 +9,7 @@ namespace Tinos3.Shell.Commands.Power
 {
     public class Reboot : Command
     {
-        X64PowerOps powerOps = new();
+       
 
         public Reboot(string name) : base(name)
         {
@@ -17,7 +17,7 @@ namespace Tinos3.Shell.Commands.Power
 
         public override string Execute(string[] args)
         {
-            powerOps.Reboot();
+            Cosmos.Kernel.System.Power.Reboot();
             return "";
         }
     }
