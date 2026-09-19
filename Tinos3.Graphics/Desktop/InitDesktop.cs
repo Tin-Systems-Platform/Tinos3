@@ -15,6 +15,7 @@ namespace Tinos3.Graphics.Desktop
         internal void DesktopInit(Boolean dontClear, Boolean dontLog)
         {
             Png startButton = new Png("/mnt/gui/StartButton.png");
+            Png taskBar = new Png("/mnt/gui/Taskbar.png");
 
             if (dontClear && dontLog) {
                 Canvas canvas = Canvas.GetFullScreen();
@@ -23,14 +24,17 @@ namespace Tinos3.Graphics.Desktop
                 KeyEvent key = KeyboardManager.ReadKey();
 
                 int startButtonPadding = 5;
+                int taskbarPadding = 0;
 
                 int StartButtonX = 0 + startButtonPadding;
                 int StartButtonY = canvas.Height - startButton.Height - startButtonPadding;
+                int taskbarX = 0 + taskbarPadding;
+                int taskbarY = canvas.Height - taskBar.Height - taskbarPadding;
 
                 /* Clamp the pointer to the actual screen */
                 MouseManager.SetScreenSize(canvas.Width, canvas.Height);
 
-
+                canvas.DrawImage(taskBar, taskbarX, taskbarY);
                 canvas.DrawImage(startButton, StartButtonX, StartButtonY);
 
                 canvas.Display();
