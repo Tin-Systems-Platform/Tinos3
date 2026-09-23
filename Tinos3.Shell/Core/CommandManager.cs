@@ -6,6 +6,7 @@ using Tinos3.Shell.Commands;
 using Tinos3.Abstractions.Commands;
 using Tinos3.FileSystem.Commands;
 using Tinos3.Shell.Commands.Power;
+using Tinos3.Graphics.Commands;
 
 namespace Tinos3.Shell.Core
 {
@@ -33,6 +34,9 @@ namespace Tinos3.Shell.Core
             this.commands.Add(new Del("del"));
             this.commands.Add(new RmCmd("rm"));
             this.commands.Add(new MvCmd("mv"));
+            this.commands.Add(new ShapesCmd("shapes"));
+            this.commands.Add(new ShowBmpCmd("showbmp"));
+            this.commands.Add(new StartDesktop("startx"));
         }
 
         public string ProcessInput(string input)
