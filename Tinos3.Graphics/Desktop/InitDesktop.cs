@@ -18,12 +18,16 @@ namespace Tinos3.Graphics.Desktop
 
         private Png _taskbarSeperator;
 
+        private Png _mousePointer;
+
         private void LoadAssets()
         {
 
             _startButton = new Png("/mnt/gui/StartButton.png");
             _taskBar = new Png("/mnt/gui/Taskbar.png");
             _taskbarSeperator = new Png("/mnt/gui/TaskbarSeparator.png");
+
+            _mousePointer = new Png("/mnt/gui/MouseCursor.png");
 
             _canvas = Canvas.GetFullScreen();
 
@@ -32,6 +36,7 @@ namespace Tinos3.Graphics.Desktop
 
         internal void RenderDesktop(Boolean dontClear, Boolean dontLog)
         {
+
             if (dontClear && dontLog)
             {
                 int startButtonPadding = 5;
@@ -50,7 +55,11 @@ namespace Tinos3.Graphics.Desktop
                 _canvas.DrawImage(_startButton, startButtonX, startButtonY);
                 _canvas.DrawImage(_taskbarSeperator, taskbarSeparatorX, taskbarSeparatorY);
 
+                //_canvas.DrawImage(_mousePointer, MouseManager.X, MouseManager.Y);
+                _canvas.DrawImage(_mousePointer, 100, 100);
+
                 _canvas.Display();
+                Thread.Sleep(15);
             }
             else
             {
@@ -70,13 +79,14 @@ namespace Tinos3.Graphics.Desktop
 
             LoadAssets();
 
-            _canvas.Clear(Color.DarkBlue);
+
 
             if (indefinitely)
             {
 
                 while (true)
                 {
+                    _canvas.Clear(Color.DarkBlue);
 
                     RenderDesktop(true, true);
 
