@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using Tinos3.Shell.Commands;
+using Tinos3.Abstractions.Commands;
+using Tinos3.FileSystem.Commands;
+using Tinos3.Shell.Commands.Power;
+using Tinos3.Graphics.Commands;
 
 namespace Tinos3.Shell.Core
 {
@@ -13,11 +17,26 @@ namespace Tinos3.Shell.Core
 
         public CommandManager()
         {
-            this.commands = new List<Command>(15);
-            this.commands.Add(new TestCmd("test"));
+            this.commands = new List<Command>(30);
             this.commands.Add(new HelpCmd("help"));
             this.commands.Add(new VerCmd("ver"));
-
+            this.commands.Add(new DirCmd("ls"));
+            this.commands.Add(new DirCmd("dir"));
+            this.commands.Add(new FormatCmd("format"));
+            this.commands.Add(new TouchCmd("touch"));
+            this.commands.Add(new Nano("nano"));
+            this.commands.Add(new PowerOff("poweroff"));
+            this.commands.Add(new Reboot("reboot"));
+            this.commands.Add(new CatCmd("cat"));
+            this.commands.Add(new Mkdir("mkdir"));
+            this.commands.Add(new ClearCmd("clear"));
+            this.commands.Add(new CopyCmd("copy"));
+            this.commands.Add(new Del("del"));
+            this.commands.Add(new RmCmd("rm"));
+            this.commands.Add(new MvCmd("mv"));
+            this.commands.Add(new ShapesCmd("shapes"));
+            this.commands.Add(new ShowBmpCmd("showbmp"));
+            this.commands.Add(new StartDesktop("startx"));
         }
 
         public string ProcessInput(string input)
@@ -42,6 +61,9 @@ namespace Tinos3.Shell.Core
 
             foreach (Command cmd in this.commands)
             {
+                if (string.IsNullOrEmpty(input))
+                    return "";
+
                 if (cmd.name == label)
                 {
                     return cmd.Execute(args.ToArray());
