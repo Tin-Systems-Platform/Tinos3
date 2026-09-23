@@ -57,7 +57,26 @@ namespace Tinos3.Graphics.Desktop
 
                 _canvas.DrawImage(_mousePointer, MouseManager.X, MouseManager.Y, _mousePointer.Height / 4, _mousePointer.Width / 4);
 
+                bool isOnTopOfStartButton = false;
 
+                Color startButtonColor = _canvas.GetPointColor(startButtonX, startButtonY);
+
+                if (startButtonColor == Color.Black)
+                {
+                    isOnTopOfStartButton = true;
+                }
+
+                if(!isOnTopOfStartButton && MouseManager.LeftButton)
+                {
+
+                }
+
+                if (isOnTopOfStartButton && MouseManager.LeftButton)
+                {
+                    StartMenu startMenu = new StartMenu();
+                    startMenu.renderStartMenu();
+                }
+                
                 _canvas.Display();
                 Thread.Sleep(15);
             }
