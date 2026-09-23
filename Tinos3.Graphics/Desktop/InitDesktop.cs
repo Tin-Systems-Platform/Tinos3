@@ -19,9 +19,11 @@ namespace Tinos3.Graphics.Desktop
         private Png _taskbarSeperator;
 
         private Png _mousePointer;
+        private StartMenu _startMenu;
 
         private void LoadAssets()
         {
+            _startMenu = new StartMenu();
 
             _startButton = new Png("/mnt/gui/StartButton.png");
             _taskBar = new Png("/mnt/gui/Taskbar.png");
@@ -73,8 +75,7 @@ namespace Tinos3.Graphics.Desktop
 
                 if (isOnTopOfStartButton && MouseManager.LeftButton)
                 {
-                    StartMenu startMenu = new StartMenu();
-                    startMenu.renderStartMenu();
+                    _startMenu.renderStartMenu();
                 }
                 
                 _canvas.Display();
