@@ -20,6 +20,7 @@ namespace Tinos3.Graphics.Desktop
 
         private Png _mousePointer;
         private StartMenu _startMenu;
+        private bool _isStartMenuOpen = false;
 
         private void LoadAssets()
         {
@@ -68,18 +69,28 @@ namespace Tinos3.Graphics.Desktop
                     isOnTopOfStartButton = true;
                 }
 
-                if(!isOnTopOfStartButton && MouseManager.LeftButton)
-                {
+                bool isMouseXInside = (MouseManager.X >= startButtonX) && (MouseManager.X <= startButtonX + 32);
+                bool isMouseYInside = (MouseManager.Y >= startButtonY) && (MouseManager.Y <= startButtonY + 32);
 
+                if (isMouseXInside && isMouseYInside)
+                {
+                    isOnTopOfStartButton = true;
                 }
 
-                if (isOnTopOfStartButton && MouseManager.LeftButton)
+                if(isOnTopOfStartButton)
+                {
+                    if(MouseManager.LeftButton)
+                    {
+                        _isStartMenuOpen = true;
+                    }
+                }
+
+                if (_isStartMenuOpen)
                 {
                     _startMenu.renderStartMenu();
                 }
-                
+
                 _canvas.Display();
-                Thread.Sleep(15);
             }
             else
             {
