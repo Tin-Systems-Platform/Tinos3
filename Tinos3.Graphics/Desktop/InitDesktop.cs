@@ -16,11 +16,14 @@ namespace Tinos3.Graphics.Desktop
         private Png _taskBar;
         private Canvas _canvas;
 
+        private Png _taskbarSeperator;
+
         private void LoadAssets()
         {
 
             _startButton = new Png("/mnt/gui/StartButton.png");
             _taskBar = new Png("/mnt/gui/Taskbar.png");
+            _taskbarSeperator = new Png("/mnt/gui/TaskbarSeparator.png");
 
             _canvas = Canvas.GetFullScreen();
 
@@ -40,9 +43,12 @@ namespace Tinos3.Graphics.Desktop
                 int taskbarX = 0 + taskbarPadding;
                 int taskbarY = (int)_canvas.Height - (int)_taskBar.Height - taskbarPadding;
 
+                int taskbarSeparatorX = 44 + startButtonX;
+                int taskbarSeparatorY = startButtonY - 5;
                
                 _canvas.DrawImage(_taskBar, taskbarX, taskbarY);
                 _canvas.DrawImage(_startButton, startButtonX, startButtonY);
+                _canvas.DrawImage(_taskbarSeperator, taskbarSeparatorX, taskbarSeparatorY);
 
                 _canvas.Display();
             }

@@ -7,8 +7,8 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Cosmos.Kernel" Version="3.0.86" />
-		<PackageReference Include="Cosmos.Kernel.System" Version="3.0.86" />
+		<PackageReference Include="Cosmos.Kernel" Version="3.0.88" />
+		<PackageReference Include="Cosmos.Kernel.System" Version="3.0.88" />
 	</ItemGroup>
 	
   <ItemGroup>
