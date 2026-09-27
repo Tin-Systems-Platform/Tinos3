@@ -58,7 +58,7 @@ namespace Tinos3.Graphics.Desktop
                 _canvas.DrawImage(_startButton, startButtonX, startButtonY);
                 _canvas.DrawImage(_taskbarSeperator, taskbarSeparatorX, taskbarSeparatorY);
 
-                _canvas.DrawImage(_mousePointer, MouseManager.X, MouseManager.Y, _mousePointer.Height / 4, _mousePointer.Width / 4);
+                
 
                 bool isOnTopOfStartButton = false;
 
@@ -85,10 +85,20 @@ namespace Tinos3.Graphics.Desktop
                     }
                 }
 
+                if (!isOnTopOfStartButton)
+                {
+                    if (MouseManager.LeftButton)
+                    {
+                        _isStartMenuOpen = false;
+                    }
+                }
+
                 if (_isStartMenuOpen)
                 {
                     _startMenu.renderStartMenu();
                 }
+
+                _canvas.DrawImage(_mousePointer, MouseManager.X, MouseManager.Y, _mousePointer.Height / 4, _mousePointer.Width / 4);
 
                 _canvas.Display();
             }
