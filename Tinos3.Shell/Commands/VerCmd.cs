@@ -14,7 +14,7 @@ namespace Tinos3.Shell.Commands
 
         public override string Execute(string[] args)
         {
-            Console.WriteLine("Tinos 3 Version: " + OsVersion.GetVersion("0.2.0 DEV 1"));
+            Console.WriteLine("Tinos 3 Version: " + OsVersion.GetVersion("0.2.0 DEV 2"));
             Console.WriteLine("Powered by Cosmos OS gen 3.");
             return "";
         }
