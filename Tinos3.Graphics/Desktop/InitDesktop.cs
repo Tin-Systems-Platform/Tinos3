@@ -7,6 +7,7 @@ using Cosmos.Kernel.System.Mouse;
 using Cosmos.Kernel.System.Graphics.Fonts;
 using Cosmos.Kernel.System.Keyboard;
 using Cosmos.Kernel.System.Keyboard.ScanMaps;
+using Tinos3.Graphics.Api.Widgets;
 
 namespace Tinos3.Graphics.Desktop
 {
@@ -42,6 +43,7 @@ namespace Tinos3.Graphics.Desktop
 
             if (dontClear && dontLog)
             {
+                new Button("TEST", 10, 10, 100);
                 int startButtonPadding = 5;
                 int taskbarPadding = 0;
 

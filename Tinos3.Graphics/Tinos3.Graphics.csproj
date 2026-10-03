@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tinos3.Abstractions\Tinos3.Abstractions.csproj" />
+    <ProjectReference Include="..\Tinos3.Graphics.Api\Tinos3.Graphics.Api.csproj" />
   </ItemGroup>
 
 </Project>
