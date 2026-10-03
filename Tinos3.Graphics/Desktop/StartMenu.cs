@@ -52,7 +52,7 @@ namespace Tinos3.Graphics.Desktop
             
 
             bool isMouseXInsidePowerButton = (MouseManager.X >= powerbuttonX) && (MouseManager.X <= powerbuttonX + 40);
-            bool isMouseYInsidePowerButton = (MouseManager.Y >= powerbuttonX) && (MouseManager.Y <= powerbuttonX + 40);
+            bool isMouseYInsidePowerButton = (MouseManager.Y >= powerbuttonY) && (MouseManager.Y <= powerbuttonY + 40);
 
             if (isMouseXInsidePowerButton && isMouseYInsidePowerButton)
             {

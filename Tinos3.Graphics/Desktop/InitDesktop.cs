@@ -53,7 +53,10 @@ namespace Tinos3.Graphics.Desktop
 
                 int taskbarSeparatorX = 44 + startButtonX;
                 int taskbarSeparatorY = startButtonY - 5;
-               
+
+                int startMenuBgX = startButtonX - startButtonPadding;
+                int startMenuBgY = startButtonY + startButtonPadding;
+
                 _canvas.DrawImage(_taskBar, taskbarX, taskbarY);
                 _canvas.DrawImage(_startButton, startButtonX, startButtonY);
                 _canvas.DrawImage(_taskbarSeperator, taskbarSeparatorX, taskbarSeparatorY);
@@ -62,15 +65,12 @@ namespace Tinos3.Graphics.Desktop
 
                 bool isOnTopOfStartButton = false;
 
-                Color startButtonColor = _canvas.GetPointColor(startButtonX, startButtonY);
-
-                if (startButtonColor == Color.Black)
-                {
-                    isOnTopOfStartButton = true;
-                }
 
                 bool isMouseXInside = (MouseManager.X >= startButtonX) && (MouseManager.X <= startButtonX + 32);
                 bool isMouseYInside = (MouseManager.Y >= startButtonY) && (MouseManager.Y <= startButtonY + 32);
+
+                bool isMouseXInsideStartMenu = (MouseManager.X >= startMenuBgX) && (MouseManager.X <= startMenuBgX + 40);
+                bool isMouseYInsideStartMenu = (MouseManager.Y >= startMenuBgY) && (MouseManager.Y <= startMenuBgY + 40);
 
                 if (isMouseXInside && isMouseYInside)
                 {
@@ -87,9 +87,12 @@ namespace Tinos3.Graphics.Desktop
 
                 if (!isOnTopOfStartButton)
                 {
-                    if (MouseManager.LeftButton)
+                    if (!isMouseXInsideStartMenu || !isMouseYInsideStartMenu)
                     {
-                        _isStartMenuOpen = false;
+                        if (MouseManager.LeftButton)
+                        {
+                            _isStartMenuOpen = false;
+                        }
                     }
                 }
 
