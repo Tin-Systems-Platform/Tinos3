@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 
 [Oo]utput-x64/
+
+*.xcf

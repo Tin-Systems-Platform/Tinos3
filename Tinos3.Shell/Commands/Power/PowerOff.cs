@@ -1,4 +1,4 @@
-﻿using Cosmos.Kernel.Core.X64.Power;
+﻿using Cosmos.Kernel.System;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,15 +8,13 @@ namespace Tinos3.Shell.Commands.Power
 {
     public class PowerOff : Command
     {
-        X64PowerOps powerOps = new();
-
         public PowerOff(string name) : base(name)
         {
         }
 
         public override string Execute(string[] args)
         {
-            powerOps.Shutdown();
+            Cosmos.Kernel.System.Power.Shutdown();
             return base.Execute(args);
         }
     }
