@@ -14,7 +14,7 @@ namespace Tinos3.Shell.Commands
 
         public override string Execute(string[] args)
         {
-            Console.Write("Page (0, 1, q): ");
+            Console.Write("Page (0, 1, 2, q): ");
             var input = Console.ReadLine();
 
             while (true)
@@ -27,6 +27,9 @@ namespace Tinos3.Shell.Commands
 
                     case "1":
                         showHelp(1);
+                        break;
+                    case "2":
+                        showHelp(2);
                         break;
 
                     case "q":
@@ -71,6 +74,11 @@ namespace Tinos3.Shell.Commands
                 Console.WriteLine("rm     - Delete folders");
                 Console.WriteLine("del    - Delete files");
                 Console.WriteLine("mv     - move files");
+            } else if (page == 2)
+            {
+                Console.WriteLine("Graphics related Commands. Page: " + page);
+
+                Console.WriteLine("startx - Start the Desktop, Command like X11");
             }
             else
             {

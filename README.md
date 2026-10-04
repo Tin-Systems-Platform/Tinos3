@@ -6,7 +6,7 @@ Tinos3 is an Operating System made in C#, powered by the Cosmos OS gen3.
 Here's a list of requirements for compiling.
 
 - [.NET](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
-- [Cosmos OS gen3](https://github.com/valentinbreiz/nativeaot-patcher)
+- [Cosmos OS gen3](https://github.com/cosmosos/cosmos)
 
 ### Build
 #### Windows
@@ -42,3 +42,6 @@ Later around 2023, Tinos version 2 was created and development continued on it u
 Now about half way through 2026, Tinos 3 is now in official development onwards to 0.1. we'll see what the future holds for tinos. We're exicited as for what we're working on.
 
 We hope that you enjoy using Tinos 3
+
+## contributing guideline notice
+We're using the Tin Systems Platform github organization global contributing guidelines.
