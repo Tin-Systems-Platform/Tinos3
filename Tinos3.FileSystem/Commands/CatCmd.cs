@@ -13,6 +13,13 @@ namespace Tinos3.FileSystem.Commands
 
         public override string Execute(string[] args)
         {
+
+            if (args.Length < 1)
+            {
+                Console.WriteLine("Usage: cat <filename>");
+                return "";
+            }
+
             string fileName = args[0];
 
             readFile(fileName);

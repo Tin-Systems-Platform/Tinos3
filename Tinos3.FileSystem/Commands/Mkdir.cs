@@ -13,6 +13,12 @@ namespace Tinos3.FileSystem.Commands
 
         public override string Execute(string[] args)
         {
+
+            if (args.Length < 1)
+            {
+                return "Usage: mkdir <directory>";
+            }
+
             string dirPath = args[0];
 
             makeDir(dirPath);

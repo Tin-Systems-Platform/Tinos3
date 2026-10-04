@@ -16,9 +16,13 @@ namespace Tinos3.FileSystem.Commands
             string target = "/mnt" + args[1];
             string dest = "/mnt" + args[2];
 
-            
+            if (args.Length < 3)
+            {
+                Console.WriteLine("Usage: copy [-o] <source> <destination>");
+                return "";
+            }
 
-            switch(args[0])
+            switch (args[0])
             {
                 case "-o":
                     try

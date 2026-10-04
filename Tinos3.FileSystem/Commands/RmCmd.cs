@@ -14,7 +14,11 @@ namespace Tinos3.FileSystem.Commands
         {
             string path = "/mnt" + args[1];
 
-            
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Usage: rm [-r] <file/directory>");
+                return "";
+            }
 
             switch (args[0])
             {
