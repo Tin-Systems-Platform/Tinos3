@@ -65,5 +65,33 @@ namespace Tinos3.FileSystem
             StorageManager.RescanPartitions(disk);
             Console.WriteLine("FS: Deleted partition " + partitionName);
         }
+
+        void resizePartition(string partitionName, ulong newSectorCount)
+        {
+            PartitionManager.PartitionLocation partLoc = new(startSector: 2048, sectorCount: newSectorCount);
+            IBlockDevice? disk = StorageManager.PrimaryDevice;
+            if (!PartitionManager.Resize(disk, partLoc, newSectorCount))
+            {
+                Console.WriteLine("FS: Resize failed");
+                return;
+            }
+            StorageManager.RescanPartitions(disk);
+            Console.WriteLine("FS: Resized partition " + partitionName + " to " + newSectorCount + " sectors");
+        }
+
+        void getFreespaceOnPartition(int partitionIndex, int diskIndex, string mountPoint) {
+            IBlockDevice? disk = StorageManager.GetDevice(diskIndex);
+
+            if (VfsManager.TryStatFs("/" + mountPoint, out VfsStatFs stats))
+            {
+                ulong freeBytes = stats.Bavail * stats.BlockSize;
+                ulong totalBytes = stats.Blocks * stats.BlockSize;
+                
+                ulong freeMB = freeBytes / (1024 * 1024);
+                ulong totalMB = totalBytes / (1024 * 1024);
+
+                Console.WriteLine($"FS: Partition {partitionIndex} on disk {diskIndex} mounted at /{mountPoint} has {freeMB} MB free out of {totalMB} MB total.");
+            }
+        }
     }
 }
