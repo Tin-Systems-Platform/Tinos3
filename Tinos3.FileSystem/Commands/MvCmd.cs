@@ -13,40 +13,40 @@ namespace Tinos3.FileSystem.Commands
 
         public override string Execute(string[] args)
         {
-            string target = "/mnt" + args[1];
-            string dest = "/mnt" + args[2];
-
-            if (args.Length < 3)
+            if (args.Length < 2)
             {
                 Console.WriteLine("Usage: mv [-o] <source> <destination>");
                 return "";
             }
 
-            switch (args[0])
+            bool overwrite = false;
+            int sourceIndex = 0;
+
+            if (args[0] == "-o")
             {
-                case "-o":
-                    try
-                    {
-                        File.Move(target, dest, true);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-                    }
-                    break;
-                default:
-                    try
-                    {
-                        File.Move(target, dest);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-                    }
-                    break;
+                if (args.Length < 3)
+                {
+                    Console.WriteLine("Usage: mv [-o] <source> <destination>");
+                    return "";
+                }
+
+                overwrite = true;
+                sourceIndex = 1;
             }
 
-            return base.Execute(args);
+            string target = "/mnt/" + args[sourceIndex];
+            string dest = "/mnt/" + args[sourceIndex + 1];
+
+            try
+            {
+                File.Move(target, dest, overwrite);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return "";
         }
     }
-}
+    }
