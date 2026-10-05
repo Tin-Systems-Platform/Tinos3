@@ -4,6 +4,7 @@ using Cosmos.Kernel.System.Vfs;
 using Cosmos.Kernel.System.Filesystems.Fat;
 using Cosmos.Kernel.HAL.Interfaces.Devices;
 using Cosmos.Kernel.HAL.Vfs;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tinos3.FileSystem
 {
@@ -66,9 +67,9 @@ namespace Tinos3.FileSystem
             Console.WriteLine("FS: Deleted partition " + partitionName);
         }
 
-        void resizePartition(string partitionName, ulong newSectorCount)
+        void resizePartition(string partitionName, ulong newSectorCount, ulong oldSectorCount)
         {
-            PartitionManager.PartitionLocation partLoc = new(startSector: 2048, sectorCount: newSectorCount);
+            PartitionManager.PartitionLocation partLoc = new(startSector: 2048, sectorCount: oldSectorCount);
             IBlockDevice? disk = StorageManager.PrimaryDevice;
             if (!PartitionManager.Resize(disk, partLoc, newSectorCount))
             {

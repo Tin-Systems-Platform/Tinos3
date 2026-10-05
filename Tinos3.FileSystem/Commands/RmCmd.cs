@@ -12,13 +12,15 @@ namespace Tinos3.FileSystem.Commands
         }
         public override string Execute(string[] args)
         {
-            string path = "/mnt" + args[1];
-
             if (args.Length < 2)
             {
                 Console.WriteLine("Usage: rm [-r] <file/directory>");
                 return "";
             }
+
+            string path = "/mnt" + args[1];
+
+            
 
             switch (args[0])
             {

@@ -13,14 +13,16 @@ namespace Tinos3.FileSystem.Commands
 
         public override string Execute(string[] args)
         {
-            string target = "/mnt" + args[1];
-            string dest = "/mnt" + args[2];
 
             if (args.Length < 3)
             {
                 Console.WriteLine("Usage: copy [-o] <source> <destination>");
                 return "";
             }
+
+            string target = "/mnt" + args[1];
+            string dest = "/mnt" + args[2];
+
 
             switch (args[0])
             {
