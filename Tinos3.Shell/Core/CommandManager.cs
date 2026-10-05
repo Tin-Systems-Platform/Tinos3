@@ -7,6 +7,8 @@ using Tinos3.Abstractions.Commands;
 using Tinos3.FileSystem.Commands;
 using Tinos3.Shell.Commands.Power;
 using Tinos3.Graphics.Commands;
+using Tinos3.FileSystem.Tools.Utils;
+using Tinos3.FileSystem.Tools;
 
 namespace Tinos3.Shell.Core
 {
@@ -37,6 +39,7 @@ namespace Tinos3.Shell.Core
             this.commands.Add(new ShapesCmd("shapes"));
             this.commands.Add(new ShowBmpCmd("showbmp"));
             this.commands.Add(new StartDesktop("startx"));
+            this.commands.Add(new FDisk("fdisk"));
         }
 
         public string ProcessInput(string input)

@@ -10,7 +10,7 @@ namespace Tinos3.FileSystem
 {
     internal class TinosPartitionManager
     {
-        void listPartitions()
+        public void listPartitions()
         {
             IBlockDevice? disk = StorageManager.PrimaryDevice;
             if (disk is null)
@@ -33,7 +33,7 @@ namespace Tinos3.FileSystem
             }
         }
 
-        void createPartition(ulong sectorCountForPart, string partitionName)
+        public void createPartition(ulong sectorCountForPart, string partitionName)
         {
             IBlockDevice? disk = StorageManager.PrimaryDevice;
 
@@ -53,7 +53,7 @@ namespace Tinos3.FileSystem
             Console.WriteLine("FS: Created partition " + partitionName + " with " + sectorCountForPart + " sectors");
         }
 
-        void deletePartition(string partitionName, ulong sectorCount)
+        public void deletePartition(string partitionName, ulong sectorCount)
         {
             PartitionManager.PartitionLocation partLoc = new(startSector: 2048, sectorCount: sectorCount);
 
@@ -67,7 +67,7 @@ namespace Tinos3.FileSystem
             Console.WriteLine("FS: Deleted partition " + partitionName);
         }
 
-        void resizePartition(string partitionName, ulong newSectorCount, ulong oldSectorCount)
+        public void resizePartition(string partitionName, ulong newSectorCount, ulong oldSectorCount)
         {
             PartitionManager.PartitionLocation partLoc = new(startSector: 2048, sectorCount: oldSectorCount);
             IBlockDevice? disk = StorageManager.PrimaryDevice;
@@ -80,7 +80,7 @@ namespace Tinos3.FileSystem
             Console.WriteLine("FS: Resized partition " + partitionName + " to " + newSectorCount + " sectors");
         }
 
-        void getFreespaceOnPartition(int partitionIndex, int diskIndex, string mountPoint) {
+        public void getFreespaceOnPartition(int partitionIndex, int diskIndex, string mountPoint) {
             IBlockDevice? disk = StorageManager.GetDevice(diskIndex);
 
             if (VfsManager.TryStatFs("/" + mountPoint, out VfsStatFs stats))
