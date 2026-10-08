@@ -1,5 +1,4 @@
-﻿using Cosmos.Kernel.HAL.Vfs;
-using Cosmos.Kernel.System.Filesystems.Fat;
+﻿using Cosmos.Kernel.System.Filesystems.Fat;
 using Cosmos.Kernel.System.Vfs;
 using System;
 using System.Collections.Generic;
