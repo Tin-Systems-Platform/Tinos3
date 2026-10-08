@@ -14,21 +14,13 @@ namespace Tinos3.FileSystem.Commands
         public override string Execute(string[] args)
         {
 
-            switch (args[0])
+            if (args.Length < 1)
             {
-                case "help":
-                    {
-                        Console.WriteLine("touch /mnt/path/to/file.txt");
-                        break;
-                    }
-                default:
-                    {
-
-                        string fileName = args[0];
-                        makeFile(fileName);
-                        break;
-                    }
+                Console.WriteLine("Usage: touch <filename>");
+                return "";
             }
+
+            makeFile(args[0]);
 
             return "";
         }

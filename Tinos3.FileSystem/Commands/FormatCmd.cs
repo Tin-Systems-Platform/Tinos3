@@ -1,10 +1,11 @@
-﻿using Cosmos.Kernel.HAL.Vfs;
-using Cosmos.Kernel.System.Filesystems.Fat;
-using Cosmos.Kernel.System.Vfs;
-using System;
+﻿using System.IO;
+using Cosmos.Kernel.System.FileSystem;
+using Cosmos.Kernel.System.FileSystem.Fat;
+using Cosmos.Kernel.System.Storage;
 using System.Collections.Generic;
 using System.Text;
 using Tinos3.Abstractions.Commands;
+using Tinos3.FileSystem.Tools.Utils;
 
 namespace Tinos3.FileSystem.Commands
 {
@@ -16,37 +17,11 @@ namespace Tinos3.FileSystem.Commands
 
         public override string Execute(string[] args)
         {
-            formatLogic();
+            Format format = new Format();
+
+            format.formatPartition();
 
             return "";
-        }
-
-        private void formatLogic()
-        {
-            Console.WriteLine("Unmounting partion for formatting purposes as formatting is refused if it is mounted");
-
-            VfsManager.TryUnmount("/mnt");
-
-            FatFormatOptions options = new()
-            {
-                Type = FatType.Fat32,
-                VolumeLabel = "TINOS     ",
-            };
-
-            if (!VfsManager.TryFormat("fat", "0", options))
-            {
-                Console.WriteLine("Format failed");
-                return;
-            }
-
-            Console.WriteLine("Mounting the partion back.");
-
-            if (VfsManager.TryMount("fat", "0", MountFlags.None, "/mnt", out VfsManager.VfsMount? mount))
-            {
-                Console.WriteLine("Mounted " + mount.Name + " partition " + mount.Source + " at " + mount.MountPoint);
-            }
-
-            Console.WriteLine("Formatting complete.");
         }
     }
 }

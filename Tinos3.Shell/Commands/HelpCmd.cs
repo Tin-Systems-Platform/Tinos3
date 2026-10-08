@@ -74,6 +74,7 @@ namespace Tinos3.Shell.Commands
                 Console.WriteLine("rm     - Delete folders");
                 Console.WriteLine("del    - Delete files");
                 Console.WriteLine("mv     - move files");
+                Console.WriteLine("fdisk  - Partition the disk(s)");
             } else if (page == 2)
             {
                 Console.WriteLine("Graphics related Commands. Page: " + page);

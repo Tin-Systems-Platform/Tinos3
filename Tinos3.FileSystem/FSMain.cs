@@ -1,6 +1,8 @@
-﻿using Cosmos.Kernel.HAL.Vfs;
-using Cosmos.Kernel.System.Filesystems.Fat;
-using Cosmos.Kernel.System.Vfs;
+﻿using System.IO;
+using Cosmos.Kernel.System.FileSystem;
+using Cosmos.Kernel.System.FileSystem.Fat;
+using Cosmos.Kernel.System.Storage;
+
 
 namespace Tinos3.FileSystem
 {
@@ -8,15 +10,31 @@ namespace Tinos3.FileSystem
     {
         public static void initFS()
         {
+
             Console.WriteLine("FS: Initializing Filesystems and mounting disk to /mnt");
 
-            FatFilesystemType fat = new();
+            FatFileSystemType fat = new();
 
-            VfsManager.RegisterFilesystem("fat", fat);
-            
-            if (VfsManager.TryMount("fat", "0", MountFlags.None, "/mnt", out VfsManager.VfsMount? mount))
+            if (!VfsManager.RegisterFileSystem("fat", fat))
             {
-                Console.WriteLine("Mounted " + mount.Name + " partition " + mount.Source + " at " + mount.MountPoint);
+                Console.WriteLine("FS: The name \"fat\" is already registered.");
+                return;
+            }
+
+            if (StorageManager.Partitions.Count == 0)
+            {
+                Console.WriteLine("FS: No partitions found.");
+                return;
+            }
+            // TODO: Multiple partition, currently we are using StorageManager.Partitions[0] as the first partition to mount
+            //       we need to implement a way to select which partition to mount.
+            if (VfsManager.TryMount("fat", StorageManager.Partitions[0], MountFlags.None, "/mnt", out VfsMount? mount))
+            {
+                Console.WriteLine("Mounted " + mount.ToString() + " at " + mount.MountPoint);
+            }
+            else
+            {
+                Console.WriteLine("FS: Failed to mount partition.");
             }
 
             Console.WriteLine("FS: Filesystem init complete. User space commands can now run filesystem related stuff.");

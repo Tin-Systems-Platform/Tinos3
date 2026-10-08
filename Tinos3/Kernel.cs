@@ -4,6 +4,7 @@ using Tinos3.FileSystem;
 using Tinos3.Graphics;
 using Tinos3.Shell.Core;
 using Sys = Cosmos.Kernel.System;
+using TinDisplayMgr = Tinos3.Graphics.DisplayManager;
 
 namespace Tinos3
 {
@@ -21,7 +22,7 @@ namespace Tinos3
 
             Console.WriteLine("GRAPHICS: Initializing resolution setting");
 
-            DisplayManager displayManager = new DisplayManager();
+            TinDisplayMgr displayManager = new TinDisplayMgr();
 
             displayManager.InitializeStaticResolution();
 
