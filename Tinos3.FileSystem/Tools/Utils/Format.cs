@@ -1,9 +1,8 @@
 ﻿using System.IO;
+using Cosmos.Kernel.HAL.Devices.Storage;
+using Cosmos.Kernel.System.FileSystem;
+using Cosmos.Kernel.System.FileSystem.Fat;
 using Cosmos.Kernel.System.Storage;
-using Cosmos.Kernel.System.Vfs;
-using Cosmos.Kernel.System.Filesystems.Fat;
-using Cosmos.Kernel.HAL.Interfaces.Devices;
-using Cosmos.Kernel.HAL.Vfs;
 
 namespace Tinos3.FileSystem.Tools.Utils
 {
@@ -88,7 +87,7 @@ namespace Tinos3.FileSystem.Tools.Utils
 
             Console.WriteLine("Mounting the partion back.");
 
-            if (VfsManager.TryMount("fat", StorageManager.Partitions[partitionNumberIndex], MountFlags.None, "/mnt", out VfsManager.VfsMount? mount))
+            if (VfsManager.TryMount("fat", StorageManager.Partitions[partitionNumberIndex], MountFlags.None, "/mnt", out VfsMount? mount))
             {
                 Console.WriteLine("Mounted " + mount.Name + " partition " + mount.Source + " at " + mount.MountPoint);
             }

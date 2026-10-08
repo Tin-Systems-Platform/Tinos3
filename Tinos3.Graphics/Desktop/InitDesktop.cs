@@ -3,10 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using Cosmos.Kernel.System.Mouse;
+using Cosmos.Kernel.System.Input;
 using Cosmos.Kernel.System.Graphics.Fonts;
-using Cosmos.Kernel.System.Keyboard;
-using Cosmos.Kernel.System.Keyboard.ScanMaps;
 using Tinos3.Graphics.Api.Widgets;
 using Cosmos.Kernel.System;
 
@@ -139,17 +137,6 @@ namespace Tinos3.Graphics.Desktop
                     _canvas.Clear(Color.DarkBlue);
 
                     RenderDesktop(true, true);
-
-                    if (KeyboardManager.KeyAvailable)
-                    {
-                        KeyEvent key = KeyboardManager.ReadKey();
-                        if (key.Key == ConsoleKeyEx.Escape)
-                        {
-                            Console.Clear();
-                            Console.WriteLine("Exiting Desktop");
-                            break;
-                        }
-                    }
                 }
             }
             else

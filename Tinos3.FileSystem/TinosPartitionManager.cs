@@ -1,10 +1,9 @@
 ﻿using System.IO;
+using Cosmos.Kernel.HAL.Devices.Storage;
+using Cosmos.Kernel.System.FileSystem;
+using Cosmos.Kernel.System.FileSystem.Fat;
 using Cosmos.Kernel.System.Storage;
-using Cosmos.Kernel.System.Vfs;
-using Cosmos.Kernel.System.Filesystems.Fat;
-using Cosmos.Kernel.HAL.Interfaces.Devices;
-using Cosmos.Kernel.HAL.Vfs;
-using System.ComponentModel.DataAnnotations;
+
 
 namespace Tinos3.FileSystem
 {
@@ -85,7 +84,7 @@ namespace Tinos3.FileSystem
 
             if (VfsManager.TryStatFs("/" + mountPoint, out VfsStatFs stats))
             {
-                ulong freeBytes = stats.Bavail * stats.BlockSize;
+                ulong freeBytes = stats.FreeBlocks * stats.BlockSize;
                 ulong totalBytes = stats.Blocks * stats.BlockSize;
                 
                 ulong freeMB = freeBytes / (1024 * 1024);
