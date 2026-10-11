@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="Tinos3.Abstractions/Tinos3.Abstractions.csproj" Id="5b7e0dc5-b04b-413e-afb9-baa8c5a14951" />
+  <Project Path="Tinos3.Shell/Tinos3.Shell.csproj" Id="2e61bbe0-bfaa-4ecb-9136-50554c28c053" />
   <Project Path="Tinos3/Tinos3.csproj" />
 </Solution>

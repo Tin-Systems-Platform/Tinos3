@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Cosmos.Executable.Lua;
+using Tinos3.Abstractions.Lua.Tinos3.Utils;
 
 namespace Tinos3.Abstractions.Lua.Tinos3
 {
@@ -18,6 +19,10 @@ namespace Tinos3.Abstractions.Lua.Tinos3
             var luaState = lua.State;
 
             Console.WriteLine("[LUA]: Registering System API functions to Lua interpreter...");
+
+            RegisterCSharpFunctionToLua(luaState, TinosUtils.GetCurrentDateTime, "GetCurrentDateTime");
+            RegisterCSharpFunctionToLua(luaState, TinosUtils.SetTinosVersion, "SetTinosVersion");
+            RegisterCSharpFunctionToLua(luaState, TinosUtils.GetTinosVersion, "GetTinosVersion");
 
 
 

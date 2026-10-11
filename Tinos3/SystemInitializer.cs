@@ -9,6 +9,7 @@ namespace Tinos3
     public class SystemInitializer
     {
         public LuaInterpreter lua;
+        public Shell.Shell shell = new Shell.Shell();
 
         public void SysInit()
         {
@@ -23,7 +24,7 @@ namespace Tinos3
 
         public void SysRun()
         {
-            // BLANK: temporarely empty, will be used to be the Run method of the kernel, which will be called in the Kernel.Run() method.
+            shell.ShellMain();
         }
     }
 }
