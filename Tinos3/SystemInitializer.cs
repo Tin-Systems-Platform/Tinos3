@@ -19,12 +19,16 @@ namespace Tinos3
 
             Tinos3Lua.RegisterLuaFuncsToLuaInterpeter(lua);
 
+            Console.WriteLine("[LUA]: Testing registered function...");
+            lua.DoString("assert(type(GetTinosVersion) == 'function')");
+            Console.WriteLine("[LUA]: Function exists!");
+
             Console.WriteLine("[KERNEL]: System initialized.");
         }
 
         public void SysRun()
         {
-            shell.ShellMain();
+            shell.ShellMain(lua);
         }
     }
 }

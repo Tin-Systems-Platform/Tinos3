@@ -7,7 +7,12 @@
   </PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Cosmos.kernel.System" Version="3.0.94" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Tinos3.Abstractions\Tinos3.Abstractions.csproj" />
+		<ProjectReference Include="..\Tinos3.Scripts\Tinos3.Scripts.csproj" />
 	</ItemGroup>
 
 </Project>
