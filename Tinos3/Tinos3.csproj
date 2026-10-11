@@ -11,5 +11,12 @@
     <PackageReference Include="Cosmos.Kernel" Version="3.0.94" />
     <PackageReference Include="Cosmos.Kernel.System" Version="3.0.94" />
   </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\\Tinos3.Abstractions\\Tinos3.Abstractions.csproj" />
+	</ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
 	
 </Project>

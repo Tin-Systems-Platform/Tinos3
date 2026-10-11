@@ -8,16 +8,16 @@ namespace Tinos3
     /// </summary>
     public class Kernel : Sys.Kernel
     {
-
+        SystemInitializer sysInitializer = new SystemInitializer();
 
         protected override void BeforeRun()
         {
-            
+            sysInitializer.SysInit();
         }
 
         protected override void Run()
         {
-            
+            sysInitializer.SysRun();
         }
     }
 }
