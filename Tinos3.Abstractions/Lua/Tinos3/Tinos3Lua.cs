@@ -23,6 +23,9 @@ namespace Tinos3.Abstractions.Lua.Tinos3
             RegisterCSharpFunctionToLua(luaState, TinosUtils.GetCurrentDateTime, "GetCurrentDateTime");
             RegisterCSharpFunctionToLua(luaState, TinosUtils.SetTinosVersion, "SetTinosVersion");
             RegisterCSharpFunctionToLua(luaState, TinosUtils.GetTinosVersion, "GetTinosVersion");
+            RegisterCSharpFunctionToLua(luaState, PowerUtils.Shutdown, "Shutdown");
+            RegisterCSharpFunctionToLua(luaState, PowerUtils.Reboot, "Reboot");
+            RegisterCSharpFunctionToLua(luaState, TinosUtils.ReadLine, "ReadLine");
 
 
 

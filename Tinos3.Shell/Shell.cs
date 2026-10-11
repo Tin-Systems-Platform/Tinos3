@@ -31,6 +31,11 @@ namespace Tinos3.Shell
                     var verScript = ScriptResources.Get("Tinos3.Scripts.ver.lua");
                     string verScriptString = System.Text.Encoding.UTF8.GetString(verScript);
                     lua.DoString(verScriptString);
+                } else if (input == "lsh")
+                {
+                    var lshShellScript = ScriptResources.Get("Tinos3.Scripts.shell.shellMain.lua");
+                    string lshShellScriptString = System.Text.Encoding.UTF8.GetString(lshShellScript);
+                    lua.DoString(lshShellScriptString);
                 }
                 else
                 {

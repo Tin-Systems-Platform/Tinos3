@@ -7,8 +7,8 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="ver.lua"
-						  LogicalName="Tinos3.Scripts.ver.lua" />
+		<EmbeddedResource Include="ver.lua" LogicalName="Tinos3.Scripts.ver.lua" />
+		<EmbeddedResource Include="shell\shellMain.lua" LogicalName="Tinos3.Scripts.shell.shellMain.lua" />
 	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tinos3.Abstractions\Tinos3.Abstractions.csproj" />

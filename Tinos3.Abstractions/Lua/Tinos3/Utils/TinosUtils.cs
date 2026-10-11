@@ -27,5 +27,12 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Utils
             lua.PushString(_tinosVersion);
             return 1;
         }
+
+        public static int ReadLine(ILuaState lua)
+        {
+            string input = Console.ReadLine();
+            lua.PushString(input);
+            return 1;
+        }
     }
 }
