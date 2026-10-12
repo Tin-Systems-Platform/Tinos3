@@ -1,35 +1,47 @@
 print("LSH: Initialized.")
 
--- LSH: The example shell for tinos3's custom lua APIs registered via C#.
+-- Main shell loop
 while true do
-    io.write("lsh> ")
+    io.write("LSH> ")
 
     local input = ReadLine()
-    -- Exit out of LSH
+
+    -- Exit the shell
     if input == "exit" then
         break
-    end
-    
-    -- Shutdown the system
-    if input == "poweroff" then
+
+    -- Shut down the system
+    elseif input == "poweroff" then
         Shutdown()
         break
-    end
-    -- Reboot the machine
-    if input == "reboot" then
+
+    -- Reboot the system
+    elseif input == "reboot" then
         Reboot()
         break
-    end
 
-    -- Help command
-    if input == "help" then
+    -- Show help
+    elseif input == "help" then
         print("Available commands:")
         print("  exit      - Exit the shell")
-        print("  poweroff  - Shutdown the system")
+        print("  poweroff  - Shut down the system")
         print("  reboot    - Reboot the system")
         print("  help      - Show this help message")
+        print("  ver       - Show Tinos and Lua versions")
         print("  Any other input will be executed as Lua code.")
+
+    -- Show version information
+    elseif input == "ver" then
+        print("Tinos Version: " .. GetTinosVersion())
+        print("Lua Version: " .. _VERSION)
+        print("Tinos, an OS powered by Lua, C# and determination")
+
+    -- Skip empty input
+    elseif input == "" then
+        -- Nothing to do
+
+    -- Execute arbitrary Lua code
+    else
+        DoString(input)
     end
-    -- Execute the input as Lua code here
-    DoString(input)
 end
