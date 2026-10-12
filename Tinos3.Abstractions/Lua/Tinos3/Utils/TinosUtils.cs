@@ -28,6 +28,14 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Utils
             return 1;
         }
 
+        public static int DoString(ILuaState lua)
+        {
+            LuaInterpreter LuaInterpreter = new LuaInterpreter();
+            string code = lua.ToString(-1);
+            LuaInterpreter.DoString(code);
+            return 0;
+        }
+
         public static int ReadLine(ILuaState lua)
         {
             string input = Console.ReadLine();
