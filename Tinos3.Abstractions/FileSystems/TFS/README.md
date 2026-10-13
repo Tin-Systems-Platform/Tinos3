@@ -18,3 +18,9 @@ It provides a simple and efficient way to manage files and directories within th
 TFS follows the same licensing terms as the Tinos3 project. Please refer to the Tinos3 license for more information.
 
 Tinos3 is licensed under the MIT License. You can find the full license text in the LICENSE file of the Tinos3 repository.
+
+## Third-Party Code
+
+Parts of TFS are derived from CosmosOS, which is licensed under the BSD 3-Clause License. The full license text is available in the CosmosOS repository's `LICENSE` file and in this repository under `THIRD-PARTY-NOTICES/CosmosOS-BSD-3-Clause.txt`.
+
+Tinos3-specific modifications and original contributions remain subject to the applicable Tinos3 licensing terms. Copyright and license notices for derived code are preserved where applicable.
