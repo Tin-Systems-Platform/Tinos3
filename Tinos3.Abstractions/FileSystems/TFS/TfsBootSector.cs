@@ -16,6 +16,8 @@
 using Cosmos.Kernel.System.FileSystem.Fat;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Tinos3.Abstractions.FileSystems.TFS
@@ -76,5 +78,94 @@ namespace Tinos3.Abstractions.FileSystems.TFS
         public uint DataStartLba { get; private set; }
         public uint ClusterCount { get; private set; }
         public uint FatStartLba { get; private set; }
+
+        // Blank and private constructor for TryParse method
+        private TfsBootSector() { }
+
+        public static bool TryParse(ReadOnlySpan<byte> bpb, [NotNullWhen(true)] out TfsBootSector? bootSector)
+        {
+            bootSector = null;
+
+            if (bpb.Length < (int)MinBytesPerSector)
+            {
+                return false;
+            }
+
+            if (BitConverter.ToUInt16(bpb.Slice(BootSignatureOffset, UInt16FieldSize)) != BootSignature)
+            {
+                return false;
+            }
+
+            TfsBootSector bs = new()
+            {
+                BytesPerSector = BitConverter.ToUInt16(bpb.Slice(BytsPerSecOffset, UInt16FieldSize)),
+                SectorsPerCluster = bpb[SecPerClusOffset],
+                ReservedSectorCount = BitConverter.ToUInt16(bpb.Slice(RsvdSecCntOffset, UInt16FieldSize)),
+                RootEntryCount = BitConverter.ToUInt16(bpb.Slice(RootEntCntOffset, UInt16FieldSize)),
+            };
+
+            if (bs.BytesPerSector < MinBytesPerSector || bs.BytesPerSector > MaxBytesPerSector
+                || (bs.BytesPerSector & (bs.BytesPerSector - 1)) != 0
+                || bs.SectorsPerCluster == 0 || bs.SectorsPerCluster > MaxSectorsPerCluster
+                || (bs.SectorsPerCluster & (bs.SectorsPerCluster - 1)) != 0)
+            {
+                return false;
+            }
+
+            bs.BytesPerCluster = bs.BytesPerSector * bs.SectorsPerCluster;
+
+            uint total16 = BitConverter.ToUInt16(bpb.Slice(TotSec16Offset, UInt16FieldSize));
+            bs.TotalSectorCount = total16 != 0 ? total16 : BitConverter.ToUInt32(bpb.Slice(TotSec32Offset, UInt32FieldSize));
+
+            uint fat16 = BitConverter.ToUInt16(bpb.Slice(FatSz16Offset, UInt16FieldSize));
+            bs.FatSectorCount = fat16 != 0 ? fat16 : BitConverter.ToUInt32(bpb.Slice(FatSz32Offset, UInt32FieldSize));
+
+            if (bs.TotalSectorCount == 0 || bs.FatSectorCount == 0)
+            {
+                return false;
+            }
+
+            bs.FatStartLba = bs.ReservedSectorCount;
+            bs.RootSectorCount = (bs.RootEntryCount * (uint)TfsDirectory.EntrySize + (bs.BytesPerSector - 1)) / bs.BytesPerSector;
+
+            ulong fatRegion = (ulong)bs.NumberOfFats * bs.FatSectorCount;
+            ulong rootStart = bs.ReservedSectorCount + fatRegion;
+            ulong dataStart = rootStart + bs.RootSectorCount;
+            if (dataStart >= bs.TotalSectorCount)
+            {
+                return false;
+            }
+            bs.RootStartLba = (uint)rootStart;
+            bs.DataStartLba = (uint)dataStart;
+
+            uint dataSectorCount = bs.TotalSectorCount - bs.DataStartLba;
+            bs.ClusterCount = dataSectorCount / bs.SectorsPerCluster;
+            if (bs.ClusterCount == 0)
+            {
+                return false;
+            }
+
+            if (bs.Type == FatType.Fat32)
+            {
+                bs.RootCluster = BitConverter.ToUInt32(bpb.Slice(RootClusOffset, UInt32FieldSize));
+                bs.RootStartLba = 0;
+                bs.RootSectorCount = 0;
+                bs.DataStartLba = (uint)rootStart;
+            }
+            else
+            {
+                bs.RootCluster = 0;
+            }
+
+            bootSector = bs;
+            return true;
+        }
+
+        public ulong ClusterToLba(uint cluster)
+        {
+            ArgumentOutOfRangeException.ThrowIfLessThan(cluster, TfsTable.FirstDataCluster);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(cluster, ClusterCount + 1);
+            return DataStartLba + ((ulong)(cluster - TfsTable.FirstDataCluster)) * SectorsPerCluster;
+        }
     }
 }
