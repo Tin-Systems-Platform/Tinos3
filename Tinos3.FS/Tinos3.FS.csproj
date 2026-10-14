@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Cosmos.Kernel" Version="3.0.94" />
     <PackageReference Include="Cosmos.kernel.System" Version="3.0.94" />
+	  <PackageReference Include="Cosmos.Executable.Lua" Version="4.0.1" />
   </ItemGroup>
 
 </Project>

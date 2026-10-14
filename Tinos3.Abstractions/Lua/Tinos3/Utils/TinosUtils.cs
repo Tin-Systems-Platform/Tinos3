@@ -34,5 +34,11 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Utils
             lua.PushString(input);
             return 1;
         }
+
+        public static int Clear(ILuaState lua)
+        {
+            Console.Clear();
+            return 0;
+        }
     }
 }

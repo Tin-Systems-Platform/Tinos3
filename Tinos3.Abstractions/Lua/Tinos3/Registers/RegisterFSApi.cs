@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Tinos3.Abstractions.Lua.Tinos3.Helpers;
 using Tinos3.Abstractions.Lua.Tinos3.FS;
+using Tinos3.FS.Helpers.Command;
 using Cosmos.Executable.Lua;
 
 namespace Tinos3.Abstractions.Lua.Tinos3.Registers
@@ -14,6 +15,7 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Registers
             Console.WriteLine("[LUA]: Registering FS API functions to Lua interpreter...");
 
             InitKernelFSAPI(lua);
+            InitUserFSAPI(lua);
 
             Console.WriteLine("[LUA]: FS API functions registered.");
         }
@@ -32,6 +34,13 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Registers
             RegisterHelper.RegisterCSharpFunctionToLua(lua, DiskManagerLuaAPI.GetDiskCount, "GetDiskCount");
 
             Console.WriteLine("[LUA]: Kernel FS API initialized.");
+        }
+
+        private static void InitUserFSAPI(ILuaState lua)
+        {
+            Console.WriteLine("[LUA]: Initializing User facing FS API...");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FDisk.LuaFDiskMain, "FDiskMain");
+            Console.WriteLine("[LUA]: User facing FS API initialized.");
         }
     }
 }
