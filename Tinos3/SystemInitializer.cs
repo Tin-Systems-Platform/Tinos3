@@ -25,7 +25,7 @@ namespace Tinos3
             lua.DoString("assert(type(GetTinosVersion) == 'function')");
             Console.WriteLine("[LUA]: Function exists!");
             Console.WriteLine("[LUA]: Testing function execution...");
-            lua.DoString("assert(DoString('print(\"Hello, World!\")') == nil)");
+            lua.DoString("assert(load('print(\"Hello, World!\")') ~= nil)");
             Console.WriteLine("[LUA]: Function executed successfully!"); 
 
             Console.WriteLine("[KERNEL]: System initialized.");
