@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tinos3.Abstractions.Lua.Tinos3;
+using Tinos3.FS;
 
 namespace Tinos3
 {
@@ -14,6 +15,7 @@ namespace Tinos3
         public void SysInit()
         {
             Console.WriteLine("[KERNEL]: Initializing system...");
+            RegisterFSActions.InitFS();
 
             lua = new LuaInterpreter();
 

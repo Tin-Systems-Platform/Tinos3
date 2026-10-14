@@ -15,6 +15,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\\Tinos3.Abstractions\\Tinos3.Abstractions.csproj" />
 		<ProjectReference Include="..\\Tinos3.Shell\\Tinos3.Shell.csproj" />
+		<ProjectReference Include="..\\Tinos3.FS\\Tinos3.FS.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

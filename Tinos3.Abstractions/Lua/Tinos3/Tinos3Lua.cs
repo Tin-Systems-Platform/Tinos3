@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using Cosmos.Executable.Lua;
+using Tinos3.Abstractions.Lua.Tinos3.Helpers;
+using Tinos3.Abstractions.Lua.Tinos3.Registers;
 using Tinos3.Abstractions.Lua.Tinos3.Utils;
 
 namespace Tinos3.Abstractions.Lua.Tinos3
 {
     public class Tinos3Lua
     {
-        private static void RegisterCSharpFunctionToLua(ILuaState lua, CSharpFunctionDelegate function, string name)
-        {
-            lua.PushCSharpFunction(function);
-            lua.SetGlobal(name);
-        }
+        
 
         public static void RegisterLuaFuncsToLuaInterpeter(LuaInterpreter lua)
         {
@@ -20,15 +18,15 @@ namespace Tinos3.Abstractions.Lua.Tinos3
 
             Console.WriteLine("[LUA]: Registering System API functions to Lua interpreter...");
 
-            RegisterCSharpFunctionToLua(luaState, TinosUtils.GetCurrentDateTime, "GetCurrentDateTime");
-            RegisterCSharpFunctionToLua(luaState, TinosUtils.SetTinosVersion, "SetTinosVersion");
-            RegisterCSharpFunctionToLua(luaState, TinosUtils.GetTinosVersion, "GetTinosVersion");
-            RegisterCSharpFunctionToLua(luaState, PowerUtils.Shutdown, "Shutdown");
-            RegisterCSharpFunctionToLua(luaState, PowerUtils.Reboot, "Reboot");
-            RegisterCSharpFunctionToLua(luaState, TinosUtils.ReadLine, "ReadLine");
-            RegisterCSharpFunctionToLua(luaState, TinosUtils.DoString, "DoString");
+            RegisterHelper.RegisterCSharpFunctionToLua(luaState, TinosUtils.GetCurrentDateTime, "GetCurrentDateTime");
+            RegisterHelper.RegisterCSharpFunctionToLua(luaState, TinosUtils.SetTinosVersion, "SetTinosVersion");
+            RegisterHelper.RegisterCSharpFunctionToLua(luaState, TinosUtils.GetTinosVersion, "GetTinosVersion");
+            RegisterHelper.RegisterCSharpFunctionToLua(luaState, PowerUtils.Shutdown, "Shutdown");
+            RegisterHelper.RegisterCSharpFunctionToLua(luaState, PowerUtils.Reboot, "Reboot");
+            RegisterHelper.RegisterCSharpFunctionToLua(luaState, TinosUtils.ReadLine, "ReadLine");
+            RegisterHelper.RegisterCSharpFunctionToLua(luaState, TinosUtils.DoString, "DoString");
 
-
+            RegisterFSApi.RegisterFSApiToLuaInterpeter(luaState);
 
             Console.WriteLine("[LUA]: System API functions registered.");
         }
