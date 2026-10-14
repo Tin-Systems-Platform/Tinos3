@@ -79,6 +79,9 @@ namespace Tinos3.Abstractions.FileSystems.TFS
         public uint ClusterCount { get; private set; }
         public uint FatStartLba { get; private set; }
 
+        // Basicly a blank variable to keep the compiler happy for now.
+        public uint NumberOfTFs { get; private set; }
+
         // Blank and private constructor for TryParse method
         private TfsBootSector() { }
 
@@ -128,7 +131,7 @@ namespace Tinos3.Abstractions.FileSystems.TFS
             bs.FatStartLba = bs.ReservedSectorCount;
             bs.RootSectorCount = (bs.RootEntryCount * (uint)TfsDirectory.EntrySize + (bs.BytesPerSector - 1)) / bs.BytesPerSector;
 
-            ulong fatRegion = (ulong)bs.NumberOfFats * bs.FatSectorCount;
+            ulong fatRegion = (ulong)bs.NumberOfTFs * bs.FatSectorCount;
             ulong rootStart = bs.ReservedSectorCount + fatRegion;
             ulong dataStart = rootStart + bs.RootSectorCount;
             if (dataStart >= bs.TotalSectorCount)
@@ -145,7 +148,7 @@ namespace Tinos3.Abstractions.FileSystems.TFS
                 return false;
             }
 
-            if (bs.Type == FatType.Fat32)
+            if (bs.Type == TfsType.Tfs1)
             {
                 bs.RootCluster = BitConverter.ToUInt32(bpb.Slice(RootClusOffset, UInt32FieldSize));
                 bs.RootStartLba = 0;

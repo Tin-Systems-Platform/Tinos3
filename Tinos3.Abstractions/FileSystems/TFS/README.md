@@ -24,3 +24,12 @@ Tinos3 is licensed under the MIT License. You can find the full license text in 
 Parts of TFS are derived from CosmosOS, which is licensed under the BSD 3-Clause License. The full license text is available in the CosmosOS repository's `LICENSE` file and in this repository under `THIRD-PARTY-NOTICES/CosmosOS-BSD-3-Clause.txt`.
 
 Tinos3-specific modifications and original contributions remain subject to the applicable Tinos3 licensing terms. Copyright and license notices for derived code are preserved where applicable.
+
+
+## Development Status
+
+Development of TFS has been paused indefinitely.
+
+Development may resume in the future, but there are currently no plans to continue work on TFS.
+
+TFS is an experimental project and is not suitable for production use. **The filesystem is not yet functional**, and its implementation is incomplete. Its design and functionality may change significantly if development resumes.
