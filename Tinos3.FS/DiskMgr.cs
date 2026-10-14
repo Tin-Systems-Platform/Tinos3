@@ -1,11 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Cosmos.Kernel.HAL.Devices.Storage;
+using Cosmos.Kernel.System.Storage;
 
-namespace Tinos3.FS
+namespace Tinos3.FS;
+
+public class DiskMgr
 {
-    // This class manages disks, lists the disks and disk info, and has public facing APIs for lua to use.
-    public class DiskMgr
+    public int GetDiskCount()
     {
+        return StorageManager.DeviceCount;
+    }
+
+    public void ListDisks()
+    {
+        for (int i = 0; i < StorageManager.DeviceCount; i++)
+        {
+            IBlockDevice? disk = StorageManager.GetDevice(i);
+
+            if (disk is null)
+                continue;
+
+            ulong sizeBytes = checked(disk.BlockCount * disk.BlockSize);
+
+            Console.WriteLine($"Disk {i}: {disk.Name}");
+            Console.WriteLine($"  Blocks: {disk.BlockCount}");
+            Console.WriteLine($"  Block size: {disk.BlockSize} bytes");
+            Console.WriteLine($"  Capacity: {sizeBytes} bytes");
+        }
     }
 }
