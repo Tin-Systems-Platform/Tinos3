@@ -6,9 +6,9 @@ namespace Tinos3.FS;
 
 public class TinosPartManager
 {
-    public void ListPartitions()
+    public void ListPartitions(int diskIndex)
     {
-        IBlockDevice? disk = StorageManager.PrimaryDevice;
+        IBlockDevice? disk = GetDisk(diskIndex);
 
         if (disk is null)
         {
@@ -37,9 +37,9 @@ public class TinosPartManager
 
     // Explicitly initialize a partition table.
     // Do not call this automatically during normal startup.
-    public bool InitializePartitionTable(PartitionTableKind kind)
+    public bool InitializePartitionTable(int diskIndex, PartitionTableKind kind)
     {
-        IBlockDevice? disk = StorageManager.PrimaryDevice;
+        IBlockDevice? disk = GetDisk(diskIndex);
 
         if (disk is null)
         {
@@ -77,15 +77,19 @@ public class TinosPartManager
 
     // The caller must supply a valid, non-overlapping free range.
     public bool CreatePartition(
-        ulong startSector,
-        ulong sectorCount,
-        byte mbrSystemId = 0x0C)
+    int diskIndex,
+    ulong startSector,
+    ulong sectorCount,
+    byte mbrSystemId = 0x0C)
     {
-        IBlockDevice? disk = StorageManager.PrimaryDevice;
+        IBlockDevice? disk = GetDisk(diskIndex);
 
         if (disk is null)
+            return false;
+
+        if (!IsRangeWithinDisk(disk, startSector, sectorCount))
         {
-            Console.WriteLine("FS: No disk detected");
+            Console.WriteLine("FS: Invalid partition range");
             return false;
         }
 
@@ -96,37 +100,27 @@ public class TinosPartManager
             return false;
         }
 
-        if (sectorCount == 0)
-        {
-            Console.WriteLine(
-                "FS: Partition size must be greater than zero");
-            return false;
-        }
-
         if (!PartitionManager.Create(
-                disk,
-                startSector: startSector,
-                sectorCount: sectorCount,
-                mbrSystemId: mbrSystemId,
-                gptType: Gpt.BasicDataPartitionType))
+            disk,
+            startSector: startSector,
+            sectorCount: sectorCount,
+            mbrSystemId: mbrSystemId,
+            gptType: Gpt.BasicDataPartitionType))
         {
             Console.WriteLine("FS: Create failed");
             return false;
         }
 
         StorageManager.RescanPartitions(disk);
-        Console.WriteLine(
-            $"FS: Created partition at LBA {startSector}, " +
-            $"{sectorCount} sectors");
-
         return true;
     }
 
     public bool DeletePartition(
+        int diskIndex,
         ulong startSector,
         ulong sectorCount)
     {
-        IBlockDevice? disk = StorageManager.PrimaryDevice;
+        IBlockDevice? disk = GetDisk(diskIndex);
 
         if (disk is null)
         {
@@ -149,11 +143,12 @@ public class TinosPartManager
     }
 
     public bool ResizePartition(
+        int diskIndex,
         ulong startSector,
         ulong oldSectorCount,
         ulong newSectorCount)
     {
-        IBlockDevice? disk = StorageManager.PrimaryDevice;
+        IBlockDevice? disk = GetDisk(diskIndex);
 
         if (disk is null)
         {
@@ -183,5 +178,31 @@ public class TinosPartManager
             $"FS: Resized partition to {newSectorCount} sectors");
 
         return true;
+    }
+    private static IBlockDevice? GetDisk(int diskIndex)
+    {
+        if (diskIndex < 0 ||
+            diskIndex >= StorageManager.DeviceCount)
+        {
+            Console.WriteLine("FS: Invalid disk index");
+            return null;
+        }
+
+        return StorageManager.GetDevice(diskIndex);
+    }
+
+    private static bool IsRangeWithinDisk(
+        IBlockDevice disk,
+        ulong startSector,
+        ulong sectorCount)
+    {
+        if (sectorCount == 0)
+            return false;
+
+        if (startSector >= disk.BlockCount)
+            return false;
+
+        // Subtraction avoids overflow in startSector + sectorCount.
+        return sectorCount <= disk.BlockCount - startSector;
     }
 }
