@@ -42,6 +42,6 @@ while true do
 
     -- Execute arbitrary Lua code
     else
-        DoString(input)
+        load(input)
     end
 end
