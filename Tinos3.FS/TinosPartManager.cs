@@ -87,20 +87,21 @@ public class TinosPartManager
         if (disk is null)
             return false;
 
-        if (!IsRangeWithinDisk(disk, startSector, sectorCount))
-        {
-            Console.WriteLine("FS: Invalid partition range");
-            return false;
-        }
+        Console.WriteLine($"Disk: {disk.Name}");
+        Console.WriteLine($"Start sector: {startSector}");
+        Console.WriteLine($"Sector count: {sectorCount}");
+        Console.WriteLine($"Disk size: {disk.BlockCount}"); // Verify property name
+        Console.WriteLine($"GPT: {Gpt.IsGpt(disk)}");
+        Console.WriteLine($"MBR: {Mbr.IsMbr(disk)}");
 
         if (!Gpt.IsGpt(disk) && !Mbr.IsMbr(disk))
         {
             Console.WriteLine(
                 "FS: Initialize a partition table first");
             return false;
-        }
+        }/*
 
-        if (!PartitionManager.Create(
+        if (!PartitionManager.Create(   
             disk,
             startSector: startSector,
             sectorCount: sectorCount,
@@ -108,6 +109,29 @@ public class TinosPartManager
             gptType: Gpt.BasicDataPartitionType))
         {
             Console.WriteLine("FS: Create failed");
+            return false;
+        }
+        */
+        try
+        {
+            bool success = PartitionManager.Create(
+                disk,
+                startSector: startSector,
+                sectorCount: sectorCount,
+                mbrSystemId: mbrSystemId,
+                gptType: Gpt.BasicDataPartitionType
+            );
+
+            if (!success)
+            {
+                Console.WriteLine("FS: Create failed, Reason, Returned" + success);
+                return false;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"FS: Exception occurred while creating partition: {ex.Message}");
             return false;
         }
 
@@ -189,20 +213,5 @@ public class TinosPartManager
         }
 
         return StorageManager.GetDevice(diskIndex);
-    }
-
-    private static bool IsRangeWithinDisk(
-        IBlockDevice disk,
-        ulong startSector,
-        ulong sectorCount)
-    {
-        if (sectorCount == 0)
-            return false;
-
-        if (startSector >= disk.BlockCount)
-            return false;
-
-        // Subtraction avoids overflow in startSector + sectorCount.
-        return sectorCount <= disk.BlockCount - startSector;
     }
 }

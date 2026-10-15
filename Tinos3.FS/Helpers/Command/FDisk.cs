@@ -63,6 +63,9 @@ namespace Tinos3.FS.Helpers.Command
                                 break;
                             }
 
+                            Console.WriteLine("DEBUG: DiskIndex: " + diskIndex);
+                            Console.WriteLine("DEBUG: Start Sector: " + startSector);
+                            Console.WriteLine("DEBUG: Size in Sectors: " + sizeInSectors);
                             partitionManager.CreatePartition(
                                 diskIndex,
                                 startSector,
