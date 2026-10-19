@@ -275,17 +275,19 @@ namespace Tinos3.FS.Helpers.Command
 
                     case "format":
                         {
-                            // Check if the partition exists and isn't mounted before formatting. For simplicity, we assume the partition exists.
-                            if(!VfsManager.TryUnmount("/mnt"))
-                            {
-                                Console.WriteLine("Failed to unmount the partition. Partition isn't mounted.");
-                                break;
-                            }
+                            
 
                             if (commandArgs.Length != 4)
                             {
                                 Console.WriteLine(
                                     "Usage: format <diskIndex> <partitionIndex> <filesystemType>");
+                                break;
+                            }
+
+                            // Check if the partition exists and isn't mounted before formatting. For simplicity, we assume the partition exists.
+                            if (!VfsManager.TryUnmount("/mnt"))
+                            {
+                                Console.WriteLine("Failed to unmount the partition. Partition isn't mounted.");
                                 break;
                             }
 
