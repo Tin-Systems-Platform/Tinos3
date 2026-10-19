@@ -1,5 +1,8 @@
 ﻿
 using Cosmos.Executable.Lua;
+using Cosmos.Kernel.System.FileSystem;
+using Cosmos.Kernel.System.FileSystem.Fat;
+using Cosmos.Kernel.System.Storage;
 using System;
 using Tinos3.FS;
 
@@ -264,10 +267,78 @@ namespace Tinos3.FS.Helpers.Command
                             Console.WriteLine(
                                 "  init <diskIndex> <MBR|GPT>");
                             Console.WriteLine("  listdisks");
+                            Console.WriteLine("  format <diskIndex> <filesystemType>");
                             Console.WriteLine("  help");
                             Console.WriteLine("  exit");
                             break;
                         }
+
+                    case "format":
+                        {
+                            if (commandArgs.Length != 4)
+                            {
+                                Console.WriteLine(
+                                    "Usage: format <diskIndex> <partitionIndex> <filesystemType>");
+                                break;
+                            }
+
+                            if (!int.TryParse(commandArgs[1], out int diskIndex) ||
+                                diskIndex < 0)
+                            {
+                                Console.WriteLine("Invalid disk index.");
+                                break;
+                            }
+
+                            if (!int.TryParse(commandArgs[2], out int partitionIndex) ||
+                                partitionIndex < 0 ||
+                                partitionIndex >= StorageManager.Partitions.Count)
+                            {
+                                Console.WriteLine("Invalid partition index.");
+                                break;
+                            }
+
+                            string filesystemType = commandArgs[3];
+
+                            if (!filesystemType.Equals(
+                                "fat32",
+                                StringComparison.OrdinalIgnoreCase))
+                            {
+                                Console.WriteLine(
+                                    $"Unsupported filesystem type: {filesystemType}");
+                                Console.WriteLine("Currently supported: FAT32");
+                                break;
+                            }
+
+                            Console.WriteLine(
+                                $"WARNING: Formatting partition {partitionIndex} " +
+                                $"on disk {diskIndex} will erase its data.");
+
+                            Console.Write("Continue? (yes/no): ");
+
+                            if (!Confirm())
+                            {
+                                Console.WriteLine("Format cancelled.");
+                                break;
+                            }
+
+                            FatFormatOptions options = new()
+                            {
+                                Type = FatType.Fat32,
+                                VolumeLabel = "TINOS3"
+                            };
+
+                            bool success = VfsManager.TryFormat(
+                                "fat",
+                                StorageManager.Partitions[partitionIndex],
+                                options);
+
+                            Console.WriteLine(success
+                                ? $"Partition {partitionIndex} formatted as FAT32 successfully."
+                                : "Partition formatting failed.");
+
+                            break;
+                        }
+
 
                     case "exit":
                         Console.WriteLine("Exiting FDisk.");

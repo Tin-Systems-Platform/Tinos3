@@ -29,6 +29,13 @@ namespace Tinos3.FS
             Console.WriteLine(
                 $"FS: Found {StorageManager.Partitions.Count} partition(s).");
 
+            Console.WriteLine("FS: Attempting to mount partition 0...");
+
+            if (VfsManager.TryMount("fat", StorageManager.Partitions[0], MountFlags.None, "/mnt", out VfsMount? mount))
+            {
+                Console.WriteLine("Mounted " + mount.Name + " at " + mount.MountPoint);
+            }
+
             Console.WriteLine(
                 "FS: Filesystem initialization complete.");
         }
