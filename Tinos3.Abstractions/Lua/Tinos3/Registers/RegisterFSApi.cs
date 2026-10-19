@@ -40,6 +40,11 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Registers
         {
             Console.WriteLine("[LUA]: Initializing User facing FS API...");
             RegisterHelper.RegisterCSharpFunctionToLua(lua, FDisk.LuaFDiskMain, "FDiskMain");
+
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.ListFiles, "ListFiles");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.ReadFile, "ReadFile");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.CopyFile, "CopyFile");
+
             Console.WriteLine("[LUA]: User facing FS API initialized.");
         }
     }
