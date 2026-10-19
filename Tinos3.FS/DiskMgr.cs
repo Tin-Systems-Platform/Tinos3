@@ -25,6 +25,7 @@ public class DiskMgr
             Console.WriteLine($"  Blocks: {disk.BlockCount}");
             Console.WriteLine($"  Block size: {disk.BlockSize} bytes");
             Console.WriteLine($"  Capacity: {sizeBytes} bytes");
+            Console.WriteLine($"  Type: {(Gpt.IsGpt(disk) ? "GPT" : Mbr.IsMbr(disk) ? "MBR" : "Unknown")}");
         }
     }
 }
