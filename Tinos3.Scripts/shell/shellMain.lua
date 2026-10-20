@@ -178,6 +178,9 @@ while true do
 
     elseif command == "nano" then
         NanoMain(arguments)
+    
+    elseif command == "startx" then
+        DesktopInitialize()
        
 
     elseif command == "rend" then

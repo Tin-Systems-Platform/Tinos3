@@ -17,6 +17,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Tinos3.FS\Tinos3.FS.csproj" />
+    <ProjectReference Include="..\Tinos3.Api\Tinos3.Api.csproj" />
+    <ProjectReference Include="..\Tinos3.Graphical\Tinos3.Graphical.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -28,6 +28,8 @@ Do not assume that standard .NET APIs, runtime behavior, or development workflow
 - `Tinos3.FS`: Filesystem-related functionality.
 - `Tinos3.Scripts`: Scripts bundled into the kernel image.
 - `Tinos3.Shell`: The shell, which executes a Lua script from `Tinos3.Scripts`.
+- `Tinos3.Api`: Multi module APIs like from `Tinos3.Graphical`
+- `Tinos3.Graphical`: Graphical stuff
 
 Use these module boundaries when deciding where new functionality belongs. Inspect existing implementations before adding or moving code between projects.
 
@@ -56,7 +58,7 @@ Do not assume that generated code is correct simply because it looks plausible o
 ## Contributing and Committing
 
 - Do not commit, push, create pull requests, change public interfaces, or introduce dependencies without appropriate authorization.
-- If authorized to create a commit, **prefix the commit message with `[AGENT]`**.
+- If authorized to create a commit, **prefix the commit message with `[AGENT]`** and use Gitmoji in the commit.
 - Keep commits focused on the requested changes.
 - Never include unrelated changes in a commit.
 - Do not discard or overwrite existing user changes.
