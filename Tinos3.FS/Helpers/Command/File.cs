@@ -134,7 +134,10 @@ namespace Tinos3.FS.Helpers.Command
             }
         }
 
-        private static string ResolvePath(string path)
+        /// <summary>
+        /// Resolves a path to its full path.
+        /// </summary>
+        public static string ResolvePath(string path)
         {
             return Path.GetFullPath(
                 Path.IsPathRooted(path)
