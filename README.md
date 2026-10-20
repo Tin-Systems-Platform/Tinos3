@@ -45,3 +45,5 @@ We hope that you enjoy using Tinos 3
 
 ## contributing guideline notice
 We're using the Tin Systems Platform github organization global contributing guidelines.
+
+As a additional note, please use gitmoji for commits
