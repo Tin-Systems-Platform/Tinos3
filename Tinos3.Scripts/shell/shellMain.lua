@@ -60,6 +60,13 @@ while true do
         print("  cat <file>           - Display a file")
         print("  cp <source> <dest>   - Copy a file")
         print("  run <script.lua>     - Execute a Lua script")
+        print("  mkdir <path>              - Create a directory")
+        print("  rmdir <path>              - Remove a directory")
+        print("  rm <path>                 - Remove a file")
+        print("  mv <src> <dest>           - Move a file")
+        print("  mvdir <src> <dest>        - Move a directory")
+        print("  ren <path> <name>         - Rename a file")
+        print("  rend <path> <name>        - Rename a directory")
         print("  Other input          - Execute Lua code")
 
     elseif command == "ver" then
@@ -109,6 +116,66 @@ while true do
     elseif command == "clear" then
         Clear()
 
+        elseif command == "mkdir" then
+        if arguments == "" then
+            print("Usage: mkdir <path>")
+        else
+            MakeDirectory(arguments)
+        end
+
+    elseif command == "rmdir" then
+        if arguments == "" then
+            print("Usage: rmdir <path>")
+        else
+            RemoveDirectory(arguments)
+        end
+
+    elseif command == "rm" then
+        if arguments == "" then
+            print("Usage: rm <path>")
+        else
+            RemoveFile(arguments)
+        end
+
+    elseif command == "mv" then
+        local source, destination =
+            arguments:match("^(%S+)%s+(%S+)$")
+
+        if source and destination then
+            MoveFile(source, destination)
+        else
+            print("Usage: mv <source> <destination>")
+        end
+
+    elseif command == "mvdir" then
+        local source, destination =
+            arguments:match("^(%S+)%s+(%S+)$")
+
+        if source and destination then
+            MoveDirectory(source, destination)
+        else
+            print("Usage: mvdir <source> <destination>")
+        end
+
+    elseif command == "ren" then
+        local path, newName =
+            arguments:match("^(%S+)%s+(%S+)$")
+
+        if path and newName then
+            RenameFile(path, newName)
+        else
+            print("Usage: ren <path> <newname>")
+        end
+
+    elseif command == "rend" then
+        local path, newName =
+            arguments:match("^(%S+)%s+(%S+)$")
+
+        if path and newName then
+            RenameDirectory(path, newName)
+        else
+            print("Usage: rend <path> <newname>")
+        end
     else
         ExecuteLua(input, "=LSH")
     end
