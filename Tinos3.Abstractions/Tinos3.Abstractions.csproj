@@ -17,6 +17,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Tinos3.FS\Tinos3.FS.csproj" />
+    <ProjectReference Include="..\Tinos3.Api\Tinos3.Api.csproj" />
 	</ItemGroup>
 
 </Project>
