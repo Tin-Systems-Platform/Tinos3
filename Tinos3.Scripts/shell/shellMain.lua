@@ -1,51 +1,190 @@
+
 print("LSH: Initialized.")
 
--- Main shell loop
+local function ParseCommand(input)
+    local command, arguments =
+        input:match("^%s*(%S+)%s*(.-)%s*$")
+
+    return command, arguments
+end
+
+local function ExecuteLua(source, chunkName)
+    local chunk, compileError = load(source, chunkName)
+
+    if not chunk then
+        print("Lua syntax error: " .. tostring(compileError))
+        return
+    end
+
+    local ok, result = pcall(chunk)
+
+    if not ok then
+        print("Lua runtime error: " .. tostring(result))
+    elseif result ~= nil then
+        print(result)
+    end
+end
+
 while true do
     io.write("LSH> ")
 
     local input = ReadLine()
 
+    if input == nil then
+        break
+    end
 
-    -- Shut down the system
-    if input == "poweroff" then
+    local command, arguments = ParseCommand(input)
+
+    if not command or command == "" then
+        -- Ignore empty input.
+
+    elseif command == "poweroff" then
         Shutdown()
         break
 
-    -- Reboot the system
-    elseif input == "reboot" then
+    elseif command == "reboot" then
         Reboot()
         break
 
-    -- Show help
-    elseif input == "help" then
+    elseif command == "help" then
         print("Available commands:")
-        print("  poweroff  - Shut down the system")
-        print("  reboot    - Reboot the system")
-        print("  help      - Show this help message")
-        print("  ver       - Show Tinos and Lua versions")
-        print("  fdisk     - Run the FDisk utility")
-        print("  clear     - Clear the screen")
-        print("  Any other input will be executed as Lua code.")
+        print("  poweroff             - Shut down")
+        print("  reboot               - Reboot")
+        print("  help                 - Show help")
+        print("  ver                  - Show versions")
+        print("  fdisk                - Run FDisk")
+        print("  clear                - Clear screen")
+        print("  ls [path]            - List files")
+        print("  dir [path]           - List files")
+        print("  cat <file>           - Display a file")
+        print("  cp <source> <dest>   - Copy a file")
+        print("  run <script.lua>     - Execute a Lua script")
+        print("  mkdir <path>              - Create a directory")
+        print("  rmdir <path>              - Remove a directory")
+        print("  rm <path>                 - Remove a file")
+        print("  mv <src> <dest>           - Move a file")
+        print("  mvdir <src> <dest>        - Move a directory")
+        print("  ren <path> <name>         - Rename a file")
+        print("  rend <path> <name>        - Rename a directory")
+        print("  touch <file>              - Create a new file")
+        print("  Other input          - Execute Lua code")
 
-    -- Show version information
-    elseif input == "ver" then
-        print("Tinos Version: " .. GetTinosVersion())
+    elseif command == "ver" then
+        print("Tinos Version: " .. tostring(GetTinosVersion()))
         print("Lua Version: " .. _VERSION)
         print("Tinos, an OS powered by Lua, C# and determination")
 
-    elseif input == "fdisk" then
+    elseif command == "fdisk" then
         FDiskMain()
 
-    elseif input == "clear" then
+    elseif command == "ls" or command == "dir" then
+        local path = arguments ~= "" and arguments or "/mnt"
+        ListFiles(path, command == "ls")
+
+    elseif command == "cat" then
+        if arguments == "" then
+            print("Usage: cat <file>")
+        else
+            ReadFile(arguments)
+        end
+
+    elseif command == "cp" then
+        local source, destination =
+            arguments:match("^(%S+)%s+(%S+)$")
+
+        if source and destination then
+            CopyFile(source, destination)
+        else
+            print("Usage: cp <source> <destination>")
+        end
+
+    elseif command == "run" then
+        if arguments == "" then
+            print("Usage: run <script.lua>")
+        else
+            local ok, source = pcall(LoadScript, arguments)
+
+            if not ok then
+                print("Unable to load script: " .. tostring(source))
+            elseif type(source) ~= "string" then
+                print("Unable to load script: invalid file contents")
+            else
+                ExecuteLua(source, "@" .. arguments)
+            end
+        end
+
+    elseif command == "clear" then
         Clear()
 
-    -- Skip empty input
-    elseif input == "" then
-        -- Nothing to do
+        elseif command == "mkdir" then
+        if arguments == "" then
+            print("Usage: mkdir <path>")
+        else
+            MakeDirectory(arguments)
+        end
 
-    -- Execute arbitrary Lua code
+    elseif command == "rmdir" then
+        if arguments == "" then
+            print("Usage: rmdir <path>")
+        else
+            RemoveDirectory(arguments)
+        end
+
+    elseif command == "rm" then
+        if arguments == "" then
+            print("Usage: rm <path>")
+        else
+            RemoveFile(arguments)
+        end
+
+    elseif command == "mv" then
+        local source, destination =
+            arguments:match("^(%S+)%s+(%S+)$")
+
+        if source and destination then
+            MoveFile(source, destination)
+        else
+            print("Usage: mv <source> <destination>")
+        end
+
+    elseif command == "mvdir" then
+        local source, destination =
+            arguments:match("^(%S+)%s+(%S+)$")
+
+        if source and destination then
+            MoveDirectory(source, destination)
+        else
+            print("Usage: mvdir <source> <destination>")
+        end
+
+    elseif command == "ren" then
+        local path, newName =
+            arguments:match("^(%S+)%s+(%S+)$")
+
+        if path and newName then
+            RenameFile(path, newName)
+        else
+            print("Usage: ren <path> <newname>")
+        end
+
+    elseif command == "touch" then
+        if arguments == "" then
+            print("Usage: touch <file>")
+        else
+            MakeFile(arguments)
+        end
+
+    elseif command == "rend" then
+        local path, newName =
+            arguments:match("^(%S+)%s+(%S+)$")
+
+        if path and newName then
+            RenameDirectory(path, newName)
+        else
+            print("Usage: rend <path> <newname>")
+        end
     else
-        load(input)
+        ExecuteLua(input, "=LSH")
     end
 end

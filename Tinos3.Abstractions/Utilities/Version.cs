@@ -1,4 +1,5 @@
 ﻿using System;
+using Tinos3.Abstractions.Lua.Tinos3.Utils;
 
 namespace Tinos3.Abstractions.Utilities
 {
@@ -11,6 +12,7 @@ namespace Tinos3.Abstractions.Utilities
         {
             if (!string.IsNullOrWhiteSpace(version))
                 _tinosVersion = version;
+                TinosUtils.tinosVersion = version;
         }
 
         public static string GetTinosVersion()
