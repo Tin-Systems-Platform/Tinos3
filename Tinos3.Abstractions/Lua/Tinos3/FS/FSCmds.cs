@@ -33,5 +33,33 @@ namespace Tinos3.Abstractions.Lua.Tinos3.FS
         }
 
 
+
+        public static int LoadScript(ILuaState lua)
+        {
+            string path = lua.ToString(-1);
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(path))
+                {
+                    lua.PushNil();
+                    return 1;
+                }
+
+                // Read the script contents from disk
+                string script = System.IO.File.ReadAllText(path);
+
+                lua.PushString(script);
+            }
+            catch (Exception ex)
+            {
+                // Return nil and an error message
+                lua.PushNil();
+                lua.PushString(ex.Message);
+                return 2;
+            }
+
+            return 1;
+        }
     }
 }
