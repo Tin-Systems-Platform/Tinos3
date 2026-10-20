@@ -50,6 +50,7 @@ namespace Tinos3.FS.Helpers.Command
                     foreach (string file in files)
                         Console.Write(Path.GetFileName(file));
                         Console.Write(" "); // Add spacing between entries
+                    Console.WriteLine(); // Move to the next line after listing
                 }
                 finally
                 {
