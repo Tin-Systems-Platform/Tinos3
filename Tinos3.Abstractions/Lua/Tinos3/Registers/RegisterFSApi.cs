@@ -53,6 +53,7 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Registers
             RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.MoveDirectory, "MoveDirectory");
             RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.RenameFile, "RenameFile");
             RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.RenameDirectory, "RenameDirectory");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.MakeFile, "MakeFile");
             Console.WriteLine("[LUA]: User facing FS API initialized.");
         }
     }

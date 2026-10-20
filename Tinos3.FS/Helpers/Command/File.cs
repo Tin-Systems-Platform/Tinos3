@@ -300,6 +300,25 @@ namespace Tinos3.FS.Helpers.Command
                 Console.WriteLine($"Rename failed: {ex.Message}");
             }
         }
+
+        public static void MakeFile(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                Console.WriteLine("No file specified.");
+                return;
+            }
+            string fullPath = ResolvePath(path);
+            try
+            {
+                using (System.IO.File.Create(fullPath)) { }
+                Console.WriteLine($"File '{path}' created.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unable to create file '{path}': {ex.Message}");
+            }
+        }
     }
     
 }

@@ -86,6 +86,15 @@ namespace Tinos3.Abstractions.Lua.Tinos3.FS
             return 0;
         }
 
+        public static int MakeFile(ILuaState lua)
+        {
+            string path = lua.ToString(1);
+            CommandMethods.File.MakeFile(path);
+            return 0;
+        }
+
+     
+
         public static int LoadScript(ILuaState lua)
         {
             string path = lua.ToString(1);

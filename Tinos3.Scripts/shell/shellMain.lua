@@ -67,6 +67,7 @@ while true do
         print("  mvdir <src> <dest>        - Move a directory")
         print("  ren <path> <name>         - Rename a file")
         print("  rend <path> <name>        - Rename a directory")
+        print("  touch <file>              - Create a new file")
         print("  Other input          - Execute Lua code")
 
     elseif command == "ver" then
@@ -167,6 +168,13 @@ while true do
             print("Usage: ren <path> <newname>")
         end
 
+    elseif command == "touch" then
+        if arguments == "" then
+            print("Usage: touch <file>")
+        else
+            MakeFile(arguments)
+        end
+
     elseif command == "rend" then
         local path, newName =
             arguments:match("^(%S+)%s+(%S+)$")
@@ -180,5 +188,3 @@ while true do
         ExecuteLua(input, "=LSH")
     end
 end
-
-print("LSH: Exited.")
