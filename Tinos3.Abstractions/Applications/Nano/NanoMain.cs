@@ -30,6 +30,20 @@ namespace Tinos3.Abstractions.Applications.Nano
                     Console.WriteLine(buffer.GetLine(i));
                 }
                 Console.SetCursorPosition(cursorX, cursorY);
+
+                string savedText = buffer.GetText();
+
+                // Inside your editor loop:
+                bool modified = buffer.GetText() != savedText;
+
+                Console.Clear();
+                NanoRenderer.DrawHeader(path, modified);
+                NanoRenderer.DrawBuffer(buffer, cursorY, cursorX);
+                NanoRenderer.DrawStatus(
+                    buffer, savedText, cursorX, cursorY);
+                NanoRenderer.DrawShortcuts();
+
+
                 keyInfo = Console.ReadKey(intercept: true);
 
                 // Time to have a save and exit option
