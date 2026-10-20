@@ -63,6 +63,14 @@ namespace Tinos3.Abstractions.Utilities.Panic
                 Console.WriteLine();
                 Console.WriteLine("The system has halted.");
                 WriteLogFile(message);
+
+                bool logSaved = WriteLogFile(message);
+
+                Console.WriteLine();
+
+                Console.WriteLine(logSaved
+                    ? "Crash report saved to /mnt/crashes/"
+                    : "Failed to save crash report.");
             }
             catch
             {
