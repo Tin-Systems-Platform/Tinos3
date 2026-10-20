@@ -9,6 +9,7 @@ namespace Tinos3.FS.Helpers.Command
     {
         private const string MountPoint = "/mnt";
 
+
         /// <summary>
         /// Lists files and directories in the specified path.
         /// Relative paths are resolved under /mnt.
@@ -41,17 +42,21 @@ namespace Tinos3.FS.Helpers.Command
                         Console.ForegroundColor = ConsoleColor.DarkBlue;
 
                     foreach (string dir in directories)
+                    {
                         Console.Write(Path.GetFileName(dir));
-                        Console.Write(" "); // Add spacing between entries
+                        Console.Write("  ");
+                    }
 
                     if (hasColor)
                         Console.ForegroundColor = ConsoleColor.White;
 
-                    
                     foreach (string file in files)
+                    {
                         Console.Write(Path.GetFileName(file));
-                        Console.Write(" "); // Add spacing between entries
-                    Console.WriteLine(); // Move to the next line after listing
+                        Console.Write("  ");
+                    }
+
+                    Console.WriteLine();
                 }
                 finally
                 {
@@ -65,10 +70,11 @@ namespace Tinos3.FS.Helpers.Command
         }
 
 
-            /// <summary>
-            /// Prints the contents of a file, similar to the Unix cat command.
-            /// Relative paths are resolved under /mnt.
-            /// </summary>
+
+        /// <summary>
+        /// Prints the contents of a file, similar to the Unix cat command.
+        /// Relative paths are resolved under /mnt.
+        /// </summary>
         public static void ReadFile(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
