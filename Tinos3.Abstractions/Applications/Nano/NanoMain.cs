@@ -1,87 +1,99 @@
-﻿using Cosmos.Executable.Lua;
+﻿
+using Cosmos.Executable.Lua;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Tinos3.Abstractions.Applications.Nano
 {
-    /// <summary>
-    /// The main class for the nano text editor.
-    /// </summary>
     public class NanoMain
     {
+        private const int ConsoleWidth = 80;
+        private const int ConsoleHeight = 25;
+
         public void Run(string path)
         {
-            NanoBuffer buffer = new NanoBuffer();
-
-            if (System.IO.File.Exists(path))
+            if (string.IsNullOrWhiteSpace(path))
             {
-                buffer.SetText(NanoFileIO.ReadFile(path));
+                Console.WriteLine("No file specified.");
+                return;
             }
+
+            NanoBuffer buffer = new NanoBuffer();
+            buffer.SetText(NanoFileIO.ReadFile(path));
+
+            string savedText = buffer.GetText();
 
             int cursorX = 0;
             int cursorY = 0;
-            ConsoleKeyInfo keyInfo;
-            do
+
+
+            while (true)
             {
                 Console.Clear();
-                for (int i = 0; i < buffer.LineCount; i++)
+
+                NanoRenderer.Draw(
+                    path,
+                    buffer,
+                    savedText,
+                    cursorX,
+                    cursorY);
+
+                ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
+
+                if (keyInfo.Key == ConsoleKey.S &&
+                    keyInfo.Modifiers.HasFlag(ConsoleModifiers.Control))
                 {
-                    Console.WriteLine(buffer.GetLine(i));
+                    NanoFileIO.WriteFile(
+                        path,
+                        buffer.GetText(),
+                        overwrite: true);
+
+                    // Update after a confirmed successful save.
+                    // NanoFileIO should return success/failure for this.
+                    savedText = buffer.GetText();
+                    continue;
                 }
-                Console.SetCursorPosition(cursorX, cursorY);
 
-                string savedText = buffer.GetText();
-
-                // Inside your editor loop:
-                bool modified = buffer.GetText() != savedText;
-
-                Console.Clear();
-                NanoRenderer.DrawHeader(path, modified);
-                NanoRenderer.DrawBuffer(buffer, cursorY, cursorX);
-                NanoRenderer.DrawStatus(
-                    buffer, savedText, cursorX, cursorY);
-                NanoRenderer.DrawShortcuts();
-
-
-                keyInfo = Console.ReadKey(intercept: true);
-
-                // Time to have a save and exit option
-                if (keyInfo.Key == ConsoleKey.S && keyInfo.Modifiers.HasFlag(ConsoleModifiers.Control))
+                if (keyInfo.Key == ConsoleKey.Q &&
+                    keyInfo.Modifiers.HasFlag(ConsoleModifiers.Control))
                 {
-                    // Save the buffer to the specified path
-                    NanoFileIO.WriteFile(path, buffer.GetText(), overwrite: true);
-                    Console.WriteLine("\nFile saved. Press any key to continue...");
-                    Console.ReadKey(intercept: true);
-                }
-                if (keyInfo.Key == ConsoleKey.Q && keyInfo.Modifiers.HasFlag(ConsoleModifiers.Control))
-                {
-                    // Exit the editor
                     break;
                 }
-                if (keyInfo.Key == ConsoleKey.C && keyInfo.Modifiers.HasFlag(ConsoleModifiers.Control))
+
+                if (keyInfo.Key == ConsoleKey.C &&
+                    keyInfo.Modifiers.HasFlag(ConsoleModifiers.Control))
                 {
-                    // line amount
-                    Console.WriteLine($"\nLine count: {buffer.LineCount}.");
+                    Console.SetCursorPosition(0, ConsoleHeight - 2);
+                    Console.Write($"Lines: {buffer.LineCount}. Press a key...");
+                    Console.ReadKey(intercept: true);
+                    continue;
                 }
 
-                NanoInput.HandleShortcut(keyInfo, buffer, ref cursorX, ref cursorY);
+                if (keyInfo.Key == ConsoleKey.Escape)
+                    break;
 
-               
-                // Ensure cursor stays within bounds
-                if (cursorY < 0) cursorY = 0;
-                if (cursorY >= buffer.LineCount) cursorY = buffer.LineCount - 1;
-                if (cursorX < 0) cursorX = 0;
-                if (cursorY < buffer.LineCount && cursorX > buffer.GetLine(cursorY).Length)
-                {
-                    cursorX = buffer.GetLine(cursorY).Length;
-                }
-            } while (keyInfo.Key != ConsoleKey.Escape); // Exit on Escape key
+                NanoInput.HandleShortcut(
+                    keyInfo,
+                    buffer,
+                    ref cursorX,
+                    ref cursorY);
+
+                cursorY = Math.Clamp(cursorY, 0, buffer.LineCount - 1);
+                cursorX = Math.Clamp(
+                    cursorX, 0, buffer.GetLine(cursorY).Length);
+            }
+
         }
 
         public static int LuaRun(ILuaState lua)
         {
-            string path = lua.ToString(1); // Get the first argument from Lua
+            string path = lua.ToString(1);
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                path = "default.txt";
+                return 0;
+            }
+
             NanoMain nano = new NanoMain();
             nano.Run(path);
             return 0;

@@ -5,104 +5,91 @@ namespace Tinos3.Abstractions.Applications.Nano
 {
     public static class NanoRenderer
     {
-        public static void DrawHeader(string path, bool modified)
-        {
-            Console.SetCursorPosition(0, 0);
-            ClearLine();
+        private const int ConsoleWidth = 80;
+        private const int ConsoleHeight = 25;
 
-            string title = $" Tinos3 Nano - {path}";
-            if (modified)
-                title += " [MODIFIED]";
+        private const int HeaderRow = 0;
+        private const int EditorStartRow = 1;
+        private const int StatusRow = ConsoleHeight - 2;
+        private const int ShortcutsRow = ConsoleHeight - 1;
 
-            WriteClipped(title, Console.WindowWidth);
-        }
+        private const int LineNumberWidth = 5;
 
-        public static void DrawBuffer(
-            NanoBuffer buffer,
-            int cursorY,
-            int cursorX)
-        {
-            int width = Console.WindowWidth;
-            int height = Console.WindowHeight;
-            int editorHeight = height - 3;
-
-            for (int row = 0; row < editorHeight; row++)
-            {
-                Console.SetCursorPosition(0, row + 1);
-                ClearLine();
-
-                int lineIndex = row;
-
-                if (lineIndex >= buffer.LineCount)
-                    continue;
-
-                string line = buffer.GetLine(lineIndex);
-                string lineNumber = $"{lineIndex + 1,4} ";
-
-                Console.Write(lineNumber);
-                WriteClipped(
-                    line,
-                    Math.Max(0, width - lineNumber.Length));
-            }
-
-            // Position the cursor in the document area.
-            if (editorHeight > 0)
-            {
-                int visibleY = Math.Clamp(cursorY, 0, editorHeight - 1);
-                int visibleX = Math.Min(
-                    width - 1,
-                    5 + Math.Max(0, cursorX));
-
-                Console.SetCursorPosition(
-                    Math.Max(0, visibleX),
-                    visibleY + 1);
-            }
-        }
-
-        public static void DrawStatus(
+        public static void Draw(
+            string path,
             NanoBuffer buffer,
             string savedText,
             int cursorX,
             int cursorY)
         {
-            int width = Console.WindowWidth;
-            int row = Console.WindowHeight - 2;
-
-            Console.SetCursorPosition(0, row);
-            ClearLine();
-
             bool modified = buffer.GetText() != savedText;
 
-            string status =
-                $" Ln {cursorY + 1}, Col {cursorX + 1}";
+            // NanoMain should clear the console once before calling Draw.
+            DrawHeader(path, modified);
+            DrawBuffer(buffer);
+            DrawStatus(cursorX, cursorY);
+            DrawShortcuts();
 
-            if (modified)
-                status += " [MODIFIED]";
+            // Restore the cursor to its document position.
+            int screenX = Math.Clamp(
+                LineNumberWidth + cursorX,
+                0,
+                ConsoleWidth - 1);
 
-            WriteClipped(status, width);
+            int screenY = Math.Clamp(
+                EditorStartRow + cursorY,
+                EditorStartRow,
+                StatusRow - 1);
+
+            Console.SetCursorPosition(screenX, screenY);
         }
 
-        public static void DrawShortcuts()
+        private static void DrawHeader(string path, bool modified)
         {
-            int width = Console.WindowWidth;
+            Console.SetCursorPosition(0, HeaderRow);
 
-            Console.SetCursorPosition(
-                0,
-                Console.WindowHeight - 1);
+            string title = $" Tinos3 Nano - {path}";
+            if (modified)
+                title += " [MODIFIED]";
 
-            ClearLine();
+            WriteClipped(title, ConsoleWidth);
+        }
+
+        private static void DrawBuffer(NanoBuffer buffer)
+        {
+            int editorHeight = StatusRow - EditorStartRow;
+            int availableTextWidth = ConsoleWidth - LineNumberWidth;
+
+            for (int row = 0; row < editorHeight; row++)
+            {
+                Console.SetCursorPosition(0, EditorStartRow + row);
+
+                if (row < buffer.LineCount)
+                {
+                    string line = buffer.GetLine(row);
+                    string lineNumber = $"{row + 1,4} ";
+
+                    Console.Write(lineNumber);
+                    WriteClipped(line, availableTextWidth);
+                }
+            }
+        }
+
+        private static void DrawStatus(int cursorX, int cursorY)
+        {
+            Console.SetCursorPosition(0, StatusRow);
+
+            string status = $" Ln {cursorY + 1}, Col {cursorX + 1}";
+            WriteClipped(status, ConsoleWidth);
+        }
+
+        private static void DrawShortcuts()
+        {
+            Console.SetCursorPosition(0, ShortcutsRow);
 
             WriteClipped(
                 " ^S Save   ^Q Quit   ^C Line count",
-                width);
-        }
-
-        private static void ClearLine()
-        {
-            Console.Write(new string(' ', Console.WindowWidth));
-            Console.SetCursorPosition(
-                0,
-                Console.CursorTop);
+                ConsoleWidth);
         }
 
         private static void WriteClipped(string text, int maxWidth)
