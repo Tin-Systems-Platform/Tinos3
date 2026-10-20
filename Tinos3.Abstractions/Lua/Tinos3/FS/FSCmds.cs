@@ -10,24 +10,25 @@ namespace Tinos3.Abstractions.Lua.Tinos3.FS
     {
         public static int ListFiles(ILuaState lua)
         {
-            string path = lua.ToString(-1);
-            bool hasColor = lua.ToBoolean(-2);
+            string path = lua.ToString(1);
+            bool hasColor = lua.ToBoolean(2);
+
             CommandMethods.File.ListFiles(path, hasColor);
             return 0;
         }
 
         public static int ReadFile(ILuaState lua)
         {
-            string path = lua.ToString(-1);
+            string path = lua.ToString(1);
             CommandMethods.File.ReadFile(path);
             return 0;
         }
 
         public static int CopyFile(ILuaState lua)
         {
-            string sourcePath = lua.ToString(-1);
-            string destinationPath = lua.ToString(-2);
-            bool overwrite = lua.ToBoolean(-3);
+            string sourcePath = lua.ToString(1);
+            string destinationPath = lua.ToString(2);
+            bool overwrite = lua.ToBoolean(3);
             CommandMethods.File.CopyFile(sourcePath, destinationPath, overwrite);
             return 0;
         }
@@ -36,7 +37,7 @@ namespace Tinos3.Abstractions.Lua.Tinos3.FS
 
         public static int LoadScript(ILuaState lua)
         {
-            string path = lua.ToString(-1);
+            string path = lua.ToString(1);
 
             try
             {

@@ -37,20 +37,19 @@ namespace Tinos3.FS.Helpers.Command
                 try
                 {
                     if (hasColor)
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-
-                    Console.WriteLine("Directories:");
+                        Console.ForegroundColor = ConsoleColor.DarkBlue;
 
                     foreach (string dir in directories)
-                        Console.WriteLine(Path.GetFileName(dir));
+                        Console.Write(Path.GetFileName(dir));
+                        Console.Write(" "); // Add spacing between entries
 
                     if (hasColor)
-                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.ForegroundColor = ConsoleColor.Cyan;
 
-                    Console.WriteLine("Files:");
-
+                    
                     foreach (string file in files)
-                        Console.WriteLine(Path.GetFileName(file));
+                        Console.Write(Path.GetFileName(file));
+                        Console.Write(" "); // Add spacing between entries
                 }
                 finally
                 {
