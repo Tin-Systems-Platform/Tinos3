@@ -1,5 +1,5 @@
 ---
-name: lua-api-documentation
+name: document-lua-apis
 description: Discover, document, audit, and update custom Lua APIs exposed by C# applications and operating systems. Use when creating or maintaining Lua API reference documentation.
 ---
 
