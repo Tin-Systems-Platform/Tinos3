@@ -71,5 +71,25 @@ namespace Tinos3.Abstractions.Applications.Nano
             lines[y] = content;
         }
 
+        public string GetText()
+        {
+            return string.Join("\n", lines);
+        }
+
+        public void SetText(string content)
+        {
+            lines.Clear();
+
+            if (string.IsNullOrEmpty(content))
+            {
+                lines.Add(string.Empty);
+                return;
+            }
+
+            content = content.Replace("\r\n", "\n")
+                             .Replace('\r', '\n');
+
+            lines.AddRange(content.Split('\n'));
+        }
     }
 }
