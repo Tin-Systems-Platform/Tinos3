@@ -44,7 +44,7 @@ namespace Tinos3.FS.Helpers.Command
                         Console.Write(" "); // Add spacing between entries
 
                     if (hasColor)
-                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.ForegroundColor = ConsoleColor.White;
 
                     
                     foreach (string file in files)
