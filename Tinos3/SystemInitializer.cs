@@ -28,7 +28,7 @@ namespace Tinos3
             Console.WriteLine("[LUA]: Function exists!");
             Console.WriteLine("[LUA]: Testing function execution...");
             lua.DoString("assert(load('print(\"Hello, World!\")') ~= nil)");
-            Console.WriteLine("[LUA]: Function executed successfully!"); 
+            Console.WriteLine("[LUA]: Function executed successfully!");
 
             Console.WriteLine("[KERNEL]: System panic handler initialization started...");
             PanicHandler.Initialize();

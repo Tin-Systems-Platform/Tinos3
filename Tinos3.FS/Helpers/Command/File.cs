@@ -323,5 +323,5 @@ namespace Tinos3.FS.Helpers.Command
             }
         }
     }
-    
+
 }

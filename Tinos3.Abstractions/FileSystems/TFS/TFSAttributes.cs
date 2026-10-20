@@ -22,7 +22,7 @@ namespace Tinos3.Abstractions.FileSystems.TFS
 {
     public static class TFSAttributes
     {
-        private static VfsMode DirPerms = 
+        private static VfsMode DirPerms =
             VfsMode.OwnerRead | VfsMode.OwnerWrite | VfsMode.OwnerExecute |
             VfsMode.GroupRead | VfsMode.GroupExecute |
             VfsMode.OtherWrite | VfsMode.OtherRead | VfsMode.OtherExecute;

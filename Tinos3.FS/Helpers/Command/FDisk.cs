@@ -275,7 +275,7 @@ namespace Tinos3.FS.Helpers.Command
 
                     case "format":
                         {
-                            
+
 
                             if (commandArgs.Length != 4)
                             {

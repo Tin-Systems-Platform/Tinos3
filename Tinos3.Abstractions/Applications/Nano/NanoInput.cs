@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tinos3.Abstractions.Applications.Nano
 {
-    
+
     public class NanoInput
     {
         /// <summary>

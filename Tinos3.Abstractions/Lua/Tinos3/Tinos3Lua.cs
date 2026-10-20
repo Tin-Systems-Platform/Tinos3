@@ -10,7 +10,7 @@ namespace Tinos3.Abstractions.Lua.Tinos3
 {
     public class Tinos3Lua
     {
-        
+
 
         public static void RegisterLuaFuncsToLuaInterpeter(LuaInterpreter lua)
         {

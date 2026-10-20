@@ -12,7 +12,7 @@ namespace Tinos3.Abstractions.Utilities
         {
             if (!string.IsNullOrWhiteSpace(version))
                 _tinosVersion = version;
-                TinosUtils.tinosVersion = version;
+            TinosUtils.tinosVersion = version;
         }
 
         public static string GetTinosVersion()
