@@ -5,6 +5,7 @@ using Tinos3.Abstractions.Lua.Tinos3.Helpers;
 using Tinos3.Abstractions.Lua.Tinos3.FS;
 using Tinos3.FS.Helpers.Command;
 using Cosmos.Executable.Lua;
+using Tinos3.Abstractions.Applications.Nano;
 
 namespace Tinos3.Abstractions.Lua.Tinos3.Registers
 {
@@ -54,6 +55,7 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Registers
             RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.RenameFile, "RenameFile");
             RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.RenameDirectory, "RenameDirectory");
             RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.MakeFile, "MakeFile");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, NanoMain.LuaRun, "NanoMain");
             Console.WriteLine("[LUA]: User facing FS API initialized.");
         }
     }

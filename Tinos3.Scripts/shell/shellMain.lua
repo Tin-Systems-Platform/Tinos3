@@ -68,6 +68,7 @@ while true do
         print("  ren <path> <name>         - Rename a file")
         print("  rend <path> <name>        - Rename a directory")
         print("  touch <file>              - Create a new file")
+        print("  nano <file>               - Edit a file with Nano (Clone)")
         print("  Other input          - Execute Lua code")
 
     elseif command == "ver" then
@@ -174,6 +175,10 @@ while true do
         else
             MakeFile(arguments)
         end
+
+    elseif command == "nano" then
+        Nano(arguments)
+       
 
     elseif command == "rend" then
         local path, newName =
