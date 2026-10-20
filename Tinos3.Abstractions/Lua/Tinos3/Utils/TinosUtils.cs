@@ -8,7 +8,9 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Utils
 {
     public class TinosUtils
     {
-        private static string _tinosVersion = "Tinos3 0.2.0 The Rewritten Tinos3";
+        public static string tinosVersion = "Tinos3 0.2.0 The Rewritten Tinos3";
+
+        private static string _tinosVersion = tinosVersion;
 
         public static int GetCurrentDateTime(ILuaState lua)
         {
