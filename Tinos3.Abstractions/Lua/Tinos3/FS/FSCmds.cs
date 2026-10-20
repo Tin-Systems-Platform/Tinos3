@@ -33,7 +33,58 @@ namespace Tinos3.Abstractions.Lua.Tinos3.FS
             return 0;
         }
 
+        public static int DeleteFile(ILuaState lua)
+        {
+            string path = lua.ToString(1);
+            CommandMethods.File.RemoveFile(path);
+            return 0;
+        }
 
+        public static int MoveFile(ILuaState lua)
+        {
+            string sourcePath = lua.ToString(1);
+            string destinationPath = lua.ToString(2);
+            CommandMethods.File.MoveFile(sourcePath, destinationPath);
+            return 0;
+        }
+
+        public static int CreateDirectory(ILuaState lua)
+        {
+            string path = lua.ToString(1);
+            CommandMethods.File.MakeDirectory(path);
+            return 0;
+        }
+
+        public static int DeleteDirectory(ILuaState lua)
+        {
+            string path = lua.ToString(1);
+            CommandMethods.File.RemoveDirectory(path);
+            return 0;
+        }
+
+        public static int MoveDirectory(ILuaState lua)
+        {
+            string sourcePath = lua.ToString(1);
+            string destinationPath = lua.ToString(2);
+            CommandMethods.File.MoveDirectory(sourcePath, destinationPath);
+            return 0;
+        }
+
+        public static int RenameFile(ILuaState lua)
+        {
+            string oldPath = lua.ToString(1);
+            string newPath = lua.ToString(2);
+            CommandMethods.File.RenameFile(oldPath, newPath);
+            return 0;
+        }
+
+        public static int RenameDirectory(ILuaState lua)
+        {
+            string oldPath = lua.ToString(1);
+            string newPath = lua.ToString(2);
+            CommandMethods.File.RenameDirectory(oldPath, newPath);
+            return 0;
+        }
 
         public static int LoadScript(ILuaState lua)
         {

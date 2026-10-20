@@ -45,6 +45,14 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Registers
             RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.ReadFile, "ReadFile");
             RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.CopyFile, "CopyFile");
 
+
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.CreateDirectory, "MakeDirectory");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.DeleteDirectory, "RemoveDirectory");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.DeleteFile, "RemoveFile");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.MoveFile, "MoveFile");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.MoveDirectory, "MoveDirectory");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.RenameFile, "RenameFile");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, FSCmds.RenameDirectory, "RenameDirectory");
             Console.WriteLine("[LUA]: User facing FS API initialized.");
         }
     }
