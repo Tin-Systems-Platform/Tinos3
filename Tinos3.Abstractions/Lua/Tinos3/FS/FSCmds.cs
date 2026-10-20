@@ -93,34 +93,40 @@ namespace Tinos3.Abstractions.Lua.Tinos3.FS
             return 0;
         }
 
-     
+
 
         public static int LoadScript(ILuaState lua)
         {
             string path = lua.ToString(1);
 
-            try
+            if (string.IsNullOrWhiteSpace(path))
             {
-                if (string.IsNullOrWhiteSpace(path))
-                {
-                    lua.PushNil();
-                    return 1;
-                }
-
-                // Read the script contents from disk
-                string script = System.IO.File.ReadAllText(path);
-
-                lua.PushString(script);
-            }
-            catch (Exception ex)
-            {
-                // Return nil and an error message
                 lua.PushNil();
-                lua.PushString(ex.Message);
+                lua.PushString("No file specified.");
                 return 2;
             }
 
-            return 1;
+            string fullPath = CommandMethods.File.ResolvePath(path);
+
+            if (!System.IO.File.Exists(fullPath))
+            {
+                lua.PushNil();
+                lua.PushString($"File '{path}' doesn't exist.");
+                return 2;
+            }
+
+            try
+            {
+                string contents = System.IO.File.ReadAllText(fullPath);
+                lua.PushString(contents);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                lua.PushNil();
+                lua.PushString($"Unable to read file '{path}': {ex.Message}");
+                return 2;
+            }
         }
     }
 }
