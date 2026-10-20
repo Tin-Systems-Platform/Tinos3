@@ -1,5 +1,7 @@
-﻿using Cosmos.Kernel.System;
+﻿using Cosmos.Executable.Lua;
+using Cosmos.Kernel.System;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Tinos3.Abstractions.Utilities.Panic
 {
@@ -60,6 +62,7 @@ namespace Tinos3.Abstractions.Utilities.Panic
                 Console.WriteLine(message);
                 Console.WriteLine();
                 Console.WriteLine("The system has halted.");
+                WriteLogFile(message);
             }
             catch
             {
@@ -69,5 +72,37 @@ namespace Tinos3.Abstractions.Utilities.Panic
             while (true)
                 Power.Halt();
         }
+
+
+        private static bool WriteLogFile(string exceptionMessage)
+        {
+            try
+            {
+                DateTime crashTime = DateTime.Now;
+                string timestamp = crashTime.ToString("yyyy-MM-dd-HH-mm-ss");
+                string logFilePath = "/mnt/crashes/panic-" + timestamp + ".txt";
+
+                string logMainContent =
+                    "========================================\n" +
+                    "              TINOS3 PANIC\n" +
+                    "========================================\n\n" +
+                    "Tinos3 version: " +
+                    Tinos3.Abstractions.Utilities.Version.GetTinosVersion() + "\n" +
+                    "Crash time: " +
+                    crashTime.ToString("yyyy-MM-dd HH:mm:ss") + "\n\n" +
+                    "Error details:\n" +
+                    exceptionMessage + "\n";
+
+                System.IO.Directory.CreateDirectory("/mnt/crashes");
+                System.IO.File.WriteAllText(logFilePath, logMainContent);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

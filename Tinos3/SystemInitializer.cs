@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tinos3.Abstractions.Lua.Tinos3;
+using Tinos3.Abstractions.Utilities;
 using Tinos3.Abstractions.Utilities.Panic;
 using Tinos3.FS;
 
@@ -33,6 +34,7 @@ namespace Tinos3
             PanicHandler.Initialize();
             Console.WriteLine("[KERNEL]: System panic handler initialized successfully!");
 
+            Tinos3.Abstractions.Utilities.Version.SetTinosVersion("Tinos3 0.2.0 the Rewritten Tinos3 beta 1");
             Console.WriteLine("[KERNEL]: System initialized.");
         }
 
