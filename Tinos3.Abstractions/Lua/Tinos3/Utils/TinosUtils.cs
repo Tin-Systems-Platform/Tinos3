@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tinos3.Abstractions.Utilities.Panic;
 
 namespace Tinos3.Abstractions.Lua.Tinos3.Utils
 {

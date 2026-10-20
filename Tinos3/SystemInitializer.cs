@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tinos3.Abstractions.Lua.Tinos3;
+using Tinos3.Abstractions.Utilities.Panic;
 using Tinos3.FS;
 
 namespace Tinos3
@@ -27,6 +28,10 @@ namespace Tinos3
             Console.WriteLine("[LUA]: Testing function execution...");
             lua.DoString("assert(load('print(\"Hello, World!\")') ~= nil)");
             Console.WriteLine("[LUA]: Function executed successfully!"); 
+
+            Console.WriteLine("[KERNEL]: System panic handler initialization started...");
+            PanicHandler.Initialize();
+            Console.WriteLine("[KERNEL]: System panic handler initialized successfully!");
 
             Console.WriteLine("[KERNEL]: System initialized.");
         }
