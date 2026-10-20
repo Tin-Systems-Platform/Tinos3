@@ -177,7 +177,7 @@ while true do
         end
 
     elseif command == "nano" then
-        Nano(arguments)
+        NanoMain(arguments)
        
 
     elseif command == "rend" then
