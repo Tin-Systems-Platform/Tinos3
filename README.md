@@ -20,9 +20,9 @@ Or you could manually make the ISO image by doing the same command as in Linux o
 
 #### Linux or MacOS
 ```Bash
-cd Tinos3/ #This is required or you would need to modify the dotnet command
+cd Tinos3/ #This is required or you would need to modify the cosmos command
 
-dotnet publish Tinos3.csproj -c Debug -r linux-x64 -p:CosmosArch=x64
+cosmos build
 ```
 
 ## Development
