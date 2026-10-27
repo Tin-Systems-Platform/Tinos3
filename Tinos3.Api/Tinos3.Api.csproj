@@ -12,4 +12,8 @@
 	  <PackageReference Include="Cosmos.Executable.Lua" Version="4.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tinos3.Resources\Tinos3.Resources.csproj" />
+  </ItemGroup>
+
 </Project>
