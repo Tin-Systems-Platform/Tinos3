@@ -34,7 +34,7 @@ namespace Tinos3
             PanicHandler.Initialize();
             Console.WriteLine("[KERNEL]: System panic handler initialized successfully!");
 
-            Tinos3.Abstractions.Utilities.Version.SetTinosVersion("Tinos3 0.2.0 the Rewritten Tinos3 beta 1");
+            Tinos3.Abstractions.Utilities.Version.SetTinosVersion("Tinos3 0.2.0 the Rewritten Tinos3 beta 2");
             Console.WriteLine("[KERNEL]: System initialized.");
         }
 
