@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <PackageReference Include="Cosmos.kernel.System" Version="3.0.94" />
+	  <PackageReference Include="Cosmos.kernel.System" Version="3.0.95" />
 	  <PackageReference Include="Cosmos.Executable.Lua" Version="4.0.1" />
   </ItemGroup>
 

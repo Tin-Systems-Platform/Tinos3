@@ -7,7 +7,7 @@ Instructions for AI agents contributing to Tinos3.
 Tinos3 is not a typical C# 14 project targeting the .NET 10 SDK. It is an operating system built on the CosmosOS Gen3 project:
 
 - Repository: https://github.com/CosmosOS/Cosmos
-- Cosmos Gen3 user wiki: https://cosmosos.github.io/v3.0.94/index.html
+- Cosmos Gen3 user wiki: https://cosmosos.github.io/v3.0.95/index.html
 
 **IMPORTANT: Use the Cosmos user wiki, not the developer wiki, when looking up APIs and instructions for OS development.**
 

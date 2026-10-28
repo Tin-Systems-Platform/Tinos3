@@ -1,4 +1,5 @@
-﻿using Cosmos.Kernel.System.Graphics;
+﻿using Cosmos.Kernel.System.Diagnostics;
+using Cosmos.Kernel.System.Graphics;
 using Cosmos.Kernel.System.Graphics.Fonts;
 using Cosmos.Kernel.System.Graphics.Rendering3D;
 using Cosmos.Kernel.System.Input;
@@ -79,8 +80,12 @@ namespace Tinos3.Graphical.Desktop
                 // 4. Draw mouse cursor
                 int mx = (int)MouseManager.X;
                 int my = (int)MouseManager.Y;
+
                 _mainCanvas.DrawString("X: " + MouseManager.X + "   Y: " + MouseManager.Y,
                         _font, Color.White, 40, 40);
+
+                Log.Write("Mouse Position: X=" + mx + ", Y=" + my);
+
                 _mainCanvas.DrawImage(_cursor, mx, my);
 
                 // 5. Present frame (Gen3 requires this for double-buffering)
