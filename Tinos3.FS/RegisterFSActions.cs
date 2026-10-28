@@ -35,6 +35,10 @@ namespace Tinos3.FS
             {
                 Console.WriteLine("Mounted " + mount.Name + " at " + mount.MountPoint);
             }
+            else
+            {
+                Console.WriteLine("FS: Failed to mount partition 0.");
+            }
 
             Console.WriteLine(
                 "FS: Filesystem initialization complete.");

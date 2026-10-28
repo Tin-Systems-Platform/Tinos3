@@ -285,10 +285,13 @@ namespace Tinos3.FS.Helpers.Command
                             }
 
                             // Check if the partition exists and isn't mounted before formatting. For simplicity, we assume the partition exists.
-                            if (!VfsManager.TryUnmount("/mnt"))
+                            if (VfsManager.TryUnmount("/mnt"))
                             {
-                                Console.WriteLine("Failed to unmount the partition. Partition isn't mounted.");
-                                break;
+                                Console.WriteLine("Unmounted the partition.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Partition is not mounted or unmount failed.");
                             }
 
                             if (!int.TryParse(commandArgs[1], out int diskIndex) ||
