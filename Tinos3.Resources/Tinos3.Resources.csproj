@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	<ItemGroup>
+		<EmbeddedResource Include="Graphical\MouseCursor.png"/> <!--LogicalName="Tinos3.Resources.Graphical.MouseCursor.png"-->
+	</ItemGroup>
+
 </Project>

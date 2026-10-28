@@ -1,4 +1,6 @@
 ﻿using Cosmos.Kernel.System.Graphics;
+using Cosmos.Kernel.System.Graphics.Fonts;
+using Cosmos.Kernel.System.Graphics.Rendering3D;
 using Cosmos.Kernel.System.Input;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,8 @@ namespace Tinos3.Graphical.Desktop
         private Canvas _desktopCanvas; // Pre-rendered background for efficiency
         private WindowManager _windowManager;
         private byte[] _cursorImage;
-
+        private Png _cursor;
+        private Font _font = PCScreenFont.DefaultFont;
 
         public void initDesktop()
         {
@@ -24,8 +27,19 @@ namespace Tinos3.Graphical.Desktop
             MouseManager.SetScreenSize(_mainCanvas.Width, _mainCanvas.Height);
 
             // Decode Graphics Resources (like cursor image) from embedded resources
-            var bytes = GetGraphicsResources.Get("Tinos3.Resources.cursor.png");
-            _cursorImage = File.WriteAllBytes("cursor.png", bytes);
+            var bytes = GetGraphicsResources.Get("Tinos3.Resources.Graphical.MouseCursor.png");
+
+            if (File.Exists("/mnt/cursor.png"))
+            {
+                _cursorImage = File.ReadAllBytes("/mnt/cursor.png");
+                _cursor = new Png("/mnt/cursor.png");
+            }
+            else
+            {
+                _cursorImage = bytes;
+                File.WriteAllBytes("/mnt/cursor.png", _cursorImage);
+                _cursor = new Png("/mnt/cursor.png");
+            }
 
             // EFFICIENCY: Pre-render the desktop background once
             _desktopCanvas = new Canvas(_mainCanvas.Width, _mainCanvas.Height);
@@ -65,10 +79,20 @@ namespace Tinos3.Graphical.Desktop
                 // 4. Draw mouse cursor
                 int mx = (int)MouseManager.X;
                 int my = (int)MouseManager.Y;
-                _mainCanvas.DrawImage("/mnt/cursor.png", mx, my);
+                _mainCanvas.DrawString("X: " + MouseManager.X + "   Y: " + MouseManager.Y,
+                        _font, Color.White, 40, 40);
+                _mainCanvas.DrawImage(_cursor, mx, my);
 
                 // 5. Present frame (Gen3 requires this for double-buffering)
                 _mainCanvas.Display();
+
+                KeyEvent keyEvent = KeyboardManager.ReadKey();
+
+                // Debug: Exit loop on esc
+                if (keyEvent.Key == Key.Escape)
+                {
+                    break;
+                }
 
                 // Small yield to prevent 100% CPU lock in QEMU/VMware
                 System.Threading.Thread.Sleep(10);
