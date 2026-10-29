@@ -84,17 +84,15 @@ namespace Tinos3.Graphical.Desktop
                 _mainCanvas.DrawString("X: " + MouseManager.X + "   Y: " + MouseManager.Y,
                         _font, Color.White, 40, 40);
 
-                Log.Write("Mouse Position: X=" + mx + ", Y=" + my);
-
                 _mainCanvas.DrawImage(_cursor, mx, my);
 
                 // 5. Present frame (Gen3 requires this for double-buffering)
                 _mainCanvas.Display();
 
-                KeyEvent keyEvent = KeyboardManager.ReadKey();
-
-                // Debug: Exit loop on esc
-                if (keyEvent.Key == Key.Escape)
+                // ReadKey blocks until another key arrives, which would stop the
+                // desktop from presenting mouse movement between key presses.
+                if (KeyboardManager.TryReadKey(out KeyEvent? keyEvent)
+                    && keyEvent.Key == Key.Escape)
                 {
                     break;
                 }
