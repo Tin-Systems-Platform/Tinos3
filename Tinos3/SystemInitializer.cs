@@ -35,6 +35,15 @@ namespace Tinos3
             Console.WriteLine("[KERNEL]: System panic handler initialized successfully!");
 
             Tinos3.Abstractions.Utilities.Version.SetTinosVersion("Tinos3 0.2.0 the Rewritten Tinos3 beta 2");
+            Native.test();
+
+            Span<byte> buffer = stackalloc byte[64];
+
+            int length = Native.GetStatusText(buffer);
+
+            string text = System.Text.Encoding.ASCII.GetString(buffer[..length]);
+            Console.WriteLine(text);
+
             Console.WriteLine("[KERNEL]: System initialized.");
         }
 
