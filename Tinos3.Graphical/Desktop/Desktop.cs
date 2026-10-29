@@ -81,9 +81,6 @@ namespace Tinos3.Graphical.Desktop
                 int mx = (int)MouseManager.X;
                 int my = (int)MouseManager.Y;
 
-                _mainCanvas.DrawString("X: " + MouseManager.X + "   Y: " + MouseManager.Y,
-                        _font, Color.White, 40, 40);
-
                 _mainCanvas.DrawImage(_cursor, mx, my);
 
                 // 5. Present frame (Gen3 requires this for double-buffering)
