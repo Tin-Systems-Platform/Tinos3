@@ -7,7 +7,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Cosmos.kernel.System" Version="3.0.95" />
+		<PackageReference Include="Cosmos.kernel.System" Version="3.0.96" />
 	</ItemGroup>
 
 	<ItemGroup>
