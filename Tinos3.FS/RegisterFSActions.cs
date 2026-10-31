@@ -27,6 +27,8 @@ namespace Tinos3.FS
                 }
             }
 
+            Iso9660FileSystemType iso = new(cdrom);
+
             FatFileSystemType fat = new();
 
             if (!VfsManager.RegisterFileSystem("fat", fat))
@@ -52,6 +54,15 @@ namespace Tinos3.FS
             else
             {
                 Console.WriteLine("FS: Failed to mount partition 0.");
+            }
+
+            Console.WriteLine("FS: Attempting to mount CDROM partition...");
+
+            if (!VfsManager.RegisterFileSystem("iso", iso)
+    || !VfsManager.TryMount("iso", "", MountFlags.None, "/cd", out VfsMount? cd))
+            {
+                Console.WriteLine("No ISO 9660 volume there.");
+                return;
             }
 
             Console.WriteLine(
