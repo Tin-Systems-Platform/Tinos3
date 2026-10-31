@@ -77,7 +77,7 @@ namespace Tinos3.Graphical.Desktop
 
                 // 3. Render windows (only draws off-screen canvas if IsDirty == true)
                 _windowManager.RenderAll(_mainCanvas);
-                _taskBar.TaskBarRenderer(_desktopCanvas);
+                _taskBar.TaskBarRenderer(_mainCanvas);
 
                 // 4. Draw mouse cursor
                 int mx = (int)MouseManager.X;
@@ -93,6 +93,7 @@ namespace Tinos3.Graphical.Desktop
                 if (KeyboardManager.TryReadKey(out KeyEvent? keyEvent)
                     && keyEvent.Key == Key.Escape)
                 {
+                    Console.Clear();
                     break;
                 }
 

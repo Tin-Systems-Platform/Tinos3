@@ -77,7 +77,7 @@ public class WindowManager
                 if (w.IsActive && w.IsCloseButtonHovered(mouseX, mouseY))
                 {
                     RemoveWindow(w);
-                    return; // Stop processing this click
+                    break; // Stop processing this click
                 }
 
                 if (w.IsInTitleBar(mouseX, mouseY))
@@ -87,18 +87,25 @@ public class WindowManager
                     _draggedWindow = w;
                     _dragOffsetX = mouseX - w.X;
                     _dragOffsetY = mouseY - w.Y;
-                    return;
+                    break;
                 }
                 else if (w.ContainsPoint(mouseX, mouseY))
                 {
                     SetActiveWindow(w);
-                    return;
+                    break;
                 }
             }
         }
 
-        // 2. Handle Dragging (Holding)
-        if (_isDragging && _draggedWindow != null)
+        // 2. Stop dragging immediately when the left button is released.
+        if (!isLeftButtonDown)
+        {
+            _isDragging = false;
+            _draggedWindow = null;
+        }
+
+        // 3. Handle Dragging only while the left button is held.
+        if (isLeftButtonDown && _isDragging && _draggedWindow != null)
         {
             _draggedWindow.X = mouseX - _dragOffsetX;
             _draggedWindow.Y = mouseY - _dragOffsetY;
@@ -112,13 +119,6 @@ public class WindowManager
                 _draggedWindow.Y = ScreenHeight - _draggedWindow.Height;
 
             _draggedWindow.IsDirty = true; // Movement requires redraw
-        }
-
-        // 3. Detect Mouse Up (Falling Edge)
-        if (!isLeftButtonDown && _wasLeftButtonDown)
-        {
-            _isDragging = false;
-            _draggedWindow = null;
         }
 
         _wasLeftButtonDown = isLeftButtonDown;
