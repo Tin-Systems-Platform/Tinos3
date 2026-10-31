@@ -21,6 +21,7 @@ namespace Tinos3.Graphical.Desktop
         private byte[] _cursorImage;
         private Png _cursor;
         private Font _font = PCScreenFont.DefaultFont;
+        private TaskBar _taskBar = new TaskBar();
 
         public void initDesktop()
         {
@@ -76,6 +77,7 @@ namespace Tinos3.Graphical.Desktop
 
                 // 3. Render windows (only draws off-screen canvas if IsDirty == true)
                 _windowManager.RenderAll(_mainCanvas);
+                _taskBar.TaskBarRenderer(_desktopCanvas);
 
                 // 4. Draw mouse cursor
                 int mx = (int)MouseManager.X;
