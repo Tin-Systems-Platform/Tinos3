@@ -4,6 +4,8 @@ using Cosmos.Kernel.System.Storage;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Cosmos.Kernel.System.FileSystem.Iso9660;
+using Cosmos.Kernel.HAL.Devices.Storage;
 
 namespace Tinos3.FS
 {
@@ -12,6 +14,18 @@ namespace Tinos3.FS
         public static void InitFS()
         {
             Console.WriteLine("FS: Initializing filesystem subsystem.");
+            Console.WriteLine("FS: Finding CDROM partitions...");
+
+            IBlockDevice cdrom = null;
+
+            foreach(IBlockDevice device in StorageManager.Devices)
+            {
+                if (device is IRemovableMedia { IsReadOnly: true})
+                {
+                    cdrom = device;
+                    break;
+                }
+            }
 
             FatFileSystemType fat = new();
 
