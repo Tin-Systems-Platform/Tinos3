@@ -11,12 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cosmos.Executable.Lua" Version="4.0.1" />
-	  <PackageReference Include="Cosmos.kernel.System" Version="3.0.94" />
+	  <PackageReference Include="Cosmos.kernel.System" Version="3.0.96" />
+	  <PackageReference Include="Cosmos.Executable.Lua" Version="4.0.1" />
   </ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Tinos3.FS\Tinos3.FS.csproj" />
+    <ProjectReference Include="..\Tinos3.Api\Tinos3.Api.csproj" />
+    <ProjectReference Include="..\Tinos3.Graphical\Tinos3.Graphical.csproj" />
 	</ItemGroup>
 
 </Project>

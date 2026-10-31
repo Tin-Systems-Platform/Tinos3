@@ -4,6 +4,8 @@ using Cosmos.Kernel.System.Storage;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Cosmos.Kernel.System.FileSystem.Iso9660;
+using Cosmos.Kernel.HAL.Devices.Storage;
 
 namespace Tinos3.FS
 {
@@ -12,6 +14,20 @@ namespace Tinos3.FS
         public static void InitFS()
         {
             Console.WriteLine("FS: Initializing filesystem subsystem.");
+            Console.WriteLine("FS: Finding CDROM partitions...");
+
+            IBlockDevice cdrom = null;
+
+            foreach(IBlockDevice device in StorageManager.Devices)
+            {
+                if (device is IRemovableMedia { IsReadOnly: true})
+                {
+                    cdrom = device;
+                    break;
+                }
+            }
+
+            Iso9660FileSystemType iso = new(cdrom);
 
             FatFileSystemType fat = new();
 
@@ -34,6 +50,19 @@ namespace Tinos3.FS
             if (VfsManager.TryMount("fat", StorageManager.Partitions[0], MountFlags.None, "/mnt", out VfsMount? mount))
             {
                 Console.WriteLine("Mounted " + mount.Name + " at " + mount.MountPoint);
+            }
+            else
+            {
+                Console.WriteLine("FS: Failed to mount partition 0.");
+            }
+
+            Console.WriteLine("FS: Attempting to mount CDROM partition...");
+
+            if (!VfsManager.RegisterFileSystem("iso", iso)
+    || !VfsManager.TryMount("iso", "", MountFlags.None, "/cd", out VfsMount? cd))
+            {
+                Console.WriteLine("No ISO 9660 volume there.");
+                return;
             }
 
             Console.WriteLine(

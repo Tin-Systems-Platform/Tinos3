@@ -1,6 +1,9 @@
 <Solution>
   <Project Path="Tinos3.Abstractions/Tinos3.Abstractions.csproj" Id="5b7e0dc5-b04b-413e-afb9-baa8c5a14951" />
+  <Project Path="Tinos3.Api/Tinos3.Api.csproj" />
   <Project Path="Tinos3.FS/Tinos3.FS.csproj" Id="ebfd628b-ccd4-493e-9f02-2af1246831f9" />
+  <Project Path="Tinos3.Graphical/Tinos3.Graphical.csproj" />
+  <Project Path="Tinos3.Resources/Tinos3.Resources.csproj" Id="06671e6f-b5d7-46ec-b4f9-fac5cccd60be" />
   <Project Path="Tinos3.Scripts/Tinos3.Scripts.csproj" Id="96a27a8f-f54f-4c56-957c-f741fa447224" />
   <Project Path="Tinos3.Shell/Tinos3.Shell.csproj" Id="2e61bbe0-bfaa-4ecb-9136-50554c28c053" />
   <Project Path="Tinos3/Tinos3.csproj" />

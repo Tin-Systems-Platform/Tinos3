@@ -1,0 +1,12 @@
+{
+  "qemu": {
+    "disks": [
+      {
+        "path": "../test.img",
+        "type": "ahci",
+        "size": "256M"
+      }
+    ],
+    "mouse": "virtio-mouse-pci"
+  }
+}
