@@ -10,6 +10,11 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Registers
             Console.WriteLine("[LUA]: Registering Graphical API functions to Lua interpreter...");
 
             RegisterHelper.RegisterCSharpFunctionToLua(lua, graphical.Graphical.DesktopInitialize, "startx");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, graphical.GraphicalLuaApi.CreateWindow, "CreateWindow");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, graphical.GraphicalLuaApi.AddLabel, "AddLabel");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, graphical.GraphicalLuaApi.AddButton, "AddButton");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, graphical.GraphicalLuaApi.SetWindowTitle, "SetWindowTitle");
+            RegisterHelper.RegisterCSharpFunctionToLua(lua, graphical.GraphicalLuaApi.CloseWindow, "CloseWindow");
 
             Console.WriteLine("[LUA]: Graphical API functions registered.");
         }

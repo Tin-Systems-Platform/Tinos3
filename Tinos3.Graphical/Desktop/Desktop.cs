@@ -23,7 +23,9 @@ namespace Tinos3.Graphical.Desktop
         private Font _font = PCScreenFont.DefaultFont;
         private TaskBar _taskBar = new TaskBar();
 
-        public void initDesktop()
+        public WindowManager WindowManager => _windowManager;
+
+        public void initDesktop(bool showExampleWindows = true)
         {
             _mainCanvas = Canvas.GetFullScreen();
             MouseManager.SetScreenSize(_mainCanvas.Width, _mainCanvas.Height);
@@ -49,12 +51,12 @@ namespace Tinos3.Graphical.Desktop
 
             _windowManager = new WindowManager(_mainCanvas.Width, _mainCanvas.Height);
 
-            // Create sample windows
-
-            ExampleWindow.ExampleWindow exampleContent = new ExampleWindow.ExampleWindow(_windowManager);
-
-            _windowManager.AddWindow(new Window(50, 50, 320, 200, "Window 1", exampleContent));
-            _windowManager.AddWindow(new Window(150, 150, 350, 250, "Window 2"));
+            if (showExampleWindows)
+            {
+                ExampleWindow.ExampleWindow exampleContent = new ExampleWindow.ExampleWindow(_windowManager);
+                _windowManager.AddWindow(new Window(50, 50, 320, 200, "Window 1", exampleContent));
+                _windowManager.AddWindow(new Window(150, 150, 350, 250, "Window 2"));
+            }
 
         }
 

@@ -28,6 +28,8 @@ namespace Tinos3.Abstractions.Lua.Tinos3
 
             RegisterFSApi.RegisterFSApiToLuaInterpeter(luaState);
 
+            RegisterApplicationApi.RegisterApplicationApiToLuaInterpreter(luaState);
+
             RegisterGraphicalApi.RegisterGraphicalApiToLuaInterpeter(luaState);
 
             Console.WriteLine("[LUA]: System API functions registered.");

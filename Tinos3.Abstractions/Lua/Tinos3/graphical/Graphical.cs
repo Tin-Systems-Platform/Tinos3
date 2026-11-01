@@ -8,10 +8,23 @@ namespace Tinos3.Abstractions.Lua.Tinos3.graphical
     {
         public static int DesktopInitialize(ILuaState lua)
         {
-            // TODO: do not instantly exit out of the desktop
-            // FIXME: Add new desktop initialization code here
+            string startupCallback = null;
+            if (!lua.IsNoneOrNil(1))
+            {
+                if (!lua.IsString(1))
+                {
+                    lua.PushNil();
+                    lua.PushString("Usage: startx([startupCallbackName])");
+                    return 2;
+                }
+
+                startupCallback = lua.ToString(1);
+            }
+
             Desktop desktop = new Desktop();
-            desktop.initDesktop();
+            desktop.initDesktop(showExampleWindows: string.IsNullOrEmpty(startupCallback));
+            GraphicalLuaApi.Initialize(lua, desktop.WindowManager);
+            GraphicalLuaApi.InvokeStartupCallback(startupCallback);
             desktop.ActiveRenderLoop();
             return 0;
         }

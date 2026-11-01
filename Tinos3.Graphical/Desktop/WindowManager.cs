@@ -15,6 +15,7 @@ public class WindowManager
     // Edge-triggered mouse state
     private bool _wasLeftButtonDown;
     private bool _isDragging;
+    private Window _inputCaptureWindow;
     private int _dragOffsetX;
     private int _dragOffsetY;
     private Window _draggedWindow;
@@ -44,6 +45,8 @@ public class WindowManager
         foreach (var w in _windows) w.IsDirty = true;
     }
 
+    public bool ContainsWindow(Window window) => _windows.Contains(window);
+
     public void SetActiveWindow(Window window)
     {
         foreach (var w in _windows)
@@ -65,19 +68,42 @@ public class WindowManager
         int mouseY = (int)MouseManager.Y;
         bool isLeftButtonDown = MouseManager.LeftButton;
 
-        // Deliver mouse input to the topmost window under the pointer so its
-        // content widgets can update hover and click state every frame.
+        // Capture the window where a press begins so widgets receive the
+        // matching release even if the pointer moves outside the window.
         Window inputWindow = null;
-        for (int i = _windows.Count - 1; i >= 0; i--)
+        if (isLeftButtonDown && !_wasLeftButtonDown)
         {
-            if (_windows[i].ContainsPoint(mouseX, mouseY))
+            for (int i = _windows.Count - 1; i >= 0; i--)
             {
-                inputWindow = _windows[i];
-                break;
+                if (_windows[i].ContainsPoint(mouseX, mouseY))
+                {
+                    _inputCaptureWindow = _windows[i];
+                    break;
+                }
+            }
+        }
+
+        if (_inputCaptureWindow != null && (isLeftButtonDown || _wasLeftButtonDown))
+        {
+            inputWindow = _inputCaptureWindow;
+        }
+        else
+        {
+            for (int i = _windows.Count - 1; i >= 0; i--)
+            {
+                if (_windows[i].ContainsPoint(mouseX, mouseY))
+                {
+                    inputWindow = _windows[i];
+                    break;
+                }
             }
         }
 
         inputWindow?.HandleContentInput(mouseX, mouseY, isLeftButtonDown);
+        if (!isLeftButtonDown && _wasLeftButtonDown)
+        {
+            _inputCaptureWindow = null;
+        }
 
         // 1. Detect Mouse Down (Rising Edge)
         if (isLeftButtonDown && !_wasLeftButtonDown)
