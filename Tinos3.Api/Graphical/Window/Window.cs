@@ -57,6 +57,7 @@ public class Window
         // Draw Close Button
         _closeButton.Draw(_offscreenCanvas, false, false);
 
+        //TODO: Add support for adding widgets managed by the application to the window and render them here. For now, we can just draw some example content.
         // Example Content
         _offscreenCanvas.DrawString("Hello from Cosmos OS!", PCScreenFont.DefaultFont, Color.Black, 10, 40);
         _offscreenCanvas.DrawString("Efficient dirty-rect rendering.", PCScreenFont.DefaultFont, Color.Black, 10, 60);
