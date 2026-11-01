@@ -27,8 +27,8 @@ public class ButtonWidget
             canvas.DrawRectangle(Color.Black, X, Y, Width, Height);
 
             // Simple centering approximation for text
-            int textX = X + (Width / 2) - (Text.Length * 4);
-            int textY = Y + (Height / 2) - 8;
+            int textX = X + (Width / 2) - (Text.Length * 8);
+            int textY = (Y + (Height / 2) - 8) / 2 - 4;
             canvas.DrawString(Text, PCScreenFont.DefaultFont, Color.Black, textX, textY);
         }
 

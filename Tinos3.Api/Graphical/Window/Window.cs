@@ -30,10 +30,10 @@ public class Window
         // Initialize Close Button (top right of title bar)
         _closeButton = new ButtonWidget
         {
-            X = width - 22,
-            Y = 2,
-            Width = 18,
-            Height = 18,
+            X = width - 30,
+            Y = 4,
+            Width = 26,
+            Height = 26,
             Text = "X",
             OnClick = () => { /* Handled by WindowManager for removal */ }
         };
@@ -45,14 +45,14 @@ public class Window
 
         // Title Bar
         Color titleBarColor = IsActive ? Color.DarkBlue : Color.Gray;
-        _offscreenCanvas.DrawFilledRectangle(titleBarColor, 0, 0, Width, 25);
-        _offscreenCanvas.DrawLine(Color.Black, 0, 25, Width, 25);
+        _offscreenCanvas.DrawFilledRectangle(titleBarColor, 0, 0, Width, 30);
+        _offscreenCanvas.DrawLine(Color.Black, 0, 30, Width, 30);
 
         // Window Border
         _offscreenCanvas.DrawRectangle(Color.Black, 0, 0, Width, Height);
 
         // Title Text
-        _offscreenCanvas.DrawString(Title, PCScreenFont.DefaultFont, Color.White, 5, 5);
+        _offscreenCanvas.DrawString(Title, PCScreenFont.DefaultFont, Color.White, 5, -3);
 
         // Draw Close Button
         _closeButton.Draw(_offscreenCanvas, false, false);

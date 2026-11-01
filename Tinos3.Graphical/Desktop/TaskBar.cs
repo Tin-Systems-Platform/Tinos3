@@ -19,7 +19,7 @@ namespace Tinos3.Graphical.Desktop
 
             canvas.DrawFilledRectangle(Color.Gray, 0, canvas.Height - 32, canvas.Width, 32);
 
-            canvas.DrawFilledRectangle(Color.Green, 0, canvas.Height - 32, 80, 32);
+            canvas.DrawFilledRectangle(Color.Green, 0, canvas.Height - 32, 100, 32);
             canvas.DrawString("Start", PCScreenFont.DefaultFont, Color.White, 12, canvas.Height - 28);
         }
     }
