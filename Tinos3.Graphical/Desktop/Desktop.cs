@@ -51,7 +51,7 @@ namespace Tinos3.Graphical.Desktop
 
             // Create sample windows
 
-            ExampleWindow.ExampleWindow exampleContent = new ExampleWindow.ExampleWindow();
+            ExampleWindow.ExampleWindow exampleContent = new ExampleWindow.ExampleWindow(_windowManager);
 
             _windowManager.AddWindow(new Window(50, 50, 320, 200, "Window 1", exampleContent));
             _windowManager.AddWindow(new Window(150, 150, 350, 250, "Window 2"));

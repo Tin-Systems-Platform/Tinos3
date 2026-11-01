@@ -65,6 +65,20 @@ public class WindowManager
         int mouseY = (int)MouseManager.Y;
         bool isLeftButtonDown = MouseManager.LeftButton;
 
+        // Deliver mouse input to the topmost window under the pointer so its
+        // content widgets can update hover and click state every frame.
+        Window inputWindow = null;
+        for (int i = _windows.Count - 1; i >= 0; i--)
+        {
+            if (_windows[i].ContainsPoint(mouseX, mouseY))
+            {
+                inputWindow = _windows[i];
+                break;
+            }
+        }
+
+        inputWindow?.HandleContentInput(mouseX, mouseY, isLeftButtonDown);
+
         // 1. Detect Mouse Down (Rising Edge)
         if (isLeftButtonDown && !_wasLeftButtonDown)
         {

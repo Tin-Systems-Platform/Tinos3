@@ -14,21 +14,38 @@ public class ButtonWidget
         public int Height { get; set; }
         public string Text { get; set; }
         public Action OnClick { get; set; }
+        public bool IsHoveredState { get; private set; }
+        public bool IsPressed { get; private set; }
+        private bool _wasPressed;
 
         public bool IsHovered(int mouseX, int mouseY)
         {
             return mouseX >= X && mouseX <= X + Width && mouseY >= Y && mouseY <= Y + Height;
         }
 
-        public void Draw(Canvas canvas, bool isHovered, bool isPressed)
+        /// <summary>Updates hover and click state from coordinates local to the window canvas.</summary>
+        public void HandleInput(int mouseX, int mouseY, bool leftButtonDown)
         {
-            Color bgColor = isPressed ? Color.DarkGray : (isHovered ? Color.LightGray : Color.White);
+            IsHoveredState = IsHovered(mouseX, mouseY);
+            IsPressed = leftButtonDown && IsHoveredState;
+
+            if (_wasPressed && !leftButtonDown && IsHoveredState)
+            {
+                OnClick?.Invoke();
+            }
+
+            _wasPressed = leftButtonDown && IsHoveredState;
+        }
+
+        public void Draw(Canvas canvas)
+        {
+            Color bgColor = IsPressed ? Color.DarkGray : (IsHoveredState ? Color.LightGray : Color.White);
             canvas.DrawFilledRectangle(bgColor, X, Y, Width, Height);
             canvas.DrawRectangle(Color.Black, X, Y, Width, Height);
 
-            // Simple centering approximation for text
+            // Screen font glyphs are approximately 8 pixels wide and 16 high.
             int textX = X + (Width / 2) - (Text.Length * 8);
-            int textY = (Y + (Height / 2) - 8) / 2 - 4;
+            int textY = Y + ((Height - 16) / 2);
             canvas.DrawString(Text, PCScreenFont.DefaultFont, Color.Black, textX, textY);
         }
 

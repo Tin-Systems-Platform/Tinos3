@@ -58,7 +58,7 @@ public class Window
         _offscreenCanvas.DrawString(Title, PCScreenFont.DefaultFont, Color.White, 5, -3);
 
         // Draw Close Button
-        _closeButton.Draw(_offscreenCanvas, false, false);
+        _closeButton.Draw(_offscreenCanvas);
 
         //TODO: Add support for adding widgets managed by the application to the window and render them here. For now, we can just draw some example content.
         // Example Content
@@ -90,6 +90,15 @@ public class Window
     public bool IsCloseButtonHovered(int x, int y)
     {
         return _closeButton.IsHovered(x - X, y - Y);
+    }
+
+    public void HandleContentInput(int mouseX, int mouseY, bool leftButtonDown)
+    {
+        if (_content is IWindowInputHandler inputHandler)
+        {
+            inputHandler.HandleInput(mouseX - X, mouseY - Y, leftButtonDown);
+            IsDirty = true;
+        }
     }
 
     public void WindowTitle(string title)
