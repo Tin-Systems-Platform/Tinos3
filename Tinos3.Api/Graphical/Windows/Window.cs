@@ -5,7 +5,7 @@ using Cosmos.Kernel.System.Graphics.Fonts;
 using System.Drawing;
 using Tinos3.Api.Graphical.Widgets;
 
-namespace Tinos3.Api.Graphical.Window;
+namespace Tinos3.Api.Graphical.Windows;
 
 public class Window
 {
@@ -22,10 +22,13 @@ public class Window
     private readonly Canvas _offscreenCanvas;
     private readonly ButtonWidget _closeButton;
 
-    public Window(int x, int y, int width, int height, string title)
+    private readonly IWindowContent _content;
+
+    public Window(int x, int y, int width, int height, string title, IWindowContent windowContent = null)
     {
         X = x; Y = y; Width = width; Height = height; Title = title;
         _offscreenCanvas = new Canvas(width, height);
+        _content = windowContent;
 
         // Initialize Close Button (top right of title bar)
         _closeButton = new ButtonWidget
@@ -59,8 +62,7 @@ public class Window
 
         //TODO: Add support for adding widgets managed by the application to the window and render them here. For now, we can just draw some example content.
         // Example Content
-        _offscreenCanvas.DrawString("Hello from Cosmos OS!", PCScreenFont.DefaultFont, Color.Black, 10, 40);
-        _offscreenCanvas.DrawString("Efficient dirty-rect rendering.", PCScreenFont.DefaultFont, Color.Black, 10, 60);
+        _content?.DrawContent(_offscreenCanvas);
 
         IsDirty = false; // Mark as clean after drawing
     }
@@ -88,5 +90,11 @@ public class Window
     public bool IsCloseButtonHovered(int x, int y)
     {
         return _closeButton.IsHovered(x - X, y - Y);
+    }
+
+    public void WindowTitle(string title)
+    {
+        Title = title;
+        IsDirty = true;
     }
 }

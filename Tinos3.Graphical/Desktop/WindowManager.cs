@@ -4,7 +4,7 @@ using Cosmos.Kernel.System.Input;
 using System;
 using System.Drawing;
 using Tinos3.Api.Graphical;
-using Tinos3.Api.Graphical.Window;
+using Tinos3.Api.Graphical.Windows;
 
 namespace Tinos3.Graphical.Desktop;
 

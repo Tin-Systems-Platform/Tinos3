@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using Tinos3.Api.Graphical;
-using Tinos3.Api.Graphical.Window;
+using Tinos3.Api.Graphical.Windows;
 using Tinos3.Api.Internal;
 
 namespace Tinos3.Graphical.Desktop
@@ -50,7 +50,10 @@ namespace Tinos3.Graphical.Desktop
             _windowManager = new WindowManager(_mainCanvas.Width, _mainCanvas.Height);
 
             // Create sample windows
-            _windowManager.AddWindow(new Window(50, 50, 320, 200, "Window 1"));
+
+            ExampleWindow.ExampleWindow exampleContent = new ExampleWindow.ExampleWindow();
+
+            _windowManager.AddWindow(new Window(50, 50, 320, 200, "Window 1", exampleContent));
             _windowManager.AddWindow(new Window(150, 150, 350, 250, "Window 2"));
 
         }
