@@ -49,7 +49,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
                 OnClick = () =>
                 {
                     AboutAppContent aboutContent = new AboutAppContent(windowManager.RemoveWindow);
-                    Window aboutWindow = new Window(150, 150, 400, 300, "About Tinos3", aboutContent);
+                    Window aboutWindow = new Window(150, 150, 700, 400, "About Tinos3", aboutContent);
                     aboutContent.SetWindow(aboutWindow);
                     windowManager.AddWindow(aboutWindow);
                 }

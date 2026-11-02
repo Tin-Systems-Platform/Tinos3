@@ -21,7 +21,7 @@ namespace Tinos3.Graphical.Apps.System.About
             _okButton = new ButtonWidget
             {
                 X = 20,
-                Y = 120,
+                Y = 170,
                 Width = 100,
                 Height = 30,
                 Text = "OK",
@@ -43,8 +43,8 @@ namespace Tinos3.Graphical.Apps.System.About
             Label aboutLabel = new Label
             {
                 X = 20,
-                Y = 20,
-                Text = "Tinos3 OS\nVersion: 0.2.0 beta 3\nDeveloped by: randomusert and contributors"
+                Y = 35,
+                Text = "Tinos3 OS\nVersion: 0.2.0 beta 3\nDeveloped by: randomusert and contributors\n\n"
             };
 
             aboutLabel.Draw(canvas);
@@ -52,7 +52,7 @@ namespace Tinos3.Graphical.Apps.System.About
             Label licenseLabel = new Label
             {
                 X = 20,
-                Y = 80,
+                Y = 130,
                 Text = "License: MIT License"
             };
 
