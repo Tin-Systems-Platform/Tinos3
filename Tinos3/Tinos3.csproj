@@ -1,4 +1,4 @@
-<Project Sdk="Cosmos.Sdk/3.0.97">
+﻿<Project Sdk="Cosmos.Sdk/3.0.97">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -15,6 +15,7 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Tinos3.Api\Tinos3.Api.csproj" />
 		<ProjectReference Include="..\\Tinos3.Abstractions\\Tinos3.Abstractions.csproj" />
 		<ProjectReference Include="..\\Tinos3.Shell\\Tinos3.Shell.csproj" />
 		<ProjectReference Include="..\\Tinos3.FS\\Tinos3.FS.csproj" />
@@ -22,11 +23,11 @@
 	
 	<!--Additional C code stuff-->
 	<ItemGroup>
-		<GCCProject Include="..\\Tinos3CLib\\"/>
+		<GCCProject Include="..\\Tinos3CLib\\" />
 		
 		<!--Tell the NativeAOT linker that the symbols actually exist-->
 		<DirectPInvoke Include="test" />
-		<DirectPInvoke Include="get_status_text"/>
+		<DirectPInvoke Include="get_status_text" />
 	</ItemGroup>
 	
 	

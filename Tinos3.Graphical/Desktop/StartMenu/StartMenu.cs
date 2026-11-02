@@ -7,6 +7,7 @@ using Tinos3.Api.Graphical.Widgets;
 using Tinos3.Api.Graphical.Windows;
 using Tinos3.Graphical.Apps.Clock;
 using Tinos3.Graphical.Apps.System.About;
+using Tinos3.Graphical.Apps.System.PowerManagement;
 
 namespace Tinos3.Graphical.Desktop.StartMenu
 {
@@ -15,6 +16,8 @@ namespace Tinos3.Graphical.Desktop.StartMenu
         private readonly ButtonWidget _clockAppLaunch;
 
         private readonly ButtonWidget _aboutAppLaunch;
+
+        private readonly ButtonWidget _powerMgrAppLaunch;
 
         private readonly int _x;
         private readonly int _y;
@@ -54,12 +57,27 @@ namespace Tinos3.Graphical.Desktop.StartMenu
                     windowManager.AddWindow(aboutWindow);
                 }
             };
+
+            _powerMgrAppLaunch = new ButtonWidget
+            {
+                X = x + 20,
+                Y = y + 135,
+                Width = 200,
+                Height = 40,
+                Text = "Power Management",
+                OnClick = () =>
+                {
+                    Window powerWindow = new Window(150, 150, 400, 250, "Power Management", new PowerManagementContent());
+                    windowManager.AddWindow(powerWindow);
+                }
+            };
         }
 
         public void HandleInput(int mouseX, int mouseY, bool leftButtonDown)
         {
             _clockAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
             _aboutAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
+            _powerMgrAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
         }
 
         public void RenderStartMenu(Canvas canvas)
@@ -76,6 +94,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
             startMenuLabel.Draw(canvas);
             _clockAppLaunch.Draw(canvas);
             _aboutAppLaunch.Draw(canvas);
+            _powerMgrAppLaunch.Draw(canvas);
             // Additional menu items can be added here
         }
     }
