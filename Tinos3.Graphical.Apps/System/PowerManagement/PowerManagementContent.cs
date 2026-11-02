@@ -16,26 +16,8 @@ namespace Tinos3.Graphical.Apps.System.PowerManagement
         ButtonWidget _haltButton;
         ButtonWidget _panicButton;
 
-        public void DrawContent(Canvas canvas)
+        public PowerManagementContent()
         {
-            Label powerManagement = new Label
-            {
-                X = 10,
-                Y = 10,
-                Text = "Power Management"
-            };
-
-            powerManagement.Draw(canvas);
-
-            Label optionLabel = new Label
-            {
-                X = 10,
-                Y = 40,
-                Text = "Select an option:"
-            };
-
-            optionLabel.Draw(canvas);
-
             _shutdownButton = new ButtonWidget
             {
                 X = 10,
@@ -75,6 +57,27 @@ namespace Tinos3.Graphical.Apps.System.PowerManagement
                 Text = "Panic",
                 OnClick = () => { PanicHandler.Panic("Intentional panic"); }
             };
+        }
+
+        public void DrawContent(Canvas canvas)
+        {
+            Label powerManagement = new Label
+            {
+                X = 10,
+                Y = 10,
+                Text = "Power Management"
+            };
+
+            powerManagement.Draw(canvas);
+
+            Label optionLabel = new Label
+            {
+                X = 10,
+                Y = 40,
+                Text = "Select an option:"
+            };
+
+            optionLabel.Draw(canvas);
 
             _shutdownButton.Draw(canvas);
             _restartButton.Draw(canvas);
