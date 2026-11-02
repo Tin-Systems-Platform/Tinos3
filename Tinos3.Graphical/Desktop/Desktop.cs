@@ -18,10 +18,10 @@ namespace Tinos3.Graphical.Desktop
         private Canvas _mainCanvas;
         private Canvas _desktopCanvas; // Pre-rendered background for efficiency
         private WindowManager _windowManager;
+        private TaskBar _taskBar;
         private byte[] _cursorImage;
         private Png _cursor;
         private Font _font = PCScreenFont.DefaultFont;
-        private TaskBar _taskBar = new TaskBar();
 
         public WindowManager WindowManager => _windowManager;
 
@@ -50,6 +50,7 @@ namespace Tinos3.Graphical.Desktop
             DrawDesktopBackground(_desktopCanvas);
 
             _windowManager = new WindowManager(_mainCanvas.Width, _mainCanvas.Height);
+            _taskBar = new TaskBar(_mainCanvas.Height);
 
             if (showExampleWindows)
             {
@@ -76,13 +77,14 @@ namespace Tinos3.Graphical.Desktop
             {
                 // 1. Handle Input (updates window positions and dirty flags)
                 _windowManager.HandleInput();
+                _taskBar.HandleInput();
 
                 // 2. EFFICIENCY: Blit pre-rendered background instead of redrawing primitives
                 _mainCanvas.DrawCanvas(_desktopCanvas, 0, 0);
 
                 // 3. Render windows (only draws off-screen canvas if IsDirty == true)
                 _windowManager.RenderAll(_mainCanvas);
-                _taskBar.TaskBarRenderer(_mainCanvas);
+                _taskBar.Render(_mainCanvas);
 
                 // 4. Draw mouse cursor
                 int mx = (int)MouseManager.X;

@@ -4,23 +4,47 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using Tinos3.Api.Graphical.Widgets;
+using Cosmos.Kernel.System.Input;
 
 namespace Tinos3.Graphical.Desktop
 {
     internal class TaskBar
     {
+        private readonly ButtonWidget _startButton;
+        private readonly StartMenu.StartMenu _startMenu = new();
+        private readonly int _screenHeight;
+        private bool _isStartMenuOpen;
 
-        public void TaskBarRenderer(Canvas canvas)
+        public TaskBar(int screenHeight)
         {
-            canvas = Canvas.GetFullScreen();
+            _screenHeight = screenHeight;
 
+            _startButton = new ButtonWidget
+            {
+                X = 0,
+                Y = screenHeight - 32,
+                Width = 100,
+                Height = 32,
+                Text = "Start",
+                OnClick = () => _isStartMenuOpen = !_isStartMenuOpen
+            };
+        }
 
-            // Taskbar background
+        public void HandleInput()
+        {
+            _startButton.HandleInput((int)MouseManager.X, (int)MouseManager.Y, MouseManager.LeftButton);
+        }
 
-            canvas.DrawFilledRectangle(Color.Gray, 0, canvas.Height - 32, canvas.Width, 32);
+        public void Render(Canvas canvas)
+        {
+            canvas.DrawFilledRectangle(Color.DarkCyan, 0, _screenHeight - 32, canvas.Width, 32);
+            _startButton.Draw(canvas);
 
-            canvas.DrawFilledRectangle(Color.Green, 0, canvas.Height - 32, 100, 32);
-            canvas.DrawString("Start", PCScreenFont.DefaultFont, Color.White, 12, canvas.Height - 28);
+            if (_isStartMenuOpen)
+            {
+                _startMenu.RenderStartMenu(canvas, 0, _screenHeight - 32 - 300);
+            }
         }
     }
 }
