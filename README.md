@@ -26,7 +26,7 @@ cosmos build
 ```
 
 ## Development
-Relisticly you can use any code editor, but these are what WE recommend.
+Realistically you can use any code editor, but these are what WE recommend.
 
 ### Windows
 We use and recommend using Microsoft Visual Studio 2026
@@ -39,9 +39,9 @@ Tinos started as a OS meant for me to experiment around. Don't ask how it ended.
 
 Later around 2023, Tinos version 2 was created and development continued on it up until 2025 when the projects discontinuation was announced waiting for Cosmos os gen3.
 
-Now about half way through 2026, Tinos 3 is now in official development onwards to 0.1. we'll see what the future holds for tinos. We're exicited as for what we're working on.
+Now about half way through 2026, Tinos3 is now in official development onwards to 0.1. we'll see what the future holds for tinos. We're exicited as for what we're working on.
 
-We hope that you enjoy using Tinos 3
+We hope that you enjoy using Tinos3
 
 ## contributing guideline notice
 We're using the Tin Systems Platform github organization global contributing guidelines.
