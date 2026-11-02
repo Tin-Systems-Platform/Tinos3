@@ -50,7 +50,7 @@ namespace Tinos3.Graphical.Desktop
             DrawDesktopBackground(_desktopCanvas);
 
             _windowManager = new WindowManager(_mainCanvas.Width, _mainCanvas.Height);
-            _taskBar = new TaskBar(_mainCanvas.Height);
+            _taskBar = new TaskBar(_mainCanvas.Height, _windowManager);
 
             if (showExampleWindows)
             {
