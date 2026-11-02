@@ -17,14 +17,42 @@ namespace Tinos3.Api.Graphical.Widgets
 
         public void Draw(Canvas canvas)
         {
-            // Screen font glyphs are approximately 8 pixels wide and 16 high.
-            canvas.DrawString(Text, PCScreenFont.DefaultFont, Color.Black, X, Y);
+            Draw(canvas, Color.Black);
         }
 
         public void Draw(Canvas canvas, Color color)
         {
-            // Screen font glyphs are approximately 8 pixels wide and 16 high.
-            canvas.DrawString(Text, PCScreenFont.DefaultFont, color, X, Y);
+            if (Text == null)
+            {
+                return;
+            }
+
+            int lineStart = 0;
+            int lineY = Y;
+
+            for (int i = 0; i <= Text.Length; i++)
+            {
+                if (i < Text.Length && Text[i] != '\n')
+                {
+                    continue;
+                }
+
+                int lineLength = i - lineStart;
+                // Treat Windows CRLF and Unix LF line endings identically.
+                if (lineLength > 0 && Text[lineStart + lineLength - 1] == '\r')
+                {
+                    lineLength--;
+                }
+
+                if (lineLength > 0)
+                {
+                    string line = Text.Substring(lineStart, lineLength);
+                    canvas.DrawString(line, PCScreenFont.DefaultFont, color, X, lineY);
+                }
+
+                lineStart = i + 1;
+                lineY += 25;
+            }
         }
     }
 }

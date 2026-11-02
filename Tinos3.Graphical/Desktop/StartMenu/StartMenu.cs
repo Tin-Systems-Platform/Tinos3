@@ -6,12 +6,16 @@ using System.Text;
 using Tinos3.Api.Graphical.Widgets;
 using Tinos3.Api.Graphical.Windows;
 using Tinos3.Graphical.Apps.Clock;
+using Tinos3.Graphical.Apps.System.About;
 
 namespace Tinos3.Graphical.Desktop.StartMenu
 {
     public class StartMenu : IWindowInputHandler
     {
         private readonly ButtonWidget _clockAppLaunch;
+
+        private readonly ButtonWidget _aboutAppLaunch;
+
         private readonly int _x;
         private readonly int _y;
 
@@ -19,6 +23,8 @@ namespace Tinos3.Graphical.Desktop.StartMenu
         {
             _x = x;
             _y = y;
+
+
             _clockAppLaunch = new ButtonWidget
             {
                 X = x + 20,
@@ -32,11 +38,28 @@ namespace Tinos3.Graphical.Desktop.StartMenu
                     windowManager.AddWindow(clockWindow);
                 }
             };
+
+            _aboutAppLaunch = new ButtonWidget
+            {
+                X = x + 20,
+                Y = y + 85,
+                Width = 200,
+                Height = 40,
+                Text = "About Tinos3",
+                OnClick = () =>
+                {
+                    AboutAppContent aboutContent = new AboutAppContent(windowManager.RemoveWindow);
+                    Window aboutWindow = new Window(150, 150, 400, 300, "About Tinos3", aboutContent);
+                    aboutContent.SetWindow(aboutWindow);
+                    windowManager.AddWindow(aboutWindow);
+                }
+            };
         }
 
         public void HandleInput(int mouseX, int mouseY, bool leftButtonDown)
         {
             _clockAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
+            _aboutAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
         }
 
         public void RenderStartMenu(Canvas canvas)
@@ -52,6 +75,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
             };
             startMenuLabel.Draw(canvas);
             _clockAppLaunch.Draw(canvas);
+            _aboutAppLaunch.Draw(canvas);
             // Additional menu items can be added here
         }
     }
