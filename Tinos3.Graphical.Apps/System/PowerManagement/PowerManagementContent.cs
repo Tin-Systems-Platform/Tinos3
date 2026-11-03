@@ -61,19 +61,10 @@ namespace Tinos3.Graphical.Apps.System.PowerManagement
 
         public void DrawContent(Canvas canvas)
         {
-            Label powerManagement = new Label
-            {
-                X = 10,
-                Y = 10,
-                Text = "Power Management"
-            };
-
-            powerManagement.Draw(canvas);
-
             Label optionLabel = new Label
             {
                 X = 10,
-                Y = 40,
+                Y = 30,
                 Text = "Select an option:"
             };
 
