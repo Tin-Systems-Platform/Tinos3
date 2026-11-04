@@ -25,8 +25,11 @@ namespace Tinos3.Graphical.Desktop.StartMenu
         private readonly int _x;
         private readonly int _y;
 
+        private Window _window;
+
         public StartMenu(WindowManager windowManager, int x, int y, Action closeStartMenu)
         {
+            _window = new Window();
             _x = x;
             _y = y;
             _closeStartMenu = closeStartMenu;
@@ -101,6 +104,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
 
         public void RenderStartMenu(Canvas canvas)
         {
+            _window.IsActive = false; // Set the window that was before start menu to inactive so it is accurate like in Windows. This is important for the window manager to know which window is active and which is not.
             // Render the start menu background
             canvas.DrawFilledRectangle(Color.LightGray, _x, _y, 400, 300);
             // Render the start menu items

@@ -106,4 +106,8 @@ public class Window
         Title = title;
         IsDirty = true;
     }
+
+    // Blank constructor for cases where you want to use
+    // the Window class without immediately setting properties or at all.
+    public Window() { }
 }

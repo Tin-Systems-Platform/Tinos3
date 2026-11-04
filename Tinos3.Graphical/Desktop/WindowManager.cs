@@ -62,6 +62,17 @@ public class WindowManager
         _windows.Add(window);
     }
 
+    // put the current window to be inactive but keep it in the list for rendering
+    public void SetInactiveWindow(Window window)
+    {
+        // TODO: Take only the current active window and set it to inactive, instead of setting all windows to inactive.
+        if (window.IsActive)
+        {
+            window.IsActive = false;
+            window.IsDirty = true; // Focus change requires redraw
+        }
+    }
+
     public void HandleInput()
     {
         int mouseX = (int)MouseManager.X;
