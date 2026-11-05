@@ -1,6 +1,9 @@
 # Tinos3
 Tinos3 is an Operating System made in C#, powered by the Cosmos OS gen3.
 
+NOTE: This project is being mirrored to GitLab at https://gitlab.com/tin-systems-platform/tinos-team/tinos3
+The mirror is read-only and will not be updated. Please use the GitHub repository for contributions and issues.
+
 ## Building
 ### Prerequisites
 Here's a list of requirements for compiling.
