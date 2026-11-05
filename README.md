@@ -50,3 +50,9 @@ We hope that you enjoy using Tinos3
 We're using the Tin Systems Platform github organization global contributing guidelines.
 
 As a additional note, please use gitmoji for commits
+
+## Found a bug/issue or want to request a feature?
+Please use the [issue tracker](https://github.com/tin-systems-platform/tinos3/issues)
+
+or if you don't have a github account, you can email to the gitlab's service desk at
+`contact-project+tin-systems-platform-tinos-team-tinos3-88538707-issue-@incoming.gitlab.com`
