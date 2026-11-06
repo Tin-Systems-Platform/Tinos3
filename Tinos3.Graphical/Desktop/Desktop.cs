@@ -25,8 +25,13 @@ namespace Tinos3.Graphical.Desktop
 
         public WindowManager WindowManager => _windowManager;
 
+        private static GlobalVars globalVars = new GlobalVars();
+
         public void initDesktop(bool showExampleWindows = true)
         {
+
+            globalVars.isDesktopRunning = true;
+
             _mainCanvas = Canvas.GetFullScreen();
             MouseManager.SetScreenSize(_mainCanvas.Width, _mainCanvas.Height);
 

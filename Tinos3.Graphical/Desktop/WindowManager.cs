@@ -32,6 +32,9 @@ public class WindowManager
         _graphicsResources = new GetGraphicsResources();
     }
 
+    public WindowManager() {
+    }
+
     public void AddWindow(Window window)
     {
         _windows.Add(window);
