@@ -1,0 +1,28 @@
+
+name: Mirror to GitLab
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        run: |
+          git clone --mirror \
+            "https://github.com/tin-systems-platform/tinos3.git" \
+            mirror.git
+
+      - name: Push to GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+          GITLAB_URL: https://gitlab.com/tin-systems-platform/tinos-team/tinos3.git
+        run: |
+          AUTH=$(printf 'oauth2:%s' "$GITLAB_TOKEN" | base64 -w0)
+
+          git -C mirror.git \
+            -c http.extraheader="Authorization: Basic $AUTH" \
+            push --mirror "$GITLAB_URL"
