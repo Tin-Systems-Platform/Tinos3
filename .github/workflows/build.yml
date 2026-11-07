@@ -1,0 +1,56 @@
+name: Build Tinos3
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout repository
+          uses: actions/checkout@v6
+
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v6.1.0
+          with:
+            dotnet-version: 10.0.x
+
+        - name: Install Cosmos Tools
+          run: dotnet tool install -g Cosmos.Tools
+
+        - name: Install Cosmos
+          run: cosmos install -y
+
+        - name: Check Cosmos tools
+          run: |
+            echo "Checking for Cosmos tools..."
+            cosmos check
+
+        - name: Build Tinos3
+          run: |
+            echo "Starting build process..."
+            cosmos build -a x64 --project Tinos3/Tinos3.csproj
+
+        - name: Build Tinos3 (ARM64)
+          run: |
+            echo "Starting build process for ARM64..."
+            cosmos build -a arm64 --project Tinos3/Tinos3.csproj
+
+        - name: Upload x64 ISO
+          uses: actions/upload-artifact@v6
+          with:
+            name: Tinos3-x64
+            path: Tinos3/output-x64/*.iso
+            if-no-files-found: error
+
+        - name: Upload ARM64 ISO
+          uses: actions/upload-artifact@v6
+          with:
+            name: Tinos3-arm64
+            path: Tinos3/output-arm64/*.iso
+            if-no-files-found: error

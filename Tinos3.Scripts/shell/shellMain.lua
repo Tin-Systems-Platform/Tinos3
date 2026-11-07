@@ -69,6 +69,7 @@ while true do
         print("  rend <path> <name>        - Rename a directory")
         print("  touch <file>              - Create a new file")
         print("  nano <file>               - Edit a file with Nano (Clone)")
+        print("  startx               - Start the desktop")
         print("  Other input          - Execute Lua code")
 
     elseif command == "ver" then
@@ -178,6 +179,10 @@ while true do
 
     elseif command == "nano" then
         NanoMain(arguments)
+    
+    elseif command == "startx" then
+        startx()
+
        
 
     elseif command == "rend" then

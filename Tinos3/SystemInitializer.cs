@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tinos3.Abstractions.Lua.Tinos3;
-using Tinos3.Abstractions.Utilities;
-using Tinos3.Abstractions.Utilities.Panic;
+using Tinos3.Api.Internal;
+using Tinos3.Api.Utilities;
 using Tinos3.FS;
 
 namespace Tinos3
@@ -14,9 +14,12 @@ namespace Tinos3
         public LuaInterpreter lua;
         public Shell.Shell shell = new Shell.Shell();
 
+        private static GlobalVars globalVars = new GlobalVars();
+
         public void SysInit()
         {
             Console.WriteLine("[KERNEL]: Initializing system...");
+            globalVars.isDesktopRunning = false;
             RegisterFSActions.InitFS();
 
             lua = new LuaInterpreter();
@@ -34,7 +37,16 @@ namespace Tinos3
             PanicHandler.Initialize();
             Console.WriteLine("[KERNEL]: System panic handler initialized successfully!");
 
-            Tinos3.Abstractions.Utilities.Version.SetTinosVersion("Tinos3 0.2.0 the Rewritten Tinos3 beta 1");
+            TVersion.SetTinosVersion("Tinos3 0.2.0 the Rewritten Tinos3 beta 2");
+            Native.test();
+
+            Span<byte> buffer = stackalloc byte[64];
+
+            int length = Native.GetStatusText(buffer);
+
+            string text = System.Text.Encoding.ASCII.GetString(buffer[..length]);
+            Console.WriteLine(text);
+
             Console.WriteLine("[KERNEL]: System initialized.");
         }
 

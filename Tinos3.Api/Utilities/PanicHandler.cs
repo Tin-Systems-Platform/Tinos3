@@ -3,7 +3,7 @@ using Cosmos.Kernel.System;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Tinos3.Abstractions.Utilities.Panic
+namespace Tinos3.Api.Utilities
 {
     public static class PanicHandler
     {
@@ -95,7 +95,7 @@ namespace Tinos3.Abstractions.Utilities.Panic
                     "              TINOS3 PANIC\n" +
                     "========================================\n\n" +
                     "Tinos3 version: " +
-                    Tinos3.Abstractions.Utilities.Version.GetTinosVersion() + "\n" +
+                    TVersion.GetTinosVersion() + "\n" +
                     "Crash time: " +
                     crashTime.ToString("yyyy-MM-dd HH:mm:ss") + "\n\n" +
                     "Error details:\n" +

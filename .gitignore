@@ -363,3 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 [Oo]utput-x64/
+
+*.img
+
+[Oo]utput-arm64/

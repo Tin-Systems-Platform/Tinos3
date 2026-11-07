@@ -56,6 +56,7 @@ namespace Tinos3.Abstractions.Applications.Nano
                 if (keyInfo.Key == ConsoleKey.Q &&
                     keyInfo.Modifiers.HasFlag(ConsoleModifiers.Control))
                 {
+                    Console.Clear();
                     break;
                 }
 
