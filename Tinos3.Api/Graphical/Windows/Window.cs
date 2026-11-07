@@ -101,6 +101,15 @@ public class Window
         }
     }
 
+    public void HandleContentKeyInput(ConsoleKeyInfo keyInfo)
+    {
+        if (_content is IWindowKeyInputHandler keyInputHandler)
+        {
+            keyInputHandler.HandleKeyInput(keyInfo);
+            IsDirty = true;
+        }
+    }
+
     public void WindowTitle(string title)
     {
         Title = title;

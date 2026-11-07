@@ -178,6 +178,27 @@ public class WindowManager
         _wasLeftButtonDown = isLeftButtonDown;
     }
 
+    public void HandleKeyInput(ConsoleKeyInfo keyInfo)
+    {
+        Window targetWindow = null;
+
+        for (int i = _windows.Count - 1; i >= 0; i--)
+        {
+            if (_windows[i].IsActive)
+            {
+                targetWindow = _windows[i];
+                break;
+            }
+        }
+
+        if (targetWindow == null && _windows.Count > 0)
+        {
+            targetWindow = _windows[_windows.Count - 1];
+        }
+
+        targetWindow?.HandleContentKeyInput(keyInfo);
+    }
+
     public void RenderAll(Canvas targetCanvas)
     {
         foreach (var window in _windows)

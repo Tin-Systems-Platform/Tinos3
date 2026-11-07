@@ -1,15 +1,16 @@
 ﻿using Cosmos.Kernel.System.Graphics;
 using Cosmos.Kernel.System.Graphics.Fonts;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace Tinos3.Api.Graphical.Widgets
 {
-    //TODO: Implement text input handling for the TextBox widget.
     public class TextBox
     {
+        private const int HorizontalPadding = 5;
+        private const int GlyphWidth = 8;
+        private bool _wasPressed;
+
         public int X { get; set; }
 
         public int Y { get; set; }
@@ -18,18 +19,73 @@ namespace Tinos3.Api.Graphical.Widgets
 
         public int Height { get; set; }
 
-        public string Text { get; set; }
+        public bool IsFocused { get; private set; }
+
+        public string Text { get; private set; } = string.Empty;
+
+        public bool IsHovered(int mouseX, int mouseY)
+        {
+            return mouseX >= X && mouseX <= X + Width && mouseY >= Y && mouseY <= Y + Height;
+        }
+
+        public void HandleInput(int mouseX, int mouseY, bool leftButtonDown)
+        {
+            bool isHovered = IsHovered(mouseX, mouseY);
+
+            if (leftButtonDown && !_wasPressed)
+            {
+                IsFocused = isHovered;
+            }
+
+            _wasPressed = leftButtonDown;
+        }
+
+        public void HandleInput(ConsoleKeyInfo keyInfo)
+        {
+            if (!IsFocused)
+            {
+                return;
+            }
+
+            if (keyInfo.Key == ConsoleKey.Backspace)
+            {
+                if (Text.Length > 0)
+                {
+                    Text = Text[..^1];
+                }
+
+                return;
+            }
+
+            if (!char.IsControl(keyInfo.KeyChar) && Text.Length < GetVisibleCharacterCapacity())
+            {
+                Text += keyInfo.KeyChar;
+            }
+        }
+
+        public void SetText(string text)
+        {
+            Text = text ?? string.Empty;
+            if (Text.Length > GetVisibleCharacterCapacity())
+            {
+                Text = Text[..GetVisibleCharacterCapacity()];
+            }
+        }
 
         public void Draw(Canvas canvas)
         {
-            // Draw the text box background and border
             canvas.DrawFilledRectangle(Color.White, X, Y, Width, Height);
-            canvas.DrawRectangle(Color.Black, X, Y, Width, Height);
-            // Draw the text inside the text box
-            // Screen font glyphs are approximately 8 pixels wide and 16 high.
-            int textX = X + 5; // Add some padding from the left edge
-            int textY = Y + ((Height - 16) / 2); // Center the text vertically
+            canvas.DrawRectangle(IsFocused ? Color.Blue : Color.Black, X, Y, Width, Height);
+
+            int textX = X + HorizontalPadding;
+            int textY = Y + ((Height - 16) / 2);
             canvas.DrawString(Text, PCScreenFont.DefaultFont, Color.Black, textX, textY);
+        }
+
+        private int GetVisibleCharacterCapacity()
+        {
+            int availableWidth = Math.Max(0, Width - (HorizontalPadding * 2));
+            return Math.Max(0, availableWidth / GlyphWidth);
         }
     }
 }

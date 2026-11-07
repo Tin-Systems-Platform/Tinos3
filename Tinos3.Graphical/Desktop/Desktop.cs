@@ -83,6 +83,12 @@ namespace Tinos3.Graphical.Desktop
                 _windowManager.HandleInput();
                 _taskBar.HandleInput();
 
+                while (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
+                    _windowManager.HandleKeyInput(keyInfo);
+                }
+
                 // 2. EFFICIENCY: Blit pre-rendered background instead of redrawing primitives
                 _mainCanvas.DrawCanvas(_desktopCanvas, 0, 0);
 

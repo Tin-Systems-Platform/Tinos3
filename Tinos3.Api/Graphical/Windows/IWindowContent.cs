@@ -38,4 +38,11 @@ namespace Tinos3.Api.Graphical.Windows
         /// <summary>Receives mouse coordinates local to the window canvas.</summary>
         void HandleInput(int mouseX, int mouseY, bool leftButtonDown);
     }
+
+    /// <summary>Optional keyboard input handling for focused or active window content.</summary>
+    public interface IWindowKeyInputHandler
+    {
+        /// <summary>Receives a keyboard event routed by the window manager.</summary>
+        void HandleKeyInput(ConsoleKeyInfo keyInfo);
+    }
 }
