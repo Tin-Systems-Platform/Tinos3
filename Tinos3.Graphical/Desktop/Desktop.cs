@@ -61,7 +61,6 @@ namespace Tinos3.Graphical.Desktop
             {
                 ExampleWindow.ExampleWindow exampleContent = new ExampleWindow.ExampleWindow(_windowManager);
                 _windowManager.AddWindow(new Window(50, 50, 320, 200, "Window 1", exampleContent));
-                _windowManager.AddWindow(new Window(150, 150, 350, 250, "Window 2"));
             }
 
         }
@@ -99,15 +98,6 @@ namespace Tinos3.Graphical.Desktop
 
                 // 5. Present frame (Gen3 requires this for double-buffering)
                 _mainCanvas.Display();
-
-                // ReadKey blocks until another key arrives, which would stop the
-                // desktop from presenting mouse movement between key presses.
-                if (KeyboardManager.TryReadKey(out KeyEvent? keyEvent)
-                    && keyEvent.Key == Key.Escape)
-                {
-                    Console.Clear();
-                    break;
-                }
 
                 // Small yield to prevent 100% CPU lock in QEMU/VMware
                 System.Threading.Thread.Sleep(10);

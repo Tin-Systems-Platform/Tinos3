@@ -89,7 +89,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
         {
             // Close the start menu when clicking outside of it.
             bool isMouseXInside = mouseX >= _x && mouseX <= _x + 400;
-            bool isMouseYInside = mouseY >= _y && mouseY <= _y + 300;
+            bool isMouseYInside = mouseY >= _y && mouseY <= _y + 500;
 
             if (leftButtonDown && (!isMouseXInside || !isMouseYInside))
             {
@@ -106,7 +106,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
         {
             _window.IsActive = false; // Set the window that was before start menu to inactive so it is accurate like in Windows. This is important for the window manager to know which window is active and which is not.
             // Render the start menu background
-            canvas.DrawFilledRectangle(Color.LightGray, _x, _y, 400, 300);
+            canvas.DrawFilledRectangle(Color.LightGray, _x, _y, 400, 500);
             // Render the start menu items
             Label startMenuLabel = new Label
             {

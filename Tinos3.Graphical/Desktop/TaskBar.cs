@@ -19,7 +19,7 @@ namespace Tinos3.Graphical.Desktop
         public TaskBar(int screenHeight, WindowManager windowManager)
         {
             _screenHeight = screenHeight;
-            _startMenu = new StartMenu.StartMenu(windowManager, 0, screenHeight - 32 - 300, () => _isStartMenuOpen = false);
+            _startMenu = new StartMenu.StartMenu(windowManager, 0, screenHeight - 32 - 500, () => _isStartMenuOpen = false);
 
             _startButton = new ButtonWidget
             {
