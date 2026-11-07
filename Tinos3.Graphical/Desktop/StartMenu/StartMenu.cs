@@ -1,11 +1,13 @@
-﻿using Cosmos.Kernel.System.Graphics;
+﻿using Cosmos.Executable.Lua;
+using Cosmos.Kernel.System;
+using Cosmos.Kernel.System.Graphics;
 using Cosmos.Kernel.System.Input;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
+using System.IO;
 using Tinos3.Api.Graphical.Widgets;
 using Tinos3.Api.Graphical.Windows;
+using Tinos3.Api.Utilities;
 using Tinos3.Graphical.Apps.Clock;
 using Tinos3.Graphical.Apps.System.About;
 using Tinos3.Graphical.Apps.System.PowerManagement;
@@ -96,12 +98,95 @@ namespace Tinos3.Graphical.Desktop.StartMenu
                 Text = "Run",
                 OnClick = () =>
                 {
-                    RunContent runContent = new RunContent();
-                    Window runWindow = new Window(200, 200, 400, 150, "Run", runContent);
+                    RunContent runContent = new RunContent(command => ExecuteRunCommand(command, windowManager));
+                    Window runWindow = new Window(200, 200, 420, 150, "Run", runContent);
                     windowManager.AddWindow(runWindow);
                     _closeStartMenu();
                 }
             };
+        }
+
+        private void ExecuteRunCommand(string rawCommand, WindowManager windowManager)
+        {
+            if (string.IsNullOrWhiteSpace(rawCommand))
+            {
+                return;
+            }
+
+            string command = rawCommand.Trim();
+
+            if (command.StartsWith("run ", StringComparison.OrdinalIgnoreCase))
+            {
+                ExecuteLuaFile(command[4..].Trim());
+                return;
+            }
+
+            switch (command.ToLowerInvariant())
+            {
+                case "clock":
+                    windowManager.AddWindow(new Window(100, 100, 300, 200, "Clock", new ClockContent()));
+                    break;
+
+                case "about":
+                    AboutAppContent aboutContent = new AboutAppContent(windowManager.RemoveWindow);
+                    Window aboutWindow = new Window(150, 150, 700, 300, "About Tinos3", aboutContent);
+                    aboutContent.SetWindow(aboutWindow);
+                    windowManager.AddWindow(aboutWindow);
+                    break;
+
+                case "power":
+                case "powermanagement":
+                    windowManager.AddWindow(new Window(150, 150, 400, 250, "Power Management", new PowerManagementContent()));
+                    break;
+
+                case "shutdown":
+                    Power.Shutdown();
+                    break;
+
+                case "reboot":
+                case "restart":
+                    Power.Reboot();
+                    break;
+
+                case "halt":
+                    Power.Halt();
+                    break;
+
+                case "panic":
+                    PanicHandler.Panic("Intentional panic from Run command");
+                    break;
+
+                default:
+                    Console.WriteLine($"[Run] Unknown command: {command}");
+                    Console.WriteLine("[Run] Built-in: clock, about, power, shutdown, reboot, halt, panic, run <path>");
+                    break;
+            }
+        }
+
+        private static void ExecuteLuaFile(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                Console.WriteLine("[Run] Usage: run <path>");
+                return;
+            }
+
+            if (!File.Exists(path))
+            {
+                Console.WriteLine($"[Run] Lua file not found: {path}");
+                return;
+            }
+
+            try
+            {
+                string script = File.ReadAllText(path);
+                LuaInterpreter lua = new LuaInterpreter();
+                lua.DoString(script);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Run] Failed to execute Lua file '{path}': {ex.Message}");
+            }
         }
 
         public void HandleInput(int mouseX, int mouseY, bool leftButtonDown)
