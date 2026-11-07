@@ -31,12 +31,12 @@ jobs:
         - name: Build Tinos3
           run: |
             echo "Starting build process..."
-            cosmos build -a x64 --project Tinos3\Tinos3.csproj
+            cosmos build -a x64 --project Tinos3/Tinos3.csproj
 
         - name: Build Tinos3 (ARM64)
           run: |
             echo "Starting build process for ARM64..."
-            cosmos build -a arm64 --project Tinos3\Tinos3.csproj
+            cosmos build -a arm64 --project Tinos3/Tinos3.csproj
 
         - name: Upload x64 ISO
           uses: actions/upload-artifact@v6
