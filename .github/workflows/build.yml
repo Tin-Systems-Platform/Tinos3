@@ -21,7 +21,7 @@ jobs:
           run: dotnet tool install -g Cosmos.Tools
 
         - name: Install Cosmos
-          run: echo "y" | cosmos install
+          run: cosmos install -y
 
         - name: Check Cosmos tools
           run: |
