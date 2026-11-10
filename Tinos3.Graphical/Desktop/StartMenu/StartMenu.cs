@@ -10,6 +10,7 @@ using Tinos3.Api.Graphical.Windows;
 using Tinos3.Api.Utilities;
 using Tinos3.Graphical.Apps.Clock;
 using Tinos3.Graphical.Apps.System.About;
+using Tinos3.Graphical.Apps.System.Calc;
 using Tinos3.Graphical.Apps.System.PowerManagement;
 using Tinos3.Graphical.Apps.System.Run;
 
@@ -24,6 +25,8 @@ namespace Tinos3.Graphical.Desktop.StartMenu
         private readonly ButtonWidget _powerMgrAppLaunch;
 
         private readonly ButtonWidget _RunAppLaunch;
+
+        private readonly ButtonWidget _calcAppLaunch;
 
         private readonly Action _closeStartMenu;
 
@@ -104,6 +107,22 @@ namespace Tinos3.Graphical.Desktop.StartMenu
                     _closeStartMenu();
                 }
             };
+
+            _calcAppLaunch = new ButtonWidget
+            {
+                X = x + 20,
+                Y = y + 235,
+                Width = 200,
+                Height = 40,
+                Text = "Calculator",
+                OnClick = () =>
+                {
+                    Window calcWindow = new Window(200, 200, 300, 400, "Calculator", new CalcContent());
+                    windowManager.AddWindow(calcWindow);
+                    calcWindow.WindowTitle("Calculator");
+                    _closeStartMenu();
+                }
+            };
         }
 
         private void ExecuteRunCommand(string rawCommand, WindowManager windowManager)
@@ -156,6 +175,13 @@ namespace Tinos3.Graphical.Desktop.StartMenu
                     PanicHandler.Panic("Intentional panic from Run command");
                     break;
 
+                case "calc":
+                case "calculator":
+                    windowManager.AddWindow(new Window(200, 200, 300, 400, "Calculator", new CalcContent()));
+                    CalcContent calc = new CalcContent();
+                    calc.WindowTitle("Calculator");
+                    break;
+
                 default:
                     Console.WriteLine($"[Run] Unknown command: {command}");
                     Console.WriteLine("[Run] Built-in: clock, about, power, shutdown, reboot, halt, panic, run <path>");
@@ -205,6 +231,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
             _aboutAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
             _powerMgrAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
             _RunAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
+            _calcAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
         }
 
         public void RenderStartMenu(Canvas canvas)
@@ -224,6 +251,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
             _aboutAppLaunch.Draw(canvas);
             _powerMgrAppLaunch.Draw(canvas);
             _RunAppLaunch.Draw(canvas);
+            _calcAppLaunch.Draw(canvas);
             // Additional menu items can be added here
         }
     }
