@@ -11,6 +11,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 {
     public class CalcContent : IWindowContent, IWindowInputHandler
     {
+        private string _currentInput = "0";
         private Label _inputLabel;
 
         private ButtonWidget _num1;
@@ -34,13 +35,18 @@ namespace Tinos3.Graphical.Apps.System.Calc
         private  ButtonWidget _decimal;
         private  ButtonWidget _backspace;
 
-        private CalcContentEngine _contentEngine;
-        private CalcEngine _calcEngine;
+        private readonly CalcContentEngine _contentEngine = new CalcContentEngine();
+        private readonly CalcEngine _calcEngine = new CalcEngine();
+        private float _leftOperand;
+        private string _pendingOperator;
+        private bool _startNewInput = true;
 
         public void DrawContent(Canvas canvas)
         {
-            _calcEngine = new CalcEngine();
-            _contentEngine = new CalcContentEngine();
+            if (_num0 == null)
+            {
+            if (_currentInput == null)
+                _currentInput = "0";
 
             _num0 = new ButtonWidget
             {
@@ -49,7 +55,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "0",
-                OnClick = () => { /* Handle number input */ }
+                OnClick = () => AddDigit(0)
             };
 
             _num1 = new ButtonWidget
@@ -59,7 +65,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "1",
-                OnClick = () => { /* Handle number input */ }
+                OnClick = () => AddDigit(1)
             };
 
             _num2 = new ButtonWidget
@@ -69,7 +75,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "2",
-                OnClick = () => { /* Handle number input */ }
+                OnClick = () => AddDigit(2)
             };
 
             _num3 = new ButtonWidget
@@ -79,7 +85,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "3",
-                OnClick = () => { /* Handle number input */ }
+                OnClick = () => AddDigit(3)
             };
 
             _num4 = new ButtonWidget
@@ -89,7 +95,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "4",
-                OnClick = () => { /* Handle number input */ }
+                OnClick = () => AddDigit(4)
             };
 
             _num5 = new ButtonWidget
@@ -99,7 +105,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "5",
-                OnClick = () => { /* Handle number input */ }
+                OnClick = () => AddDigit(5)
             };
 
             _num6 = new ButtonWidget
@@ -109,7 +115,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "6",
-                OnClick = () => { /* Handle number input */ }
+                OnClick = () => AddDigit(6)
             };
 
             _num7 = new ButtonWidget
@@ -119,7 +125,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "7",
-                OnClick = () => { /* Handle number input */ }
+                OnClick = () => AddDigit(7)
             };
 
             _num8 = new ButtonWidget
@@ -129,7 +135,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "8",
-                OnClick = () => { /* Handle number input */ }
+                OnClick = () => AddDigit(8)
             };
 
             _num9 = new ButtonWidget
@@ -139,7 +145,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "9",
-                OnClick = () => { /* Handle number input */ }
+                OnClick = () => AddDigit(9)
             };
 
             _subtract = new ButtonWidget
@@ -149,7 +155,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "-",
-                OnClick = () => { /* Handle subtraction */ }
+                OnClick = () => SetOperator("-")
             };
 
             _multiply = new ButtonWidget
@@ -159,7 +165,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "*",
-                OnClick = () => { /* Handle multiplication */ }
+                OnClick = () => SetOperator("*")
             };
 
             _divide = new ButtonWidget
@@ -169,7 +175,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "/",
-                OnClick = () => { /* Handle division */ }
+                OnClick = () => SetOperator("/")
             };
 
             _add = new ButtonWidget
@@ -179,7 +185,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "+",
-                OnClick = () => { /* Handle addition */ }
+                OnClick = () => SetOperator("+")
             };
 
             _equals = new ButtonWidget
@@ -189,7 +195,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "=",
-                OnClick = () => { /* Handle equals */ }
+                OnClick = Calculate
             };
 
             _clear = new ButtonWidget
@@ -199,7 +205,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "C",
-                OnClick = () => { /* Handle clear */ }
+                OnClick = Clear
             };
 
             _decimal = new ButtonWidget
@@ -209,7 +215,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = ".",
-                OnClick = () => { /* Handle decimal */ }
+                OnClick = AddDecimal
             };
 
             _backspace = new ButtonWidget
@@ -219,15 +225,16 @@ namespace Tinos3.Graphical.Apps.System.Calc
                 Width = 50,
                 Height = 50,
                 Text = "<-",
-                OnClick = () => { /* Handle backspace */ }
+                OnClick = Backspace
             };
 
             _inputLabel = new Label
             {
                 X = 20,
                 Y = 40,
-                Text = "0",
+                Text = _currentInput,
             };
+            }
 
             // Draw all buttons
             _num0.Draw(canvas);
@@ -276,6 +283,91 @@ namespace Tinos3.Graphical.Apps.System.Calc
             _clear.HandleInput(mouseX, mouseY, isMouseDown);
             _decimal.HandleInput(mouseX, mouseY, isMouseDown);
             _backspace.HandleInput(mouseX, mouseY, isMouseDown);
+        }
+
+        private void AddDigit(int digit)
+        {
+            if (_startNewInput || string.IsNullOrEmpty(_currentInput) || _currentInput == "0")
+                _currentInput = _contentEngine.ClearString();
+
+            _currentInput = _contentEngine.AddNumToString(_currentInput, digit);
+            _startNewInput = false;
+            UpdateDisplay();
+        }
+
+        private void AddDecimal()
+        {
+            if (_startNewInput)
+            {
+                _currentInput = _contentEngine.ClearString();
+                _startNewInput = false;
+            }
+            _currentInput = _contentEngine.AppendDecimal(_currentInput);
+            UpdateDisplay();
+        }
+
+        private void Backspace()
+        {
+            if (_startNewInput)
+                return;
+            _currentInput = _contentEngine.RemoveLastCharFromString(_currentInput);
+            if (string.IsNullOrEmpty(_currentInput))
+                _currentInput = "0";
+            UpdateDisplay();
+        }
+
+        private void SetOperator(string op)
+        {
+            if (!float.TryParse(_currentInput, out _leftOperand))
+                return;
+            _pendingOperator = op;
+            _startNewInput = true;
+        }
+
+        private void Calculate()
+        {
+            if (string.IsNullOrEmpty(_pendingOperator) || !float.TryParse(_currentInput, out float rightOperand))
+                return;
+
+            try
+            {
+                float result;
+                switch (_pendingOperator)
+                {
+                    case "+": result = _calcEngine.Add(_leftOperand, rightOperand); break;
+                    case "-": result = _calcEngine.Subtract(_leftOperand, rightOperand); break;
+                    case "*": result = _calcEngine.Multiply(_leftOperand, rightOperand); break;
+                    case "/": result = _calcEngine.Divide(_leftOperand, rightOperand); break;
+                    default: return;
+                }
+                _currentInput = result.ToString();
+                _pendingOperator = null;
+                _startNewInput = true;
+            }
+            catch (DivideByZeroException)
+            {
+                _currentInput = "Error";
+                _pendingOperator = null;
+                _startNewInput = true;
+            }
+            UpdateDisplay();
+        }
+
+        private void Clear()
+        {
+            _currentInput = _contentEngine.ClearString();
+            _leftOperand = 0;
+            _pendingOperator = null;
+            _startNewInput = true;
+            UpdateDisplay();
+        }
+
+        private void UpdateDisplay()
+        {
+            if (_inputLabel != null)
+                _inputLabel.Text = string.IsNullOrEmpty(_currentInput)
+                    ? "0"
+                    : _contentEngine.getCurrentInput(_currentInput);
         }
 
         public string WindowTitle(string title)

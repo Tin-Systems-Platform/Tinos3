@@ -6,7 +6,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 {
     internal class CalcContentEngine
     {
-        public string AddNumToString(string current, string numToAdd)
+        public string AddNumToString(string current, int numToAdd)
         {
             return current + numToAdd;
         }
@@ -38,5 +38,9 @@ namespace Tinos3.Graphical.Apps.System.Calc
             return current;
         }
 
+        public string getCurrentInput(string currentInput)
+        {
+            return currentInput;
+        }
     }
 }
