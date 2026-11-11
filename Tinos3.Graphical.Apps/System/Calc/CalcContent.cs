@@ -11,31 +11,247 @@ namespace Tinos3.Graphical.Apps.System.Calc
 {
     public class CalcContent : IWindowContent, IWindowInputHandler
     {
-        private readonly ButtonWidget _num1;
-        private readonly ButtonWidget _num2;
+        private Label _inputLabel;
 
-        private readonly ButtonWidget _num3;
-        private readonly ButtonWidget _num4;
-        private readonly ButtonWidget _num5;
-        private readonly ButtonWidget _num6;
-        private readonly ButtonWidget _num7;
-        private readonly ButtonWidget _num8;
-        private readonly ButtonWidget _num9;
-        private readonly ButtonWidget _num0;
-        private readonly ButtonWidget _add;
-        private readonly ButtonWidget _subtract;
-        private readonly ButtonWidget _multiply;
-        private readonly ButtonWidget _divide;
+        private ButtonWidget _num1;
+        private ButtonWidget _num2;
 
-        private readonly ButtonWidget _equals;
-        private readonly ButtonWidget _clear;
-        private readonly ButtonWidget _decimal;
-        private readonly ButtonWidget _backspace;
+        private  ButtonWidget _num3;
+        private  ButtonWidget _num4;
+        private  ButtonWidget _num5;
+        private  ButtonWidget _num6;
+        private  ButtonWidget _num7;
+        private  ButtonWidget _num8;
+        private  ButtonWidget _num9;
+        private  ButtonWidget _num0;
+        private  ButtonWidget _add;
+        private  ButtonWidget _subtract;
+        private  ButtonWidget _multiply;
+        private  ButtonWidget _divide;
 
+        private  ButtonWidget _equals;
+        private  ButtonWidget _clear;
+        private  ButtonWidget _decimal;
+        private  ButtonWidget _backspace;
+
+        private CalcContentEngine _contentEngine;
+        private CalcEngine _calcEngine;
 
         public void DrawContent(Canvas canvas)
         {
-            
+            _calcEngine = new CalcEngine();
+            _contentEngine = new CalcContentEngine();
+
+            _num0 = new ButtonWidget
+            {
+                X = 20,
+                Y = 100,
+                Width = 50,
+                Height = 50,
+                Text = "0",
+                OnClick = () => { /* Handle number input */ }
+            };
+
+            _num1 = new ButtonWidget
+            {
+                X = 20,
+                Y = 160,
+                Width = 50,
+                Height = 50,
+                Text = "1",
+                OnClick = () => { /* Handle number input */ }
+            };
+
+            _num2 = new ButtonWidget
+            {
+                X = 80,
+                Y = 160,
+                Width = 50,
+                Height = 50,
+                Text = "2",
+                OnClick = () => { /* Handle number input */ }
+            };
+
+            _num3 = new ButtonWidget
+            {
+                X = 140,
+                Y = 160,
+                Width = 50,
+                Height = 50,
+                Text = "3",
+                OnClick = () => { /* Handle number input */ }
+            };
+
+            _num4 = new ButtonWidget
+            {
+                X = 20,
+                Y = 220,
+                Width = 50,
+                Height = 50,
+                Text = "4",
+                OnClick = () => { /* Handle number input */ }
+            };
+
+            _num5 = new ButtonWidget
+            {
+                X = 80,
+                Y = 220,
+                Width = 50,
+                Height = 50,
+                Text = "5",
+                OnClick = () => { /* Handle number input */ }
+            };
+
+            _num6 = new ButtonWidget
+            {
+                X = 140,
+                Y = 220,
+                Width = 50,
+                Height = 50,
+                Text = "6",
+                OnClick = () => { /* Handle number input */ }
+            };
+
+            _num7 = new ButtonWidget
+            {
+                X = 20,
+                Y = 280,
+                Width = 50,
+                Height = 50,
+                Text = "7",
+                OnClick = () => { /* Handle number input */ }
+            };
+
+            _num8 = new ButtonWidget
+            {
+                X = 80,
+                Y = 280,
+                Width = 50,
+                Height = 50,
+                Text = "8",
+                OnClick = () => { /* Handle number input */ }
+            };
+
+            _num9 = new ButtonWidget
+            {
+                X = 140,
+                Y = 280,
+                Width = 50,
+                Height = 50,
+                Text = "9",
+                OnClick = () => { /* Handle number input */ }
+            };
+
+            _subtract = new ButtonWidget
+            {
+                X = 200,
+                Y = 160,
+                Width = 50,
+                Height = 50,
+                Text = "-",
+                OnClick = () => { /* Handle subtraction */ }
+            };
+
+            _multiply = new ButtonWidget
+            {
+                X = 200,
+                Y = 220,
+                Width = 50,
+                Height = 50,
+                Text = "*",
+                OnClick = () => { /* Handle multiplication */ }
+            };
+
+            _divide = new ButtonWidget
+            {
+                X = 200,
+                Y = 280,
+                Width = 50,
+                Height = 50,
+                Text = "/",
+                OnClick = () => { /* Handle division */ }
+            };
+
+            _add = new ButtonWidget
+            {
+                X = 200,
+                Y = 100,
+                Width = 50,
+                Height = 50,
+                Text = "+",
+                OnClick = () => { /* Handle addition */ }
+            };
+
+            _equals = new ButtonWidget
+            {
+                X = 260,
+                Y = 100,
+                Width = 50,
+                Height = 50,
+                Text = "=",
+                OnClick = () => { /* Handle equals */ }
+            };
+
+            _clear = new ButtonWidget
+            {
+                X = 260,
+                Y = 160,
+                Width = 50,
+                Height = 50,
+                Text = "C",
+                OnClick = () => { /* Handle clear */ }
+            };
+
+            _decimal = new ButtonWidget
+            {
+                X = 260,
+                Y = 220,
+                Width = 50,
+                Height = 50,
+                Text = ".",
+                OnClick = () => { /* Handle decimal */ }
+            };
+
+            _backspace = new ButtonWidget
+            {
+                X = 260,
+                Y = 280,
+                Width = 50,
+                Height = 50,
+                Text = "<-",
+                OnClick = () => { /* Handle backspace */ }
+            };
+
+            _inputLabel = new Label
+            {
+                X = 20,
+                Y = 40,
+                Text = "0",
+            };
+
+            // Draw all buttons
+            _num0.Draw(canvas);
+            _num1.Draw(canvas);
+            _num2.Draw(canvas);
+            _num3.Draw(canvas);
+            _num4.Draw(canvas);
+            _num5.Draw(canvas);
+            _num6.Draw(canvas);
+            _num7.Draw(canvas);
+            _num8.Draw(canvas);
+            _num9.Draw(canvas);
+
+            _add.Draw(canvas);
+            _subtract.Draw(canvas);
+            _multiply.Draw(canvas);
+            _divide.Draw(canvas);
+
+            _equals.Draw(canvas);
+            _clear.Draw(canvas);
+            _decimal.Draw(canvas);
+            _backspace.Draw(canvas);
+            _inputLabel.Draw(canvas);
+
         }
         public void HandleInput(int mouseX, int mouseY, bool isMouseDown)
         {
