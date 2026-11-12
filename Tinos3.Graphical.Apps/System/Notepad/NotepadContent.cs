@@ -258,7 +258,8 @@ namespace Tinos3.Graphical.Apps.System.Notepad
 
             if (_editorFocused && cursorLine >= _firstVisibleLine && cursorLine < _firstVisibleLine + _visibleLines)
             {
-                int x = EditorX + 5 + cursorColumn * 10;
+                string currentLine = lines[cursorLine];
+                int x = EditorX + 5 + GraphicalFont.MeasureString(currentLine.Substring(0, cursorColumn));
                 int y = EditorY + 3 + (cursorLine - _firstVisibleLine) * LineHeight;
                 canvas.DrawLine(Color.Black, x, y, x, y + GraphicalFont.DefaultSize);
             }

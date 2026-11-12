@@ -45,4 +45,9 @@ public static class GraphicalFont
             canvas.DrawString(text, Font, DefaultSize, color, x, y);
         }
     }
+
+    public static int MeasureString(string text)
+    {
+        return string.IsNullOrEmpty(text) ? 0 : Font.MeasureString(text, DefaultSize);
+    }
 }
