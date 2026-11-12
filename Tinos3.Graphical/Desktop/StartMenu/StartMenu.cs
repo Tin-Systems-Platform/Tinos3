@@ -13,6 +13,7 @@ using Tinos3.Graphical.Apps.System.About;
 using Tinos3.Graphical.Apps.System.Calc;
 using Tinos3.Graphical.Apps.System.PowerManagement;
 using Tinos3.Graphical.Apps.System.Run;
+using Tinos3.Graphical.Apps.System.Notepad;
 
 namespace Tinos3.Graphical.Desktop.StartMenu
 {
@@ -27,6 +28,8 @@ namespace Tinos3.Graphical.Desktop.StartMenu
         private readonly ButtonWidget _RunAppLaunch;
 
         private readonly ButtonWidget _calcAppLaunch;
+
+        private readonly ButtonWidget _notepadAppLaunch;
 
         private readonly Action _closeStartMenu;
 
@@ -120,6 +123,20 @@ namespace Tinos3.Graphical.Desktop.StartMenu
                     Window calcWindow = new Window(200, 200, 300, 400, "Calculator", new CalcContent());
                     windowManager.AddWindow(calcWindow);
                     calcWindow.WindowTitle("Calculator");
+                    _closeStartMenu();
+                }
+            };
+
+            _notepadAppLaunch = new ButtonWidget
+            {
+                X = x + 20,
+                Y = y + 285,
+                Width = 200,
+                Height = 40,
+                Text = "Notepad",
+                OnClick = () =>
+                {
+                    windowManager.AddWindow(new Window(100, 100, 540, 400, "Notepad", new NotepadContent(windowManager.AddWindow, windowManager.RemoveWindow)));
                     _closeStartMenu();
                 }
             };
@@ -232,6 +249,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
             _powerMgrAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
             _RunAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
             _calcAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
+            _notepadAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
         }
 
         public void RenderStartMenu(Canvas canvas)
@@ -252,6 +270,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
             _powerMgrAppLaunch.Draw(canvas);
             _RunAppLaunch.Draw(canvas);
             _calcAppLaunch.Draw(canvas);
+            _notepadAppLaunch.Draw(canvas);
             // Additional menu items can be added here
         }
     }
