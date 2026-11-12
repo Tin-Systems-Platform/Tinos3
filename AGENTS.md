@@ -20,6 +20,7 @@ Do not assume that standard .NET APIs, runtime behavior, or development workflow
 - Follow the existing coding style and project conventions.
 - Do not claim that code builds or works unless the relevant verification was actually performed.
 - If something cannot be verified, state that explicitly.
+- Chekck if it compiles; Prefer to use `cosmos build` and if not available, use `dotnet build -r linux-x64 Tinos3\Tinos3.csproj` to verify that the code compiles. Do not assume that it compiles without actually verifying it.
 
 ## Current Projects (Modules)
 
