@@ -30,8 +30,12 @@ reference.
 - [`CreateWindow`](#createwindow)
 - [`AddLabel`](#addlabel)
 - [`AddButton`](#addbutton)
+- [`AddTextBox`](#addtextbox)
+- [`GetTextBoxText`](#gettextboxtext)
 - [`SetWindowTitle`](#setwindowtitle)
 - [`CloseWindow`](#closewindow)
+- [`MessageBox`](#messagebox)
+- [`OpenFileDialog`](#openfiledialog)
 
 ### Disk and partition management
 
@@ -208,6 +212,14 @@ function initialize_app()
     local windowId = CreateWindow("Lua app", 80, 80, 320, 180)
     AddLabel(windowId, 20, 50, "This window was created from Lua")
     AddButton(windowId, 20, 90, 180, 40, "Greet", "on_greet")
+local inputId = AddTextBox(windowId, 20, 135, 220, 32, "Lua")
+local currentText = GetTextBoxText(windowId, inputId)
+MessageBox("Welcome", "Current text: " .. currentText, "information")
+OpenFileDialog("on_file_selected")
+end
+
+function on_file_selected(path)
+    MessageBox("Selected file", path)
 end
 
 startx("initialize_app")
@@ -269,6 +281,32 @@ errors are printed to the console.
 - **Returns:** `true` on success, or `nil, errorMessage` for invalid arguments
   or an unknown window ID.
 
+### `AddTextBox`
+
+```lua
+textBoxId, errorMessage = AddTextBox(
+    windowId, x, y, width, height, [initialText]
+)
+```
+
+Adds a keyboard-editable text box to a Lua-created window. Text boxes receive
+keyboard input while their window is active and they have focus. The initial
+text is optional and is truncated to the visible capacity of the box.
+
+- **Returns:** a one-based text box ID local to that window, or `nil,
+  errorMessage` for invalid arguments or a non-Lua window.
+
+### `GetTextBoxText`
+
+```lua
+text, errorMessage = GetTextBoxText(windowId, textBoxId)
+```
+
+Returns the current text in a text box created with `AddTextBox`.
+
+- **Returns:** one string, or `nil, errorMessage` if the window or text box ID
+  is invalid.
+
 ### `SetWindowTitle`
 
 ```lua
@@ -290,6 +328,35 @@ Closes and removes a Lua-created window.
 
 - **Returns:** `true` on success, or `nil, errorMessage` for an invalid or
   unknown window ID.
+
+### `MessageBox`
+
+```lua
+windowId, errorMessage = MessageBox(title, message, [type])
+```
+
+Opens a message window with an OK button. The optional type is
+`"information"` (default, or `"info"`), `"warning"`, or `"error"`; matching is
+case-insensitive. The returned window ID can be passed to `CloseWindow`.
+
+- **Returns:** the message window ID, or `nil, errorMessage` if the desktop is
+  not running or the arguments are invalid.
+
+### `OpenFileDialog`
+
+```lua
+windowId, errorMessage = OpenFileDialog(callbackName)
+```
+
+Opens a file dialog. When the user selects a file and presses Open, the named
+global Lua callback is invoked with the selected path as its only argument.
+Canceling or closing the dialog does not call the callback. The callback can
+open a message box or update another GUI window.
+
+- **Parameters:** `callbackName` — nonempty name of a global Lua function,
+  without parentheses.
+- **Returns:** the dialog window ID, or `nil, errorMessage` if the desktop is
+  not running or the callback name is invalid.
 
 ## Disk and partition management
 
@@ -620,8 +687,8 @@ The registration chain was traced from
 and [`RegisterHelper`](Tinos3.Abstractions/Lua/Tinos3/Helpers/RegisterHelper.cs)
 to each delegate implementation.
 
-- **Verified custom globals:** 37.
-- **Documented custom globals:** 37.
+- **Verified custom globals:** 41.
+- **Documented custom globals:** 41.
 - **Undocumented registered globals:** 0.
 - **Missing registration paths:** none found in the inspected source.
 - **Unverified or problematic behavior:**

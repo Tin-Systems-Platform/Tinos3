@@ -1,8 +1,6 @@
-﻿using Cosmos.Kernel.System.Graphics;
-using Cosmos.Kernel.System.Graphics.Rendering3D;
+using Cosmos.Kernel.System.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Drawing;
 using Tinos3.Api.Graphical.Widgets;
 using Tinos3.Api.Graphical.Windows;
 
@@ -10,89 +8,65 @@ namespace Tinos3.Api.Graphical.Utils.MsgBox
 {
     public class MsgBoxContent : IWindowContent, IWindowInputHandler
     {
+        private const int ButtonWidth = 80;
+        private const int ButtonHeight = 30;
+
         public MsgBoxType Type { get; set; }
         public string Message { get; set; }
         public string Title { get; set; }
 
-        private ButtonWidget _okButton;
         private readonly Action<Window> _removeWindow;
-
+        private readonly ButtonWidget _okButton;
         private Window _msgBoxWindow;
 
-        private readonly Action<string> _onOk;
-        private readonly Action<string> _onCancel;
-        private ButtonWidget _cancelButton;
+        public MsgBoxContent() : this(string.Empty, string.Empty, MsgBoxType.Information, null)
+        {
+        }
 
-        private Canvas _canvas = Canvas.GetFullScreen();
+        public MsgBoxContent(string title, string message, MsgBoxType type, Action<Window> removeWindow)
+        {
+            Title = title ?? string.Empty;
+            Message = message ?? string.Empty;
+            Type = type;
+            _removeWindow = removeWindow;
+            _okButton = new ButtonWidget
+            {
+                Width = ButtonWidth,
+                Height = ButtonHeight,
+                Text = "OK",
+                OnClick = () => _removeWindow?.Invoke(_msgBoxWindow)
+            };
+        }
+
+        public void SetWindow(Window window)
+        {
+            _msgBoxWindow = window;
+        }
 
         public void CreateMsgBox()
         {
-            DrawContent(_canvas);
+            DrawContent(Canvas.GetFullScreen());
         }
-
 
         public void DrawContent(Canvas canvas)
         {
-            ContentPlease(Message, Title, canvas);
+            new Label
+            {
+                X = 12,
+                Y = 45,
+                Text = Message ?? string.Empty
+            }.Draw(canvas, Color.Black);
+
+            _okButton.X = (canvas.Width - ButtonWidth) / 2;
+            _okButton.Y = canvas.Height - ButtonHeight - 10;
+            _okButton.Draw(canvas);
         }
 
         public void HandleInput(int mouseX, int mouseY, bool leftButtonDown)
         {
             _okButton.HandleInput(mouseX, mouseY, leftButtonDown);
-            _cancelButton.HandleInput(mouseX, mouseY, leftButtonDown);
         }
 
-
-        public string WindowTitle(string title)
-        {
-            title = Title ?? title;
-            return title;
-        }
-
-        private void ContentPlease(string message, string title, Canvas canvas)
-        {
-            Label messageLabel = new Label
-            {
-                X = 10,
-                Y = 10,
-                Text = message
-            };
-
-            _okButton = new ButtonWidget
-            {
-                X = 0,
-                Y = 0,
-                Width = 80,
-                Height = 30,
-                Text = "OK",
-                OnClick = () =>
-                {
-                    _removeWindow?.Invoke(_msgBoxWindow);
-                }
-            };
-
-            _cancelButton = new ButtonWidget
-            {
-                X = 0,
-                Y = 0,
-                Width = 80,
-                Height = 30,
-                Text = "Cancel",
-                OnClick = () =>
-                {
-                    _removeWindow?.Invoke(_msgBoxWindow);
-                }
-            };
-
-            if (Type == MsgBoxType.Information || Type == MsgBoxType.Warning || Type == MsgBoxType.Error)
-            {
-                _okButton.Draw(canvas);
-            }
-            else if (Type == MsgBoxType.SysError)
-            {
-                _okButton.Draw(canvas);
-                _cancelButton.Draw(canvas);
-            }
-        }
+        public string WindowTitle(string title) => Title ?? title;
     }
 }
