@@ -7,6 +7,7 @@ using Tinos3.Api.Graphical.Widgets;
 using Tinos3.Api.Graphical.Windows;
 using System.IO;
 using Tinos3.Api.Utilities;
+using Tinos3.Api.Graphical.Utils.MsgBox;
 
 namespace Tinos3.Api.Graphical.FileDialog
 {
@@ -15,6 +16,8 @@ namespace Tinos3.Api.Graphical.FileDialog
         private string _currentPath = "/";
         private string _selectedFile = string.Empty;
         private List<string> _filesAndDirectoriesInDirectory = new List<string>();
+
+        private MsgBoxContent _msgBoxContent = new MsgBoxContent();
 
         public string CurrentPath
         {
@@ -73,7 +76,15 @@ namespace Tinos3.Api.Graphical.FileDialog
                 Width = 80,
                 Height = 30,
                 Text = "Open",
-                OnClick = () => { /* Handle open action */ }
+                OnClick = () => { 
+                    if (!string.IsNullOrEmpty(_selectedFile))
+                    {
+                        _msgBoxContent.Message = $"Selected file: {_selectedFile}";
+                        _msgBoxContent.Title = "File Selected";
+                        _msgBoxContent.Type = MsgBoxType.Information;
+                        _msgBoxContent.CreateMsgBox();
+                    }
+                }
             };
 
             // Logic to get the files and directories in the current path
@@ -93,9 +104,10 @@ namespace Tinos3.Api.Graphical.FileDialog
             }
             catch (Exception ex)
             {
-                // For now let's just panic if we can't access the directory.
-                // In a real application, we would want to handle this more gracefully.
-                PanicHandler.Panic($"Error accessing directory '{_currentPath}': {ex.Message}");
+                _msgBoxContent.Message = $"Error accessing directory '{_currentPath}': {ex.Message}";
+                _msgBoxContent.Title = "Error";
+                _msgBoxContent.Type = MsgBoxType.Error;
+                _msgBoxContent.CreateMsgBox();
             }
 
             _cancelButton.Draw(canvas);
@@ -111,6 +123,20 @@ namespace Tinos3.Api.Graphical.FileDialog
         public string WindowTitle(string title)
         {
             return title ?? "File Dialog";
+        }
+
+        public string FileDialogResult()
+        {
+            if (string.IsNullOrEmpty(_selectedFile))
+            {
+                _msgBoxContent.Message = "No file selected.";
+                _msgBoxContent.Title = "Warning";
+                _msgBoxContent.Type = MsgBoxType.Warning;
+                _msgBoxContent.CreateMsgBox();
+                return null;
+            }
+
+            return _selectedFile;
         }
     }
 }
