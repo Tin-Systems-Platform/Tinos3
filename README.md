@@ -56,3 +56,6 @@ Please use the [issue tracker](https://github.com/tin-systems-platform/tinos3/is
 
 or if you don't have a github account, you can email to the gitlab's service desk at
 `incoming+tin-systems-platform-tinos-team-tinos3-88538707-issue-@incoming.gitlab.com`
+
+## Default font
+The default font that is being actively used is the true type font called Verdana. Most of the usage is from the GUI.
