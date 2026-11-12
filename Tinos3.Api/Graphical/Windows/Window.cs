@@ -1,7 +1,6 @@
 using System;
 using Cosmos.Kernel.System;
 using Cosmos.Kernel.System.Graphics;
-using Cosmos.Kernel.System.Graphics.Fonts;
 using System.Drawing;
 using Tinos3.Api.Graphical.Widgets;
 
@@ -55,7 +54,7 @@ public class Window
         _offscreenCanvas.DrawRectangle(Color.Black, 0, 0, Width, Height);
 
         // Title Text
-        _offscreenCanvas.DrawString(Title, PCScreenFont.DefaultFont, Color.White, 5, -3);
+        GraphicalFont.DrawString(_offscreenCanvas, Title, Color.White, 5, 3);
 
         // Draw Close Button
         _closeButton.Draw(_offscreenCanvas);

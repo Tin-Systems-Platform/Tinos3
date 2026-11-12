@@ -1,9 +1,6 @@
 ﻿using Cosmos.Kernel.System.Graphics;
 using Cosmos.Kernel.System.Graphics.Fonts;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace Tinos3.Api.Graphical.Widgets
 {
@@ -15,26 +12,9 @@ namespace Tinos3.Api.Graphical.Widgets
 
         public string Text { get; set; }
 
-        private TrueTypeFont _font;
-
         public void Draw(Canvas canvas)
         {
-
-            if (!File.Exists("/mnt/font.ttf"))
-            {
-                try
-                {
-                    File.Copy("/cd/font.ttf", "/mnt/font.ttf");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error copying font file: {ex.Message}");
-                }
-            }
-
-            _font = new TrueTypeFont("/mnt/font.ttf");
-
-            Draw(canvas, _font, Color.Black, 16);
+            Draw(canvas, GraphicalFont.Font, Color.Black, GraphicalFont.DefaultSize);
         }
 
         public void Draw(Canvas canvas, Color color)
@@ -64,11 +44,11 @@ namespace Tinos3.Api.Graphical.Widgets
                 if (lineLength > 0)
                 {
                     string line = Text.Substring(lineStart, lineLength);
-                    canvas.DrawString(line, PCScreenFont.DefaultFont, color, X, lineY);
+                    GraphicalFont.DrawString(canvas, line, color, X, lineY);
                 }
 
                 lineStart = i + 1;
-                lineY += 25;
+                lineY += GraphicalFont.DefaultSize + 5;
             }
         }
 

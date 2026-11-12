@@ -2,8 +2,8 @@
 using Tinos3.Api.Graphical.Windows;
 using TClock = Tinos3.Api.Utilities;
 using Cosmos.Kernel.System.Graphics;
-using Cosmos.Kernel.System.Graphics.Fonts;
 using System.Drawing;
+using Tinos3.Api.Graphical.Widgets;
 
 namespace Tinos3.Graphical.Apps.Clock
 {
@@ -16,13 +16,7 @@ namespace Tinos3.Graphical.Apps.Clock
 
         public void DrawContent(Canvas canvas)
         {
-            canvas.DrawString(
-                "Time: " + TClock.Clock.GetCurrentTimeString(),
-                PCScreenFont.DefaultFont,
-                Color.Black,
-                10,
-                40
-            );
+            GraphicalFont.DrawString(canvas, "Time: " + TClock.Clock.GetCurrentTimeString(), Color.Black, 10, 40);
         }
     }
 }

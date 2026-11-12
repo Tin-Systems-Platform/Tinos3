@@ -1,5 +1,4 @@
 using Cosmos.Kernel.System.Graphics;
-using Cosmos.Kernel.System.Graphics.Fonts;
 using System.Drawing;
 using Tinos3.Api.Graphical.Windows;
 using Tinos3.Api.Graphical.Widgets;
@@ -27,7 +26,7 @@ internal sealed class LuaWindowContent : IWindowContent, IWindowInputHandler
     {
         foreach (var label in _labels)
         {
-            canvas.DrawString(label.Text, PCScreenFont.DefaultFont, Color.Black, label.X, label.Y);
+            GraphicalFont.DrawString(canvas, label.Text, Color.Black, label.X, label.Y);
         }
 
         foreach (ButtonWidget button in _buttons)

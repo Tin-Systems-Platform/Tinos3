@@ -1,7 +1,6 @@
 using System;
 using Cosmos.Kernel.System;
 using Cosmos.Kernel.System.Graphics;
-using Cosmos.Kernel.System.Graphics.Fonts;
 using System.Drawing;
 
 namespace Tinos3.Api.Graphical.Widgets;
@@ -43,10 +42,9 @@ public class ButtonWidget
             canvas.DrawFilledRectangle(bgColor, X, Y, Width, Height);
             canvas.DrawRectangle(Color.Black, X, Y, Width, Height);
 
-            // Screen font glyphs are approximately 8 pixels wide and 16 high.
-            int textX = X + (Width / 2) - (Text.Length * 8);
-            int textY = Y + ((Height - 16) / 2);
-            canvas.DrawString(Text, PCScreenFont.DefaultFont, Color.Black, textX, textY);
+            int textX = X + (Width - (Text?.Length ?? 0) * 10) / 2;
+            int textY = Y + ((Height - GraphicalFont.DefaultSize) / 2);
+            GraphicalFont.DrawString(canvas, Text ?? string.Empty, Color.Black, textX, textY);
         }
 
     public void Draw(Canvas canvas, Color bgColor1)
@@ -54,10 +52,9 @@ public class ButtonWidget
         Color bgColor = IsPressed ? bgColor1 : (IsHoveredState ? Color.LightGray : Color.White);
         canvas.DrawFilledRectangle(bgColor, X, Y, Width, Height);
         canvas.DrawRectangle(Color.Black, X, Y, Width, Height);
-        // Screen font glyphs are approximately 8 pixels wide and 16 high.
-        int textX = X + (Width / 2) - (Text.Length * 8);
-        int textY = Y + ((Height - 16) / 2);
-        canvas.DrawString(Text, PCScreenFont.DefaultFont, Color.Black, textX, textY);
+        int textX = X + (Width - (Text?.Length ?? 0) * 10) / 2;
+        int textY = Y + ((Height - GraphicalFont.DefaultSize) / 2);
+        GraphicalFont.DrawString(canvas, Text ?? string.Empty, Color.Black, textX, textY);
     }
 
 }

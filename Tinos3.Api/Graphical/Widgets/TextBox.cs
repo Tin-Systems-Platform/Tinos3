@@ -1,5 +1,4 @@
 ﻿using Cosmos.Kernel.System.Graphics;
-using Cosmos.Kernel.System.Graphics.Fonts;
 using System;
 using System.Drawing;
 
@@ -8,7 +7,7 @@ namespace Tinos3.Api.Graphical.Widgets
     public class TextBox
     {
         private const int HorizontalPadding = 5;
-        private const int GlyphWidth = 8;
+        private const int GlyphWidth = 10;
         private bool _wasPressed;
 
         public int X { get; set; }
@@ -78,8 +77,8 @@ namespace Tinos3.Api.Graphical.Widgets
             canvas.DrawRectangle(IsFocused ? Color.Blue : Color.Black, X, Y, Width, Height);
 
             int textX = X + HorizontalPadding;
-            int textY = Y + ((Height - 16) / 2);
-            canvas.DrawString(Text, PCScreenFont.DefaultFont, Color.Black, textX, textY);
+            int textY = Y + ((Height - GraphicalFont.DefaultSize) / 2);
+            GraphicalFont.DrawString(canvas, Text, Color.Black, textX, textY);
         }
 
         private int GetVisibleCharacterCapacity()

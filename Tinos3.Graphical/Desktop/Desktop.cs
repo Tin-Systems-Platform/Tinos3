@@ -1,6 +1,5 @@
 ﻿using Cosmos.Kernel.System.Diagnostics;
 using Cosmos.Kernel.System.Graphics;
-using Cosmos.Kernel.System.Graphics.Fonts;
 using Cosmos.Kernel.System.Graphics.Rendering3D;
 using Cosmos.Kernel.System.Input;
 using System;
@@ -21,8 +20,6 @@ namespace Tinos3.Graphical.Desktop
         private TaskBar _taskBar;
         private byte[] _cursorImage;
         private Png _cursor;
-        private Font _font = PCScreenFont.DefaultFont;
-
         public WindowManager WindowManager => _windowManager;
 
         private static GlobalVars globalVars = new GlobalVars();

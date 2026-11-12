@@ -1,5 +1,4 @@
 using Cosmos.Kernel.System.Graphics;
-using Cosmos.Kernel.System.Graphics.Fonts;
 using System;
 using System.Drawing;
 using System.IO;
@@ -13,7 +12,7 @@ namespace Tinos3.Graphical.Apps.System.Notepad
     {
         private const int EditorX = 12;
         private const int EditorY = 88;
-        private const int LineHeight = 20;
+        private const int LineHeight = 24;
 
         private string _textContent = string.Empty;
         private string _filePath = "/mnt/untitled.txt";
@@ -78,7 +77,7 @@ namespace Tinos3.Graphical.Apps.System.Notepad
             canvas.DrawRectangle(_editorFocused ? Color.Blue : Color.Gray, EditorX, EditorY, canvas.Width - (EditorX * 2), canvas.Height - EditorY - 24);
             DrawEditorText(canvas);
 
-            canvas.DrawString((_isDirty ? "Modified  |  " : string.Empty) + _status, PCScreenFont.DefaultFont, Color.Black, EditorX, canvas.Height - 20);
+            GraphicalFont.DrawString(canvas, (_isDirty ? "Modified  |  " : string.Empty) + _status, Color.Black, EditorX, canvas.Height - 22);
         }
 
         public void HandleInput(int mouseX, int mouseY, bool leftButtonDown)
@@ -255,13 +254,13 @@ namespace Tinos3.Graphical.Apps.System.Notepad
             if (cursorLine < _firstVisibleLine) _firstVisibleLine = cursorLine;
             if (cursorLine >= _firstVisibleLine + _visibleLines) _firstVisibleLine = cursorLine - _visibleLines + 1;
             for (int line = _firstVisibleLine; line < lines.Length && count < _visibleLines; line++, count++)
-                canvas.DrawString(lines[line], PCScreenFont.DefaultFont, Color.Black, EditorX + 5, EditorY + 3 + count * LineHeight);
+                GraphicalFont.DrawString(canvas, lines[line], Color.Black, EditorX + 5, EditorY + 3 + count * LineHeight);
 
             if (_editorFocused && cursorLine >= _firstVisibleLine && cursorLine < _firstVisibleLine + _visibleLines)
             {
-                int x = EditorX + 5 + cursorColumn * 8;
+                int x = EditorX + 5 + cursorColumn * 10;
                 int y = EditorY + 3 + (cursorLine - _firstVisibleLine) * LineHeight;
-                canvas.DrawLine(Color.Black, x, y, x, y + 16);
+                canvas.DrawLine(Color.Black, x, y, x, y + GraphicalFont.DefaultSize);
             }
         }
 
