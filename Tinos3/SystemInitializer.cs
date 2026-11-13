@@ -3,9 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tinos3.Abstractions.Lua.Tinos3;
+using Tinos3.Abstractions.Lua.Tinos3.graphical;
 using Tinos3.Api.Internal;
+using Tinos3.Api.SysConfig;
 using Tinos3.Api.Utilities;
 using Tinos3.FS;
+using Tinos3.Graphical.Desktop;
 
 namespace Tinos3
 {
@@ -52,6 +55,23 @@ namespace Tinos3
 
         public void SysRun()
         {
+            var graphicalConfig = new GraphicalConfig();
+            string startupCallback = null;
+            graphicalConfig.GetConfig();
+
+            if (graphicalConfig.EnableGraphicalMode)
+            {
+                Desktop desktop = new Desktop();
+                desktop.initDesktop(showExampleWindows: string.IsNullOrEmpty(startupCallback));
+
+                desktop.ActiveRenderLoop();
+            }
+            else
+            {
+                globalVars.isDesktopRunning = false;
+                Console.WriteLine("[KERNEL]: Graphical mode disabled. Starting shell...");
+            }
+
             shell.ShellMain(lua);
         }
     }
