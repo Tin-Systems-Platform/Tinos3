@@ -50,6 +50,15 @@ namespace Tinos3
             string text = System.Text.Encoding.ASCII.GetString(buffer[..length]);
             Console.WriteLine(text);
 
+            try
+            {
+                Directory.CreateDirectory("mnt/config");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[KERNEL]: Error creating config directory: {ex.Message}");
+            }
+
             Console.WriteLine("[KERNEL]: System initialized.");
         }
 
