@@ -16,7 +16,8 @@ namespace Tinos3.Abstractions.Lua.Tinos3.Utils
         }
         public static int Halt(ILuaState lua)
         {
-            Power.Halt();
+            while(true)
+                Power.Halt();
             return 0;
         }
         public static int Reboot(ILuaState lua)
