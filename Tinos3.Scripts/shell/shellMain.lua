@@ -70,6 +70,7 @@ while true do
         print("  touch <file>              - Create a new file")
         print("  nano <file>               - Edit a file with Nano (Clone)")
         print("  startx               - Start the desktop")
+        print("  halt                 - Halt the system")
         print("  Other input          - Execute Lua code")
 
     elseif command == "ver" then
@@ -183,7 +184,9 @@ while true do
     elseif command == "startx" then
         startx()
 
-       
+    elseif command == "halt" then
+        Halt()
+        break
 
     elseif command == "rend" then
         local path, newName =
