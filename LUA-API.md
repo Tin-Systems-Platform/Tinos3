@@ -15,6 +15,7 @@ reference.
 - [`GetTinosVersion`](#gettinosversion)
 - [`Shutdown`](#shutdown)
 - [`Reboot`](#reboot)
+- [`Halt`](#halt)
 - [`ReadLine`](#readline)
 - [`Clear`](#clear)
 
@@ -126,6 +127,17 @@ Requests a system reboot through the Cosmos power API.
 
 - **Returns:** no values.
 - **Side effects:** initiates system reboot.
+
+### `Halt`
+
+```lua
+Halt()
+```
+
+Requests a full halt through the Cosmos power API.
+
+- **Returns:** no values.
+- **Side effects:** halts the system.
 
 ### `ReadLine`
 
