@@ -54,6 +54,9 @@ namespace Tinos3.FS
             else
             {
                 Console.WriteLine("FS: Failed to mount partition 0.");
+                Console.WriteLine("FS: Attempting to create a ramdisk");
+                RamDisk.Create();
+
             }
 
             Console.WriteLine("FS: Attempting to mount CDROM partition...");
