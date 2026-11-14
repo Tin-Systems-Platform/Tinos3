@@ -1,5 +1,9 @@
-﻿using Cosmos.Kernel.HAL.Devices.Storage;
+using System.IO;
+using Cosmos.Kernel.HAL.Devices.Storage;
+using Cosmos.Kernel.System.FileSystem;
+using Cosmos.Kernel.System.FileSystem.Fat;
 using Cosmos.Kernel.System.Storage;
+
 
 namespace Tinos3.FS;
 
