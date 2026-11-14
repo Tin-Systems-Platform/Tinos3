@@ -24,7 +24,7 @@ namespace Tinos3
             Console.WriteLine("[KERNEL]: Initializing system...");
             globalVars.isDesktopRunning = false;
             RegisterFSActions.InitFS();
-
+            Tinos3Network.Initialize();
             lua = new LuaInterpreter();
 
             Tinos3Lua.RegisterLuaFuncsToLuaInterpeter(lua);
