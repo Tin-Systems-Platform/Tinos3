@@ -44,5 +44,6 @@ public class RamDisk
             Console.WriteLine("FS: RAM disk setup failed.");
             return;
         }
+        Console.WriteLine("FS: Ramdisk was built succesfully!")
     }
 }
