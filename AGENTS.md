@@ -7,7 +7,7 @@ Instructions for AI agents contributing to Tinos3.
 Tinos3 is not a typical C# 14 project targeting the .NET 10 SDK. It is an operating system built on the CosmosOS Gen3 project:
 
 - Repository: https://github.com/CosmosOS/Cosmos
-- Cosmos Gen3 user wiki: https://cosmosos.github.io/v3.0.94/index.html
+- Cosmos Gen3 user wiki: https://cosmosos.github.io/v3.0.97/index.html
 
 **IMPORTANT: Use the Cosmos user wiki, not the developer wiki, when looking up APIs and instructions for OS development.**
 
@@ -20,6 +20,7 @@ Do not assume that standard .NET APIs, runtime behavior, or development workflow
 - Follow the existing coding style and project conventions.
 - Do not claim that code builds or works unless the relevant verification was actually performed.
 - If something cannot be verified, state that explicitly.
+- Chekck if it compiles; Prefer to use `cosmos build` and if not available, use `dotnet build -r linux-x64 Tinos3\Tinos3.csproj` to verify that the code compiles. Do not assume that it compiles without actually verifying it.
 
 ## Current Projects (Modules)
 
@@ -28,6 +29,8 @@ Do not assume that standard .NET APIs, runtime behavior, or development workflow
 - `Tinos3.FS`: Filesystem-related functionality.
 - `Tinos3.Scripts`: Scripts bundled into the kernel image.
 - `Tinos3.Shell`: The shell, which executes a Lua script from `Tinos3.Scripts`.
+- `Tinos3.Api`: Multi module APIs like from `Tinos3.Graphical`
+- `Tinos3.Graphical`: Graphical stuff
 
 Use these module boundaries when deciding where new functionality belongs. Inspect existing implementations before adding or moving code between projects.
 
@@ -56,7 +59,7 @@ Do not assume that generated code is correct simply because it looks plausible o
 ## Contributing and Committing
 
 - Do not commit, push, create pull requests, change public interfaces, or introduce dependencies without appropriate authorization.
-- If authorized to create a commit, **prefix the commit message with `[AGENT]`**.
+- If authorized to create a commit, **prefix the commit message with `[AGENT]`** and use Gitmoji in the commit.
 - Keep commits focused on the requested changes.
 - Never include unrelated changes in a commit.
 - Do not discard or overwrite existing user changes.

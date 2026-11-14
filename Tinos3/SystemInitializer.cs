@@ -3,9 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tinos3.Abstractions.Lua.Tinos3;
-using Tinos3.Abstractions.Utilities;
-using Tinos3.Abstractions.Utilities.Panic;
+using Tinos3.Abstractions.Lua.Tinos3.graphical;
+using Tinos3.Api.Internal;
+using Tinos3.Api.SysConfig;
+using Tinos3.Api.Utilities;
 using Tinos3.FS;
+using Tinos3.Graphical.Desktop;
 
 namespace Tinos3
 {
@@ -14,9 +17,12 @@ namespace Tinos3
         public LuaInterpreter lua;
         public Shell.Shell shell = new Shell.Shell();
 
+        private static GlobalVars globalVars = new GlobalVars();
+
         public void SysInit()
         {
             Console.WriteLine("[KERNEL]: Initializing system...");
+            globalVars.isDesktopRunning = false;
             RegisterFSActions.InitFS();
 
             lua = new LuaInterpreter();
@@ -34,12 +40,47 @@ namespace Tinos3
             PanicHandler.Initialize();
             Console.WriteLine("[KERNEL]: System panic handler initialized successfully!");
 
-            Tinos3.Abstractions.Utilities.Version.SetTinosVersion("Tinos3 0.2.0 the Rewritten Tinos3 beta 1");
+            TVersion.SetTinosVersion("Tinos3 0.2.0 the Rewritten Tinos3 beta 2");
+            Native.test();
+
+            Span<byte> buffer = stackalloc byte[64];
+
+            int length = Native.GetStatusText(buffer);
+
+            string text = System.Text.Encoding.ASCII.GetString(buffer[..length]);
+            Console.WriteLine(text);
+
+            try
+            {
+                Directory.CreateDirectory("mnt/config");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[KERNEL]: Error creating config directory: {ex.Message}");
+            }
+
             Console.WriteLine("[KERNEL]: System initialized.");
         }
 
         public void SysRun()
         {
+            var graphicalConfig = new GraphicalConfig();
+            string startupCallback = null;
+            graphicalConfig.GetConfig();
+
+            if (graphicalConfig.EnableGraphicalMode)
+            {
+                Desktop desktop = new Desktop();
+                desktop.initDesktop(showExampleWindows: string.IsNullOrEmpty(startupCallback));
+
+                desktop.ActiveRenderLoop();
+            }
+            else
+            {
+                globalVars.isDesktopRunning = false;
+                Console.WriteLine("[KERNEL]: Graphical mode disabled. Starting shell...");
+            }
+
             shell.ShellMain(lua);
         }
     }

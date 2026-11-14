@@ -15,8 +15,28 @@ reference.
 - [`GetTinosVersion`](#gettinosversion)
 - [`Shutdown`](#shutdown)
 - [`Reboot`](#reboot)
+- [`Halt`](#halt)
 - [`ReadLine`](#readline)
 - [`Clear`](#clear)
+
+### Application utilities
+
+- [`GetCurrentTime`](#getcurrenttime)
+- [`GetCurrentTimeString`](#getcurrenttimestring)
+- [`GetCurrentDateString`](#getcurrentdatestring)
+
+### Graphical applications
+
+- [`startx`](#startx)
+- [`CreateWindow`](#createwindow)
+- [`AddLabel`](#addlabel)
+- [`AddButton`](#addbutton)
+- [`AddTextBox`](#addtextbox)
+- [`GetTextBoxText`](#gettextboxtext)
+- [`SetWindowTitle`](#setwindowtitle)
+- [`CloseWindow`](#closewindow)
+- [`MessageBox`](#messagebox)
+- [`OpenFileDialog`](#openfiledialog)
 
 ### Disk and partition management
 
@@ -108,6 +128,17 @@ Requests a system reboot through the Cosmos power API.
 - **Returns:** no values.
 - **Side effects:** initiates system reboot.
 
+### `Halt`
+
+```lua
+Halt()
+```
+
+Requests a full halt through the Cosmos power API.
+
+- **Returns:** no values.
+- **Side effects:** halts the system.
+
 ### `ReadLine`
 
 ```lua
@@ -131,6 +162,213 @@ Clears the console.
 
 - **Returns:** no values.
 - **Side effects:** calls `Console.Clear`.
+
+## Application utilities
+
+These functions are registered for Lua consumer applications. They expose the
+clock utilities from `Tinos3.Api` and return strings so scripts do not depend
+on the Lua runtime's handling of .NET `DateTime` values.
+
+### `GetCurrentTime` (application utility)
+
+```lua
+dateTime = GetCurrentTime()
+```
+
+Returns the current local system date and time as `yyyy-MM-dd HH:mm:ss`.
+
+- **Returns:** one string.
+- **Side effects:** reads the system clock.
+
+### `GetCurrentTimeString`
+
+```lua
+time = GetCurrentTimeString()
+```
+
+Returns the current local time as `HH:mm:ss`.
+
+- **Returns:** one string.
+- **Side effects:** reads the system clock.
+
+### `GetCurrentDateString`
+
+```lua
+date = GetCurrentDateString()
+```
+
+Returns the current local date as `yyyy-MM-dd`.
+
+- **Returns:** one string.
+- **Side effects:** reads the system clock.
+
+## Graphical applications
+
+The GUI function globals are registered before the desktop starts. Call
+`startx` with the name of a global Lua startup function. Tinos3 initializes an
+empty desktop, calls that function so it can create windows and widgets, then
+enters the GUI render loop. Window and widget functions require this startup
+callback because they return an error until the desktop is initialized. The
+desktop exits when Escape is pressed.
+
+Window IDs are integers returned by `CreateWindow`. Button coordinates and
+label coordinates are relative to the window's full canvas, whose top edge
+includes the title bar (30 pixels high).
+
+```lua
+function on_greet()
+    print("Hello from the GUI")
+end
+
+function initialize_app()
+    local windowId = CreateWindow("Lua app", 80, 80, 320, 180)
+    AddLabel(windowId, 20, 50, "This window was created from Lua")
+    AddButton(windowId, 20, 90, 180, 40, "Greet", "on_greet")
+local inputId = AddTextBox(windowId, 20, 135, 220, 32, "Lua")
+local currentText = GetTextBoxText(windowId, inputId)
+MessageBox("Welcome", "Current text: " .. currentText, "information")
+OpenFileDialog("on_file_selected")
+end
+
+function on_file_selected(path)
+    MessageBox("Selected file", path)
+end
+
+startx("initialize_app")
+```
+
+### `startx`
+
+```lua
+startx("initialize_app")
+```
+
+Starts the graphical desktop and calls the named global Lua function once
+after GUI initialization. Omit the argument to start the built-in demo desktop.
+
+- **Parameters:** optional `startupCallbackName` — name of a global Lua
+  function, without parentheses.
+- **Returns:** no values on success; a `nil, errorMessage` pair if the argument
+  is not a string.
+- **Side effects:** initializes graphics, invokes the startup function, and
+  blocks in the desktop loop until Escape is pressed.
+
+### `CreateWindow`
+
+```lua
+windowId, errorMessage = CreateWindow(title, x, y, width, height)
+```
+
+Creates and activates a window with a title bar and close button. The
+coordinates are screen coordinates. Width and height must be positive.
+
+- **Returns:** the new integer window ID, or `nil, errorMessage` on failure.
+
+### `AddLabel`
+
+```lua
+success, errorMessage = AddLabel(windowId, x, y, text)
+```
+
+Adds a black text label to a Lua-created window. Coordinates are relative to
+the window canvas; use a `y` coordinate of at least 30 to place text below the
+title bar.
+
+- **Returns:** `true` on success, or `nil, errorMessage` for an invalid window
+  or arguments.
+
+### `AddButton`
+
+```lua
+success, errorMessage = AddButton(
+    windowId, x, y, width, height, text, callbackName
+)
+```
+
+Adds a button to a Lua-created window. `callbackName` is the name of a global
+Lua function, without parentheses. The function runs when the user presses and
+releases the mouse button over the widget. It receives no arguments. Callback
+errors are printed to the console.
+
+- **Returns:** `true` on success, or `nil, errorMessage` for invalid arguments
+  or an unknown window ID.
+
+### `AddTextBox`
+
+```lua
+textBoxId, errorMessage = AddTextBox(
+    windowId, x, y, width, height, [initialText]
+)
+```
+
+Adds a keyboard-editable text box to a Lua-created window. Text boxes receive
+keyboard input while their window is active and they have focus. The initial
+text is optional and is truncated to the visible capacity of the box.
+
+- **Returns:** a one-based text box ID local to that window, or `nil,
+  errorMessage` for invalid arguments or a non-Lua window.
+
+### `GetTextBoxText`
+
+```lua
+text, errorMessage = GetTextBoxText(windowId, textBoxId)
+```
+
+Returns the current text in a text box created with `AddTextBox`.
+
+- **Returns:** one string, or `nil, errorMessage` if the window or text box ID
+  is invalid.
+
+### `SetWindowTitle`
+
+```lua
+success, errorMessage = SetWindowTitle(windowId, title)
+```
+
+Changes the title of a Lua-created window.
+
+- **Returns:** `true` on success, or `nil, errorMessage` for invalid arguments
+  or an unknown window ID.
+
+### `CloseWindow`
+
+```lua
+success, errorMessage = CloseWindow(windowId)
+```
+
+Closes and removes a Lua-created window.
+
+- **Returns:** `true` on success, or `nil, errorMessage` for an invalid or
+  unknown window ID.
+
+### `MessageBox`
+
+```lua
+windowId, errorMessage = MessageBox(title, message, [type])
+```
+
+Opens a message window with an OK button. The optional type is
+`"information"` (default, or `"info"`), `"warning"`, or `"error"`; matching is
+case-insensitive. The returned window ID can be passed to `CloseWindow`.
+
+- **Returns:** the message window ID, or `nil, errorMessage` if the desktop is
+  not running or the arguments are invalid.
+
+### `OpenFileDialog`
+
+```lua
+windowId, errorMessage = OpenFileDialog(callbackName)
+```
+
+Opens a file dialog. When the user selects a file and presses Open, the named
+global Lua callback is invoked with the selected path as its only argument.
+Canceling or closing the dialog does not call the callback. The callback can
+open a message box or update another GUI window.
+
+- **Parameters:** `callbackName` — nonempty name of a global Lua function,
+  without parentheses.
+- **Returns:** the dialog window ID, or `nil, errorMessage` if the desktop is
+  not running or the callback name is invalid.
 
 ## Disk and partition management
 
@@ -461,8 +699,8 @@ The registration chain was traced from
 and [`RegisterHelper`](Tinos3.Abstractions/Lua/Tinos3/Helpers/RegisterHelper.cs)
 to each delegate implementation.
 
-- **Verified custom globals:** 28.
-- **Documented custom globals:** 28.
+- **Verified custom globals:** 41.
+- **Documented custom globals:** 41.
 - **Undocumented registered globals:** 0.
 - **Missing registration paths:** none found in the inspected source.
 - **Unverified or problematic behavior:**
@@ -486,3 +724,4 @@ dependency should be reviewed before treating those APIs as stable contracts.
 ## Note!
 
 This documentation was initially generated by GitHub Copilot and reviewed by [@randomusert](https://github.com/randomusert).
+Expanded by Codex, reviewed by [@randomusert](https://github.com/randomusert).

@@ -23,10 +23,15 @@ namespace Tinos3.Abstractions.Lua.Tinos3
             RegisterHelper.RegisterCSharpFunctionToLua(luaState, TinosUtils.GetTinosVersion, "GetTinosVersion");
             RegisterHelper.RegisterCSharpFunctionToLua(luaState, PowerUtils.Shutdown, "Shutdown");
             RegisterHelper.RegisterCSharpFunctionToLua(luaState, PowerUtils.Reboot, "Reboot");
+            RegisterHelper.RegisterCSharpFunctionToLua(luaState, PowerUtils.Halt, "Halt");
             RegisterHelper.RegisterCSharpFunctionToLua(luaState, TinosUtils.ReadLine, "ReadLine");
             RegisterHelper.RegisterCSharpFunctionToLua(luaState, TinosUtils.Clear, "Clear");
 
             RegisterFSApi.RegisterFSApiToLuaInterpeter(luaState);
+
+            RegisterApplicationApi.RegisterApplicationApiToLuaInterpreter(luaState);
+
+            RegisterGraphicalApi.RegisterGraphicalApiToLuaInterpeter(luaState);
 
             Console.WriteLine("[LUA]: System API functions registered.");
         }

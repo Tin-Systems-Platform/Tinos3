@@ -1,0 +1,51 @@
+name: Release Tinos3
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Tinos3
+    uses: ./.github/workflows/build.yml
+    permissions:
+      contents: read
+
+  release:
+    name: Publish GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v6
+        with:
+          path: release-assets
+
+      - name: Prepare release assets
+        run: |
+          cp release-assets/Tinos3-x64/Tinos3.iso Tinos3-x64.iso
+          cp release-assets/Tinos3-arm64/Tinos3.iso Tinos3-arm64.iso
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$TAG" \
+          Tinos3-x64.iso \
+          Tinos3-arm64.iso \
+          --title "Tinos3 $TAG" \
+          --generate-notes \
+          --verify-tag
