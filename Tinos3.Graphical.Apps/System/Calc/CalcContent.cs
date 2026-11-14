@@ -50,7 +50,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _num0 = new ButtonWidget
             {
-                X = 20,
+                X = 10,
                 Y = 100,
                 Width = 50,
                 Height = 50,
@@ -60,7 +60,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _num1 = new ButtonWidget
             {
-                X = 20,
+                X = 10,
                 Y = 160,
                 Width = 50,
                 Height = 50,
@@ -70,7 +70,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _num2 = new ButtonWidget
             {
-                X = 80,
+                X = 70,
                 Y = 160,
                 Width = 50,
                 Height = 50,
@@ -80,7 +80,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _num3 = new ButtonWidget
             {
-                X = 140,
+                X = 130,
                 Y = 160,
                 Width = 50,
                 Height = 50,
@@ -90,7 +90,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _num4 = new ButtonWidget
             {
-                X = 20,
+                X = 10,
                 Y = 220,
                 Width = 50,
                 Height = 50,
@@ -100,7 +100,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _num5 = new ButtonWidget
             {
-                X = 80,
+                X = 70,
                 Y = 220,
                 Width = 50,
                 Height = 50,
@@ -110,7 +110,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _num6 = new ButtonWidget
             {
-                X = 140,
+                X = 130,
                 Y = 220,
                 Width = 50,
                 Height = 50,
@@ -120,7 +120,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _num7 = new ButtonWidget
             {
-                X = 20,
+                X = 10,
                 Y = 280,
                 Width = 50,
                 Height = 50,
@@ -130,7 +130,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _num8 = new ButtonWidget
             {
-                X = 80,
+                X = 70,
                 Y = 280,
                 Width = 50,
                 Height = 50,
@@ -140,7 +140,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _num9 = new ButtonWidget
             {
-                X = 140,
+                X = 130,
                 Y = 280,
                 Width = 50,
                 Height = 50,
@@ -150,7 +150,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _subtract = new ButtonWidget
             {
-                X = 200,
+                X = 190,
                 Y = 160,
                 Width = 50,
                 Height = 50,
@@ -160,7 +160,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _multiply = new ButtonWidget
             {
-                X = 200,
+                X = 190,
                 Y = 220,
                 Width = 50,
                 Height = 50,
@@ -170,7 +170,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _divide = new ButtonWidget
             {
-                X = 200,
+                X = 190,
                 Y = 280,
                 Width = 50,
                 Height = 50,
@@ -180,7 +180,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _add = new ButtonWidget
             {
-                X = 200,
+                X = 190,
                 Y = 100,
                 Width = 50,
                 Height = 50,
@@ -190,7 +190,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _equals = new ButtonWidget
             {
-                X = 260,
+                X = 250,
                 Y = 100,
                 Width = 50,
                 Height = 50,
@@ -200,7 +200,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _clear = new ButtonWidget
             {
-                X = 260,
+                X = 250,
                 Y = 160,
                 Width = 50,
                 Height = 50,
@@ -210,7 +210,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _decimal = new ButtonWidget
             {
-                X = 260,
+                X = 250,
                 Y = 220,
                 Width = 50,
                 Height = 50,
@@ -220,7 +220,7 @@ namespace Tinos3.Graphical.Apps.System.Calc
 
             _backspace = new ButtonWidget
             {
-                X = 260,
+                X = 250,
                 Y = 280,
                 Width = 50,
                 Height = 50,

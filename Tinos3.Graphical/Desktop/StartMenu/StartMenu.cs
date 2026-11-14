@@ -14,6 +14,7 @@ using Tinos3.Graphical.Apps.System.Calc;
 using Tinos3.Graphical.Apps.System.PowerManagement;
 using Tinos3.Graphical.Apps.System.Run;
 using Tinos3.Graphical.Apps.System.Notepad;
+using Tinos3.Graphical.Apps.System.FileExplorer;
 
 namespace Tinos3.Graphical.Desktop.StartMenu
 {
@@ -30,6 +31,8 @@ namespace Tinos3.Graphical.Desktop.StartMenu
         private readonly ButtonWidget _calcAppLaunch;
 
         private readonly ButtonWidget _notepadAppLaunch;
+
+        private readonly ButtonWidget _fileExplorerAppLaunch;
 
         private readonly Action _closeStartMenu;
 
@@ -120,7 +123,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
                 Text = "Calculator",
                 OnClick = () =>
                 {
-                    Window calcWindow = new Window(200, 200, 300, 400, "Calculator", new CalcContent());
+                    Window calcWindow = new Window(200, 200, 310, 400, "Calculator", new CalcContent());
                     windowManager.AddWindow(calcWindow);
                     calcWindow.WindowTitle("Calculator");
                     _closeStartMenu();
@@ -137,6 +140,20 @@ namespace Tinos3.Graphical.Desktop.StartMenu
                 OnClick = () =>
                 {
                     windowManager.AddWindow(new Window(100, 100, 540, 400, "Notepad", new NotepadContent(windowManager.AddWindow, windowManager.RemoveWindow)));
+                    _closeStartMenu();
+                }
+            };
+
+            _fileExplorerAppLaunch = new ButtonWidget
+            {
+                X = x + 20,
+                Y = y + 335,
+                Width = 200,
+                Height = 40,
+                Text = "File Explorer",
+                OnClick = () =>
+                {
+                    windowManager.AddWindow(new Window(100, 100, 560, 460, "File Explorer", new FileExplorerContent(windowManager.AddWindow, windowManager.RemoveWindow)));
                     _closeStartMenu();
                 }
             };
@@ -194,7 +211,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
 
                 case "calc":
                 case "calculator":
-                    windowManager.AddWindow(new Window(200, 200, 300, 400, "Calculator", new CalcContent()));
+                    windowManager.AddWindow(new Window(200, 200, 310, 400, "Calculator", new CalcContent()));
                     CalcContent calc = new CalcContent();
                     calc.WindowTitle("Calculator");
                     break;
@@ -250,6 +267,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
             _RunAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
             _calcAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
             _notepadAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
+            _fileExplorerAppLaunch.HandleInput(mouseX, mouseY, leftButtonDown);
         }
 
         public void RenderStartMenu(Canvas canvas)
@@ -271,6 +289,7 @@ namespace Tinos3.Graphical.Desktop.StartMenu
             _RunAppLaunch.Draw(canvas);
             _calcAppLaunch.Draw(canvas);
             _notepadAppLaunch.Draw(canvas);
+            _fileExplorerAppLaunch.Draw(canvas);
             // Additional menu items can be added here
         }
     }

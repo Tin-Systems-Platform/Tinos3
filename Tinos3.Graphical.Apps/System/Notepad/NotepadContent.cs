@@ -65,6 +65,12 @@ namespace Tinos3.Graphical.Apps.System.Notepad
 
         public string FileName => string.IsNullOrEmpty(_filePath) ? "Untitled" : Path.GetFileName(_filePath);
 
+        public void MarkAsSaved()
+        {
+            _isDirty = false;
+            _status = "Opened " + FileName;
+        }
+
         public void DrawContent(Canvas canvas)
         {
             _visibleLines = Math.Max(1, (canvas.Height - EditorY - 28) / LineHeight);
