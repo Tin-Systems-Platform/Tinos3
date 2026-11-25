@@ -1,99 +1,55 @@
-﻿
-using Tinos3.FS.Helpers;
 using Cosmos.Kernel.HAL.Devices.Storage;
 using Cosmos.Kernel.System.Storage;
+using Tinos3.FS.Helpers;
+using ApiPartitionManager = Tinos.Api.Common.FS.Partitions.TinPartManager;
+using ApiPartitionTableKind = Tinos.Api.Common.FS.Partitions.PartitionTableKind;
 
 namespace Tinos3.FS;
 
+/// <summary>
+/// Keeps Tinos3's partition manager interface while delegating the shared
+/// partition operations to Tinos.Api.Common.
+/// </summary>
 public class TinosPartManager
 {
+    private readonly ApiPartitionManager _partitionManager = new();
+
     public void ListPartitions(int diskIndex)
     {
-        IBlockDevice? disk = GetDisk(diskIndex);
-
-        if (disk is null)
-            return;
-
-        if (Gpt.IsGpt(disk))
-        {
-            var partitions = Gpt.Parse(disk);
-            Console.WriteLine($"FS: GPT, {partitions.Count} partition(s)");
-        }
-        else if (Mbr.IsMbr(disk))
-        {
-            var partitions = Mbr.Parse(disk);
-            Console.WriteLine($"FS: MBR, {partitions.Count} partition(s)");
-        }
-        else
-        {
-            Console.WriteLine("FS: No recognized partition table");
-        }
+        _partitionManager.ListPartitions(diskIndex);
     }
 
-    // Explicitly initialize a partition table.
-    // Never call this automatically during normal startup.
-    public bool InitializePartitionTable(
-        int diskIndex,
-        PartitionTableKind kind)
+    // Keep initialization explicit and refuse to replace an existing table.
+    public bool InitializePartitionTable(int diskIndex, PartitionTableKind kind)
     {
         IBlockDevice? disk = GetDisk(diskIndex);
 
         if (disk is null)
             return false;
 
-        if (Gpt.IsGpt(disk) || Mbr.IsMbr(disk))
+        if (Cosmos.Kernel.System.Storage.Gpt.IsGpt(disk) ||
+            Cosmos.Kernel.System.Storage.Mbr.IsMbr(disk))
         {
             Console.WriteLine("FS: A partition table already exists");
             return false;
         }
 
-        try
+        ApiPartitionTableKind? apiKind = kind switch
         {
-            switch (kind)
-            {
-                case PartitionTableKind.GPT:
-                    Gpt.Create(disk);
-                    break;
+            PartitionTableKind.GPT => ApiPartitionTableKind.GPT,
+            PartitionTableKind.MBR => ApiPartitionTableKind.MBR,
+            _ => null
+        };
 
-                case PartitionTableKind.MBR:
-                    Mbr.Create(disk);
-                    break;
-
-                default:
-                    Console.WriteLine("FS: Unsupported partition table type");
-                    return false;
-            }
-
-            // Verify that the requested table now exists.
-            bool initialized = kind switch
-            {
-                PartitionTableKind.GPT => Gpt.IsGpt(disk),
-                PartitionTableKind.MBR => Mbr.IsMbr(disk),
-                _ => false
-            };
-
-            if (!initialized)
-            {
-                Console.WriteLine("FS: Partition table initialization failed");
-                return false;
-            }
-
-            StorageManager.RescanPartitions(disk);
-
-            Console.WriteLine($"FS: Initialized {kind}");
-            return true;
-        }
-        catch (Exception ex)
+        if (apiKind is null)
         {
-            Console.WriteLine(
-                $"FS: Partition table initialization failed: {ex.Message}");
+            Console.WriteLine("FS: Unsupported partition table type");
             return false;
         }
+
+        return ApiPartitionManager.InitializePartitionTable(diskIndex, apiKind.Value);
     }
 
-    // Creates a partition at the requested location.
-    // The caller must supply a free, non-overlapping range that is valid
-    // for the selected partition table.
     public bool CreatePartition(
         int diskIndex,
         ulong startSector,
@@ -105,90 +61,20 @@ public class TinosPartManager
         if (disk is null)
             return false;
 
-        if (!Gpt.IsGpt(disk) && !Mbr.IsMbr(disk))
+        if (!Cosmos.Kernel.System.Storage.Gpt.IsGpt(disk) &&
+            !Cosmos.Kernel.System.Storage.Mbr.IsMbr(disk))
         {
-            Console.WriteLine(
-                "FS: Initialize a partition table first");
+            Console.WriteLine("FS: Initialize a partition table first");
             return false;
         }
 
-        if (!IsRangeWithinDisk(disk, startSector, sectorCount))
-        {
-            Console.WriteLine(
-                "FS: Invalid partition range or range exceeds disk boundaries");
-            return false;
-        }
-
-        try
-        {
-            bool success = PartitionManager.Create(
-                disk,
-                startSector: startSector,
-                sectorCount: sectorCount,
-                mbrSystemId: mbrSystemId,
-                gptType: Gpt.BasicDataPartitionType);
-
-            if (!success)
-            {
-                Console.WriteLine(
-                    "FS: Partition creation failed");
-                return false;
-            }
-
-            StorageManager.RescanPartitions(disk);
-
-            Console.WriteLine(
-                $"FS: Created partition at sector {startSector}, " +
-                $"size {sectorCount} sectors");
-
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(
-                $"FS: Partition creation failed: {ex.Message}");
-            return false;
-        }
+        return ApiPartitionManager.CreatePartition(
+            diskIndex, startSector, sectorCount, mbrSystemId);
     }
 
-    public bool DeletePartition(
-        int diskIndex,
-        ulong startSector,
-        ulong sectorCount)
+    public bool DeletePartition(int diskIndex, ulong startSector, ulong sectorCount)
     {
-        IBlockDevice? disk = GetDisk(diskIndex);
-
-        if (disk is null)
-            return false;
-
-        if (!IsRangeWithinDisk(disk, startSector, sectorCount))
-        {
-            Console.WriteLine("FS: Invalid partition range");
-            return false;
-        }
-
-        try
-        {
-            PartitionManager.PartitionLocation location =
-                new(startSector, sectorCount);
-
-            if (!PartitionManager.Delete(disk, location))
-            {
-                Console.WriteLine("FS: Partition deletion failed");
-                return false;
-            }
-
-            StorageManager.RescanPartitions(disk);
-
-            Console.WriteLine("FS: Partition deleted");
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(
-                $"FS: Partition deletion failed: {ex.Message}");
-            return false;
-        }
+        return _partitionManager.DeletePartition(diskIndex, startSector, sectorCount);
     }
 
     public bool ResizePartition(
@@ -197,67 +83,13 @@ public class TinosPartManager
         ulong oldSectorCount,
         ulong newSectorCount)
     {
-        IBlockDevice? disk = GetDisk(diskIndex);
-
-        if (disk is null)
-            return false;
-
-        if (!IsRangeWithinDisk(disk, startSector, oldSectorCount))
-        {
-            Console.WriteLine("FS: Invalid existing partition range");
-            return false;
-        }
-
-        if (!IsRangeWithinDisk(disk, startSector, newSectorCount))
-        {
-            Console.WriteLine(
-                "FS: New partition size exceeds disk boundaries");
-            return false;
-        }
-
-        try
-        {
-            PartitionManager.PartitionLocation location =
-                new(startSector, oldSectorCount);
-
-            if (!PartitionManager.Resize(
-                    disk, location, newSectorCount))
-            {
-                Console.WriteLine("FS: Partition resize failed");
-                return false;
-            }
-
-            StorageManager.RescanPartitions(disk);
-
-            Console.WriteLine(
-                $"FS: Resized partition to {newSectorCount} sectors");
-
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(
-                $"FS: Partition resize failed: {ex.Message}");
-            return false;
-        }
-    }
-
-    // Checks physical disk boundaries without overflowing ulong.
-    private static bool IsRangeWithinDisk(
-        IBlockDevice disk,
-        ulong startSector,
-        ulong sectorCount)
-    {
-        return sectorCount > 0
-            && startSector > 0
-            && startSector < disk.BlockCount
-            && sectorCount <= disk.BlockCount - startSector;
+        return _partitionManager.ResizePartition(
+            diskIndex, startSector, oldSectorCount, newSectorCount);
     }
 
     private static IBlockDevice? GetDisk(int diskIndex)
     {
-        if (diskIndex < 0 ||
-            diskIndex >= StorageManager.DeviceCount)
+        if (diskIndex < 0 || diskIndex >= StorageManager.DeviceCount)
         {
             Console.WriteLine("FS: Invalid disk index");
             return null;
