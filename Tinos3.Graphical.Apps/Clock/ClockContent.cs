@@ -1,9 +1,9 @@
-﻿using System;
-using Tinos3.Api.Graphical.Windows;
+using System;
+using Tinos.Api.Common.Graphics.Windows;
 using TClock = Tinos3.Api.Utilities;
 using Cosmos.Kernel.System.Graphics;
 using System.Drawing;
-using Tinos3.Api.Graphical.Widgets;
+using Tinos.Api.Common.Graphics.Widgets;
 
 namespace Tinos3.Graphical.Apps.Clock
 {

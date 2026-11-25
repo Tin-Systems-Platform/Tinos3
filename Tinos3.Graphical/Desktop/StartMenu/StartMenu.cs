@@ -1,12 +1,12 @@
-﻿using Cosmos.Executable.Lua;
+using Cosmos.Executable.Lua;
 using Cosmos.Kernel.System;
 using Cosmos.Kernel.System.Graphics;
 using Cosmos.Kernel.System.Input;
 using System;
 using System.Drawing;
 using System.IO;
-using Tinos3.Api.Graphical.Widgets;
-using Tinos3.Api.Graphical.Windows;
+using Tinos.Api.Common.Graphics.Widgets;
+using Tinos.Api.Common.Graphics.Windows;
 using Tinos3.Api.Utilities;
 using Tinos3.Graphical.Apps.Clock;
 using Tinos3.Graphical.Apps.System.About;

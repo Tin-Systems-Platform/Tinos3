@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -7,9 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cosmos.Kernel" Version="3.0.97" />
-    <PackageReference Include="Cosmos.kernel.System" Version="3.0.97" />
+    <PackageReference Include="Cosmos.Kernel" Version="3.0.99" />
+    <PackageReference Include="Cosmos.kernel.System" Version="3.0.99" />
 	  <PackageReference Include="Cosmos.Executable.Lua" Version="4.0.1" />
+	  <PackageReference Include="Tinos.Api.Common" Version="1.0.0-alpha2" />
   </ItemGroup>
 
   <ItemGroup>

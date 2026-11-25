@@ -1,7 +1,7 @@
 using Cosmos.Kernel.System.Graphics;
 using System.Drawing;
-using Tinos3.Api.Graphical.Windows;
-using Tinos3.Api.Graphical.Widgets;
+using Tinos.Api.Common.Graphics.Windows;
+using Tinos.Api.Common.Graphics.Widgets;
 
 namespace Tinos3.Abstractions.Lua.Tinos3.graphical;
 

@@ -4,9 +4,9 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Text;
-using Tinos3.Api.Graphical.Widgets;
+using Tinos.Api.Common.Graphics.Widgets;
 using Tinos3.Api.Graphical.Utils.MsgBox;
-using Tinos3.Api.Graphical.Windows;
+using Tinos.Api.Common.Graphics.Windows;
 using Tinos3.Graphical.Apps.System.Notepad;
 
 namespace Tinos3.Graphical.Apps.System.FileExplorer
