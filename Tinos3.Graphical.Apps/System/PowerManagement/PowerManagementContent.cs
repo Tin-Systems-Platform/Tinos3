@@ -1,10 +1,10 @@
-﻿using Cosmos.Kernel.System;
+using Cosmos.Kernel.System;
 using Cosmos.Kernel.System.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Tinos3.Api.Graphical.Widgets;
-using Tinos3.Api.Graphical.Windows;
+using Tinos.Api.Common.Graphics.Widgets;
+using Tinos.Api.Common.Graphics.Windows;
 using Tinos3.Api.Utilities;
 
 namespace Tinos3.Graphical.Apps.System.PowerManagement

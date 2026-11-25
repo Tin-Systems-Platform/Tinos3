@@ -1,4 +1,4 @@
-﻿using Cosmos.Kernel.System.Diagnostics;
+using Cosmos.Kernel.System.Diagnostics;
 using Cosmos.Kernel.System.Graphics;
 using Cosmos.Kernel.System.Graphics.Rendering3D;
 using Cosmos.Kernel.System.Input;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using Tinos3.Api.Graphical;
-using Tinos3.Api.Graphical.Windows;
+using Tinos.Api.Common.Graphics.Windows;
 using Tinos3.Api.Internal;
 
 namespace Tinos3.Graphical.Desktop

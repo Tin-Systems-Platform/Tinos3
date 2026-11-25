@@ -1,8 +1,8 @@
 using Cosmos.Executable.Lua;
-using Tinos3.Api.Graphical.Widgets;
+using Tinos.Api.Common.Graphics.Widgets;
 using Tinos3.Api.Graphical.FileDialog;
 using Tinos3.Api.Graphical.Utils.MsgBox;
-using Tinos3.Api.Graphical.Windows;
+using Tinos.Api.Common.Graphics.Windows;
 using Tinos3.Graphical.Desktop;
 
 namespace Tinos3.Abstractions.Lua.Tinos3.graphical;

@@ -1,10 +1,10 @@
-﻿using Cosmos.Kernel.System.Graphics;
+using Cosmos.Kernel.System.Graphics;
 using Cosmos.Kernel.System.Graphics.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using Tinos3.Api.Graphical.Widgets;
+using Tinos.Api.Common.Graphics.Widgets;
 using Cosmos.Kernel.System.Input;
 
 namespace Tinos3.Graphical.Desktop

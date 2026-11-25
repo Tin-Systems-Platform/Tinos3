@@ -2,7 +2,7 @@
 using Cosmos.Executable.Lua;
 using Tinos3.Api.Internal;
 using Tinos3.Graphical.Desktop;
-using Tinos3.Api.Graphical.Windows;
+using Tinos.Api.Common.Graphics.Windows;
 
 namespace Tinos3.Abstractions.Lua.Tinos3.graphical
 {

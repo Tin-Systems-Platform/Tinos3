@@ -1,7 +1,7 @@
-﻿using Cosmos.Kernel.System.Graphics;
+using Cosmos.Kernel.System.Graphics;
 using System;
-using Tinos3.Api.Graphical.Widgets;
-using Tinos3.Api.Graphical.Windows;
+using Tinos.Api.Common.Graphics.Widgets;
+using Tinos.Api.Common.Graphics.Windows;
 
 namespace Tinos3.Graphical.Apps.System.Run
 {
